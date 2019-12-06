@@ -1,5 +1,6 @@
 package gregtechmod.common.items;
 
+import gregtechmod.api.GregTech_API;
 import gregtechmod.api.util.GT_LanguageManager;
 import gregtechmod.api.util.GT_OreDictUnificator;
 import net.minecraft.item.ItemStack;
@@ -8,10 +9,10 @@ public class GT_MetaItem_Component extends GT_MetaItem_Abstract {
 
 	public static GT_MetaItem_Abstract instance;
 	
-	public GT_MetaItem_Component(int aID, String aName) {
-		super(aID, aName);
+	public GT_MetaItem_Component(int aID,String aName) {
+		super(aName);
 		instance = this;
-	}
+ 	}
 	
 	public static ItemStack[] getStackList() {
 		return instance.mStackList;

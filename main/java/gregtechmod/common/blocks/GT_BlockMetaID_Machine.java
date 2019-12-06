@@ -1,5 +1,11 @@
 package gregtechmod.common.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.interfaces.IDebugableBlock;
@@ -17,11 +23,6 @@ import gregtechmod.common.tileentities.GT_TileEntity_ComputerCube;
 import gregtechmod.common.tileentities.GT_TileEntity_PlayerDetector;
 import gregtechmod.common.tileentities.GT_TileEntity_Sonictron;
 import gregtechmod.common.tileentities.GT_TileEntity_Superconductor;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -32,6 +33,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,11 +42,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugableBlock {
 	public static IIcon mIcons[] = new IIcon[390];
@@ -53,14 +52,14 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
         super(new GT_MachineMaterial());
         setHardness(10.0F);
         setResistance(10.0F);
-        setUnlocalizedName("BlockMetaID_Machine");
-        setStepSound(Block.soundMetalFootstep);
+        setBlockName("BlockMetaID_Machine");
+        setStepSound(Block.soundTypeMetal);
 		setCreativeTab(GregTech_API.TAB_GREGTECH);
-        for (int i = 0; i < 16; i++) MinecraftForge.setBlockHarvestLevel(this, i, "wrench", 1);
+        for (int i = 0; i < 16; i++) setHarvestLevel(  "wrench", 1, i);
 	}
 	
 	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister aIconRegister) {
+    public void registerBlockIcons(IIconRegister aIconRegister) {
 		GregTech_API.FAIL_ICON = aIconRegister.registerIcon(GregTech_API.TEXTURE_PATH_BLOCK + (GregTech_API.sConfiguration.system?"troll":getUnlocalizedName() + "/failed"));
 		
 		mIcons[   0] = aIconRegister.registerIcon(GregTech_API.TEXTURE_PATH_BLOCK + getUnlocalizedName() + "/adv_machine");
@@ -520,7 +519,9 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 		}
 	}
 	
-	public IIcon getBlockTexture(IBlockAccess aIBlockAccess, int aX, int aY, int aZ, int aSide) {
+	 
+	@Override
+	public IIcon getIcon(IBlockAccess aIBlockAccess, int aX, int aY, int aZ, int aSide) {
 		byte tMeta = (byte)aIBlockAccess.getBlockMetadata(aX, aY, aZ);
 		TileEntity tTileEntity = aIBlockAccess.getTileEntity(aX, aY, aZ);
 		
@@ -650,22 +651,24 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 	    
 	    return 0;
     }
-
-	public ArrayList<ItemStack> getBlockDropped(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World aWorld, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
     	ret.add(GT_MetaItem_Component.instance.getStack(22, 1));
     	
-	    TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+	    TileEntity tTileEntity = aWorld.getTileEntity(x, y, z);
 	    
 	    if (tTileEntity == null) return ret;
 	    
         return ret;
-    }
-	
-	public void breakBlock(World aWorld, int aX, int aY, int aZ, int par5, int par6) {
+	}
+ 
+   
+	public void breakBlock(World aWorld, int aX, int aY, int aZ, Block block, int par6) {
 	    dropItems(aWorld, aX, aY, aZ);
 		GregTech_API.causeMachineUpdate(aWorld, aX, aY, aZ);
-	    super.breakBlock(aWorld, aX, aY, aZ, par5, par6);
+	    super.breakBlock(aWorld, aX, aY, aZ, block, par6);
 	}
 	
 	private void dropItems(World aWorld, int aX, int aY, int aZ){
@@ -745,9 +748,9 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
             	((GT_TileEntityMetaID_Machine)tTileEntity).doEnergyExplosion();
             else
             	if (tTileEntity instanceof BaseMetaTileEntity)
-            		((BaseMetaTileEntity)tTileEntity).doEnergyExplosion();
+            		((BaseMetaTileEntity)tTileEntity).doExplosion(150);
         
-        return world.setBlock(x, y, z, 0, 0, 3);
+        return world.setBlock(x, y, z, Blocks.air, 0, 3);
     }
     
 	@Override
@@ -760,7 +763,7 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
                 	((GT_TileEntityMetaID_Machine)tTileEntity).doEnergyExplosion();
                 else
                 	if (tTileEntity instanceof BaseMetaTileEntity)
-                		((BaseMetaTileEntity)tTileEntity).doEnergyExplosion();
+                		((BaseMetaTileEntity)tTileEntity).doExplosion(150);
             } else {
             	super.dropBlockAsItemWithChance(aWorld, aX, aY, aZ, par5, chance, par7);
             }
@@ -785,12 +788,12 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 	public float getBlockBrightness(IBlockAccess aWorld, int aX, int aY, int aZ) {
 		return 0;
 	}
-	
+	 
 	@Override
-	public boolean isBlockSolidOnSide(World aWorld, int aX, int aY, int aZ, ForgeDirection aSide) {
+	public boolean isBlockSolid(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {
 		if (aWorld.getBlockMetadata(aX, aY, aZ) == 0) return true;
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if (tTileEntity != null && tTileEntity instanceof ICoverable) return ((ICoverable)tTileEntity).getCoverIDAtSide((byte)aSide.ordinal()) != 0;
+		if (tTileEntity != null && tTileEntity instanceof ICoverable) return ((ICoverable)tTileEntity).getCoverIDAtSide((byte) aSide) != null;
         return false;
     }
 	
@@ -826,10 +829,7 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
         return false;
     }
     
-	public TileEntity createNewTileEntity(World aWorld) {
-		return GregTech_API.constructBaseMetaTileEntity();
-	}
-	
+ 
 	@Override
 	public TileEntity createTileEntity(World aWorld, int aMeta) {
 		switch(aMeta) {
@@ -851,7 +851,7 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
     }
 	
 	@SideOnly(Side.CLIENT)
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 4; i < GregTech_API.mMetaTileList.length; ++i)
         	if (i < 16 && createTileEntity(null, i) != null)
         		par3List.add(new ItemStack(par1, 1, i));
@@ -859,10 +859,12 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
         		if (i > 15 && GregTech_API.mMetaTileList[i] != null)
         			par3List.add(new ItemStack(par1, 1, i));
     }
+    @Override
+    public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+    	// TODO Auto-generated method stub
+    	return false;
+    }
     
-	public boolean canCreatureSpawn(EnumCreatureType type, World aWorld, int aX, int aY, int aZ) {
-		return false;
-	}
 	
 	@Override
     public void onBlockPlacedBy(World aWorld, int aX, int aY, int aZ, EntityLivingBase aPlayer, ItemStack aStack) {
@@ -895,7 +897,7 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 	
 	@Override
     public void onBlockAdded(World aWorld, int aX, int aY, int aZ) {
-		if (GregTech_API.isMachineBlock(blockID, aWorld.getBlockMetadata(aX, aY, aZ))) {
+		if (GregTech_API.isMachineBlock(this, aWorld.getBlockMetadata(aX, aY, aZ))) {
 			GregTech_API.causeMachineUpdate(aWorld, aX, aY, aZ);
 		}
 	}
@@ -923,7 +925,7 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 		if (tTileEntity == null) return super.colorMultiplier(aWorld, aX, aY, aZ);
 		if (tTileEntity instanceof IGregTechTileEntity) {
 			byte tColor = ((IGregTechTileEntity)tTileEntity).getColorization();
-			if (tColor >= 0 && tColor < ItemDye.dyeColors.length) return ItemDye.dyeColors[tColor];
+			if (tColor >= 0 && tColor < ItemDye.field_150922_c.length) return ItemDye.field_150922_c[tColor];
 		}
 		return 16777215;
     }
@@ -940,24 +942,27 @@ public class GT_BlockMetaID_Machine extends BlockContainer implements IDebugable
 		}
 		return false;
     }
-    
-	@Override
-    public int getFlammability(IBlockAccess aWorld, int aX, int aY, int aZ, int metadata, ForgeDirection face) {
-        return 0;
+    @Override
+    public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+     	return 0;
     }
-	
-	@Override
-    public boolean isFlammable(IBlockAccess aWorld, int aX, int aY, int aZ, int metadata, ForgeDirection face) {
-        return GregTech_API.sMachineFlammable && aWorld.getBlockMetadata(aX, aY, aZ) == 0;
+    @Override
+    public boolean isFlammable(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+     	return GregTech_API.sMachineFlammable && world.getBlockMetadata(x, y, z) == 0;
     }
     
-	@Override
-    public int getFireSpreadSpeed(World aWorld, int aX, int aY, int aZ, int metadata, ForgeDirection face) {
-        return GregTech_API.sMachineFlammable && aWorld.getBlockMetadata(aX, aY, aZ) == 0?100:0;
+    @Override
+    public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+     	return GregTech_API.sMachineFlammable && world.getBlockMetadata(x, y, z) == 0?100:0;
     }
-	
+    
 	@Override
-    public boolean isFireSource(World aWorld, int aX, int aY, int aZ, int metadata, ForgeDirection side) {
+    public boolean isFireSource(World aWorld, int aX, int aY, int aZ, ForgeDirection side) {
         return GregTech_API.sMachineFlammable && aWorld.getBlockMetadata(aX, aY, aZ) == 0;
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return GregTech_API.constructBaseMetaTileEntity();
+	}
 }

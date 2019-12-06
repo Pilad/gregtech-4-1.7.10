@@ -4,13 +4,12 @@ import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Config;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import thaumcraft.api.EnumTag;
-import thaumcraft.api.ObjectTags;
-import thaumcraft.common.aura.AuraManager;
+ 
 
 public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
 	
@@ -77,7 +76,7 @@ public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
     }
     
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != 1;
 	}
 	
@@ -89,7 +88,7 @@ public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
     			getBaseMetaTileEntity().setActive(true);
     			if (getBaseMetaTileEntity().increaseStoredEnergyUnits(sDragonEggEnergyPerTick, false)) {
     				if (sAllowFlux) {
-	        			try {
+	        			/*try {
 	        				ObjectTags tTags = new ObjectTags();
 	        				switch (getBaseMetaTileEntity().getRandomNumber(1000)) {
 	        				case  0: tTags.add(EnumTag.MECHANISM, 3); break;
@@ -106,6 +105,7 @@ public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
 	        				}
 	        				if (tTags != null) AuraManager.addFluxToClosest(getBaseMetaTileEntity().getWorld(), getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord(), getBaseMetaTileEntity().getZCoord(), tTags);
 	        			} catch(Throwable e) {}
+        			 	*/
     				}
     			}
     			if (mActiveSiphon != this && !sAllowMultipleEggs)
@@ -157,7 +157,7 @@ public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
 	}
 	
 	public boolean hasEgg() {
-		return Block.dragonEgg.blockID == getBaseMetaTileEntity().getBlockIDOffset(0, 1, 0);
+		return Blocks.dragon_egg == getBaseMetaTileEntity().getWorld().getBlock(getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord() +1, getBaseMetaTileEntity().getZCoord() );
 	}
 	
 	@Override
@@ -168,5 +168,23 @@ public class GT_MetaTileEntity_DragonEggEnergySiphon extends MetaTileEntity {
 	@Override
 	public boolean allowPutStack(int aIndex, byte aSide, ItemStack aStack) {
 		return false;
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

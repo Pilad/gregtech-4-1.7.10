@@ -8,6 +8,7 @@ import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -59,7 +60,7 @@ public class GT_MetaTileEntity_Hatch_Maintenance extends MetaTileEntity {
 	
 	public void onToolClick(ItemStack aStack, EntityLivingBase aPlayer) {
 		if (aStack == null || aPlayer == null) return;
-		int tStack = GT_Utility.stackToInt(aStack);
+		Item tStack = aStack.getItem();
 		if (GT_Utility.isItemStackInList(aStack, GregTech_API.sWrenchList)			&& GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) mWrench = true;
 		if (GT_Utility.isItemStackInList(aStack, GregTech_API.sScrewdriverList)		&& GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) mScrewdriver = true;
 		if (GT_Utility.isItemStackInList(aStack, GregTech_API.sSoftHammerList)		&& GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) mSoftHammer = true;
@@ -93,5 +94,29 @@ public class GT_MetaTileEntity_Hatch_Maintenance extends MetaTileEntity {
 	@Override
 	public boolean allowPutStack(int aIndex, byte aSide, ItemStack aStack) {
 		return false;
+	}
+
+	@Override
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

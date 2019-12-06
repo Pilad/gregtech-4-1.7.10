@@ -1,13 +1,12 @@
 package gregtechmod.api.util;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import gregtechmod.api.GregTech_API;
 import ic2.api.crops.CropCard;
 import ic2.api.crops.Crops;
 import ic2.api.crops.ICropTile;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;

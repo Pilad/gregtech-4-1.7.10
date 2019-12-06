@@ -1,5 +1,11 @@
 package gregtechmod.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import gregtechmod.api.interfaces.IGT_Mod;
 import gregtechmod.api.interfaces.IGT_RecipeAdder;
 import gregtechmod.api.interfaces.IMachineBlockUpdateable;
@@ -15,15 +21,9 @@ import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Utility;
 import gregtechmod.api.world.GT_Worldgen;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -70,7 +70,7 @@ public class GregTech_API {
 	public static Object sBlockIcons, sItemIcons;
 	
 	/** Configured Booleans */
-	public static boolean DEBUG_MODE = false, SECONDARY_DEBUG_MODE = false, IC_ENERGY_COMPATIBILITY = true, UE_ENERGY_COMPATIBILITY = true, BC_ENERGY_COMPATIBILITY = true;
+	public static boolean DEBUG_MODE = true, SECONDARY_DEBUG_MODE = true, IC_ENERGY_COMPATIBILITY = true, UE_ENERGY_COMPATIBILITY = true, BC_ENERGY_COMPATIBILITY = true;
 	
 	/** The Configuration Object */
 	public static GT_Config sConfiguration = null;
@@ -86,6 +86,14 @@ public class GregTech_API {
 	
 	/** My Creative Tab */
 	public static final CreativeTabs TAB_GREGTECH = new GT_CreativeTab();
+	
+	public static final CreativeTabs TAB_GREGTECH4_MISC = new CreativeTabs("GREGTECH_MISC") {
+		
+		@Override
+		public Item getTabIconItem() {
+ 			return Items.redstone;
+		}
+	};
 	
 	/**
 	 * A List of all registered MetaTileEntities
@@ -119,13 +127,13 @@ public class GregTech_API {
 	public static boolean sPreloadStarted = false, sPreloadFinished = false, sLoadStarted = false, sLoadFinished = false, sPostloadStarted = false, sPostloadFinished = false;
 	
 	/** The Icon List for Covers */
-	public static final Map<Integer, IIcon> sCovers = new HashMap<Integer, IIcon>();
+	public static final Map<Item, IIcon> sCovers = new HashMap<Item, IIcon>();
 	
 	/** The List of Circuit Behaviors for the Redstone Circuit Block */
 	public static final Map<Integer, GT_CircuitryBehavior> sCircuitryBehaviors = new HashMap<Integer, GT_CircuitryBehavior>();
 	
 	/** The List of Cover Behaviors for the Covers */
-	public static final Map<Integer, GT_CoverBehavior> sCoverBehaviors = new HashMap<Integer, GT_CoverBehavior>();
+	public static final Map<Item, GT_CoverBehavior> sCoverBehaviors = new HashMap<Item, GT_CoverBehavior>();
 	
 	/** The List of Blocks, which can conduct Machine Block Updates */
     public static final Map<Block, Integer> sMachineIDs = new HashMap<Block, Integer>();
@@ -143,7 +151,15 @@ public class GregTech_API {
 	public static final Map<Integer, String> sSoundList = new HashMap<Integer, String>();
 	
 	/** The List of Tools, which can be used. Accepts regular damageable Items and Electric Items */
-	public static final List<Integer> sToolList = new ArrayList<Integer>(), sCrowbarList = new ArrayList<Integer>(), sScrewdriverList = new ArrayList<Integer>(), sWrenchList = new ArrayList<Integer>(), sSoftHammerList = new ArrayList<Integer>(), sHardHammerList = new ArrayList<Integer>(), sSolderingToolList = new ArrayList<Integer>(), sSolderingMetalList = new ArrayList<Integer>();
+	public static final List<Item> 
+			sToolList = new ArrayList<Item>(),
+			sCrowbarList = new ArrayList<Item>(), 
+			sScrewdriverList = new ArrayList<Item>(), 
+			sWrenchList = new ArrayList<Item>(), 
+			sSoftHammerList = new ArrayList<Item>(), 
+			sHardHammerList = new ArrayList<Item>(), 
+			sSolderingToolList = new ArrayList<Item>(), 
+			sSolderingMetalList = new ArrayList<Item>();
 	
 	/** 
 	 * The List of Dimensions, which are Whitelisted for the Teleporter. This list should not contain other Planets.
@@ -501,8 +517,8 @@ public class GregTech_API {
 	 * Best is you make a Runnable with all Cover Registrations, and add it to the Cover Registration ArrayList ontop of this File.
 	 */
 	public static void registerCover(ItemStack aStack, IIcon aCover) {
-		int tStack = GT_Utility.stackToInt(aStack);
-		if (tStack != 0 && sCovers.get(tStack) == null) sCovers.put(tStack, aCover);
+		Item tStack = aStack.getItem();
+		if (tStack != null && sCovers.get(tStack) == null) sCovers.put(tStack, aCover);
 	}
 	
 	/**
@@ -543,13 +559,14 @@ public class GregTech_API {
 	 * returns a Cover behavior, guaranteed to not return null after preload
 	 */
 	public static GT_CoverBehavior getCoverBehavior(ItemStack aStack) {
-		return getCoverBehavior(GT_Utility.stackToInt(aStack));
+		return getCoverBehavior(aStack);
 	}
 	
 	/**
 	 * returns a Cover behavior, guaranteed to not return null after preload
 	 */
-	public static GT_CoverBehavior getCoverBehavior(int aStack) {
+	public static GT_CoverBehavior getCoverBehavior(Item aStack) {
+		
 		GT_CoverBehavior rCover = sCoverBehaviors.get(aStack);
 		if (rCover == null) return sGenericBehavior;
 		return rCover;
@@ -636,11 +653,12 @@ public class GregTech_API {
 	 * Generic Function to add Tools to the Lists.
 	 * Contains all sanity Checks for Tools, like preventing one Tool from being registered for multiple purposes as controls would override each other.
 	 */
-	public static boolean registerTool(ItemStack aTool, Collection<Integer> aToolList) {
-		if (aTool == null || GT_Utility.isItemStackInList(aTool, sToolList) || (!aTool.getItem().isDamageable() && !GT_ModHandler.isElectricItem(aTool))) return false;
+	public static boolean registerTool(ItemStack aTool, Collection<Item> aToolList) {
+		if (aTool == null || GT_Utility.isItemStackInList(aTool, sToolList) || (!aTool.getItem().isDamageable() && !GT_ModHandler.isElectricItem(aTool))) 
+			return false;
 		aTool = GT_Utility.copy(aTool); aTool.setItemDamage(GregTech_API.ITEM_WILDCARD_DAMAGE);
-		aToolList.add(GT_Utility.stackToInt(aTool));
-		sToolList.add(GT_Utility.stackToInt(aTool));
+		aToolList.add(aTool.getItem());
+		sToolList.add(aTool.getItem());
 		return true;
 	}
 	

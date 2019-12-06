@@ -2,6 +2,7 @@ package gregtechmod.common.redstonecircuits;
 
 import gregtechmod.api.interfaces.IRedstoneCircuitBlock;
 import gregtechmod.api.util.GT_CircuitryBehavior;
+import net.minecraft.item.Item;
 
 public class GT_Circuit_CombinationLock extends GT_CircuitryBehavior {
 	

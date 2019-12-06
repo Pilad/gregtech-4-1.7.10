@@ -1,20 +1,18 @@
 package gregtechmod.common.render;
 
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import gregtech.api.interfaces.tileentity.IPipeRenderedTileEntity;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.metatileentity.BaseMetaPipeEntity;
 import gregtechmod.common.blocks.GT_BlockMetaID_Machine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import gregtech.api.interfaces.tileentity.IPipeRenderedTileEntity;
 
 public class GT_Block_Renderer implements ISimpleBlockRenderingHandler {
 	
@@ -117,7 +115,7 @@ public class GT_Block_Renderer implements ISimpleBlockRenderingHandler {
 			
 			IIcon tIcons[] = new IIcon[6], tCovers[] = new IIcon[6];
 			boolean tIsCovered[] = new boolean[6];
-			for (byte i = 0; i < 6; i++) tIsCovered[i] = (tTileEntity.getCoverIDAtSide(i) != 0);
+			for (byte i = 0; i < 6; i++) tIsCovered[i] = (tTileEntity.getCoverIDAtSide(i) != null);
 			
 			if (tIsCovered[0] && tIsCovered[1] && tIsCovered[2] && tIsCovered[3] && tIsCovered[4] && tIsCovered[5]) return aRenderer.renderStandardBlock(aBlock, aX, aY, aZ);
 			

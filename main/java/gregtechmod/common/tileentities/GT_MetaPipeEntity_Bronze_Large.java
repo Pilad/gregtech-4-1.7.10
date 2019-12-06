@@ -33,4 +33,22 @@ public class GT_MetaPipeEntity_Bronze_Large extends GT_MetaPipeEntity_Fluid {
 	public int getFluidCapacityPerTick() {
 		return 240;
 	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
+	}
 }

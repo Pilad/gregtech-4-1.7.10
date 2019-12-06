@@ -5,6 +5,7 @@ import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -80,8 +81,9 @@ public class GT_MetaTileEntity_Hatch_Output extends GT_MetaTileEntity_BasicTank 
 	}
 
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
-		return aCoverID != -1 && aCoverID != -2;
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		//return aCoverID != -1 && aCoverID != -2;
+		return false;
 	}
 	
 	@Override
@@ -115,5 +117,23 @@ public class GT_MetaTileEntity_Hatch_Output extends GT_MetaTileEntity_BasicTank 
 	@Override
 	public int getTankPressure() {
 		return +100;
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

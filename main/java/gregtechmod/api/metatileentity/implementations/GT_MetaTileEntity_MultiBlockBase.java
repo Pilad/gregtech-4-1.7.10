@@ -1,13 +1,13 @@
 package gregtechmod.api.metatileentity.implementations;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
@@ -34,7 +34,7 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity {
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != getBaseMetaTileEntity().getFrontFacing();
 	}
 	

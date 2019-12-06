@@ -4,6 +4,7 @@ import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 
 public class GT_MetaTileEntity_ElectricItemClearer extends GT_MetaTileEntity_ElectricBufferSmall {
 	
@@ -29,7 +30,7 @@ public class GT_MetaTileEntity_ElectricItemClearer extends GT_MetaTileEntity_Ele
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != getBaseMetaTileEntity().getFrontFacing() && aSide != getBaseMetaTileEntity().getBackFacing();
 	}
 	

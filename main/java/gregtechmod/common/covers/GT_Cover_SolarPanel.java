@@ -2,6 +2,7 @@ package gregtechmod.common.covers;
 
 import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.util.GT_CoverBehavior;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_Cover_SolarPanel extends GT_CoverBehavior {
@@ -18,7 +19,7 @@ public class GT_Cover_SolarPanel extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aSide == 1) {
 			if (aTileEntity.getInputVoltage()*32 >= mEUtDay) {
 				if (!aTileEntity.getWorld().isThundering()) {
@@ -35,7 +36,7 @@ public class GT_Cover_SolarPanel extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 32;
 	}
 }

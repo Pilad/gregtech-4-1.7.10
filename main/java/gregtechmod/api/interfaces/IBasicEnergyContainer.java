@@ -33,12 +33,12 @@ public interface IBasicEnergyContainer {
 	/**
 	 * Decreases the Amount of stored universal Energy. If ignoring too less Energy, then it just sets the Energy to 0 and returns false.
 	 */
-	public boolean decreaseStoredEnergyUnits(int aEnergy, boolean aIgnoreTooLessEnergy);
+	public boolean decreaseStoredEnergyUnits(double aEnergy, boolean aIgnoreTooLessEnergy);
 	
 	/**
 	 * Increases the Amount of stored electric Energy. If ignoring too much Energy, then the Energy Limit is just being ignored.
 	 */
-	public boolean increaseStoredEnergyUnits(int aEnergy, boolean aIgnoreTooMuchEnergy);
+	public boolean increaseStoredEnergyUnits(double aEnergy, boolean aIgnoreTooMuchEnergy);
 
 	/**
 	 * Inject Energy Call for Electricity.
@@ -73,12 +73,12 @@ public interface IBasicEnergyContainer {
 	/**
 	 * returns the amount of electricity contained in this Block, in EU units!
 	 */
-	public int getStoredEU();
+	public double getStoredEU();
 	
 	/**
 	 * returns the amount of electricity containable in this Block, in EU units!
 	 */
-	public int getEUCapacity();
+	public double getEUCapacity();
 	
 	/**
 	 * returns the amount of MJ contained in this Block, in EU units!

@@ -1,17 +1,16 @@
 package gregtechmod.api.gui;
 
-import gregtechmod.api.interfaces.IGregTechTileEntity;
-import gregtechmod.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine;
-
 import java.util.Iterator;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.interfaces.IGregTechTileEntity;
+import gregtechmod.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!

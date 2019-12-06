@@ -1,16 +1,16 @@
 package gregtechmod.common.items;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_LanguageManager;
-
 import java.util.List;
 
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.util.GT_LanguageManager;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class GT_MetaBlock_Item extends ItemBlock {
-    public GT_MetaBlock_Item(int par1) {
+    public GT_MetaBlock_Item(Block par1) {
         super(par1);
         setMaxDamage(0);
         setHasSubtypes(true);

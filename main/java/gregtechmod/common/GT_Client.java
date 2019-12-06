@@ -1,11 +1,11 @@
 package gregtechmod.common;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import gregtechmod.GT_Mod;
 import gregtechmod.api.util.GT_Utility;
 import gregtechmod.common.render.GT_Renderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class GT_Client extends GT_Proxy {
 	public static GT_TickHandler mClientTickHandler = new GT_TickHandler(false);

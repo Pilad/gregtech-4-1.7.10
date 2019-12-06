@@ -1,5 +1,9 @@
 package gregtechmod.common.containers;
 
+import java.util.Iterator;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.gui.GT_ContainerMetaTile_Machine;
 import gregtechmod.api.gui.GT_Slot_Holo;
@@ -7,16 +11,11 @@ import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.util.GT_Utility;
 import gregtechmod.common.tileentities.GT_MetaTileEntity_ElectricBufferSmall;
 import gregtechmod.common.tileentities.GT_MetaTileEntity_ElectricSorter;
-
-import java.util.Iterator;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_Container_ElectricSorter extends GT_ContainerMetaTile_Machine {
 

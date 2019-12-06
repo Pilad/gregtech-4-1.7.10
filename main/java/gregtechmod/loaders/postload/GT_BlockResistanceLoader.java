@@ -4,9 +4,6 @@ import gregtechmod.GT_Mod;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraftforge.common.MinecraftForge;
 
 public class GT_BlockResistanceLoader implements Runnable {
 	@Override

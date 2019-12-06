@@ -1,5 +1,9 @@
 package gregtechmod.mistaqur.nei;
 
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
+import codechicken.nei.PositionedStack;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.util.GT_Log;
 import gregtechmod.api.util.GT_Recipe;
@@ -9,12 +13,7 @@ import gregtechmod.common.gui.GT_GUIContainer_BasicMachine_E_Furnace;
 import gregtechmod.common.gui.GT_GUIContainer_BasicMachine_Extractor;
 import gregtechmod.common.gui.GT_GUIContainer_BasicMachine_Macerator;
 import gregtechmod.common.gui.GT_GUIContainer_Scrapboxinator;
-
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
-import codechicken.nei.PositionedStack;
 
 public class AlloySmelterRecipeHandler extends GT_RecipeHandler {
 	

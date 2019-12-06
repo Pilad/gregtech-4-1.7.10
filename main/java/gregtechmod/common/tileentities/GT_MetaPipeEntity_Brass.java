@@ -38,4 +38,22 @@ public class GT_MetaPipeEntity_Brass extends GT_MetaPipeEntity_Item {
 	public int getStepSize() {
 		return 32768;
 	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
+	}
 }

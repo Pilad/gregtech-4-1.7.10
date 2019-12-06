@@ -1,13 +1,12 @@
 package gregtechmod.api.enums;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_Config;
-import gregtechmod.api.util.GT_Utility;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.util.GT_Config;
+import gregtechmod.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

@@ -1,14 +1,14 @@
 package gregtechmod.api.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.Dyes;
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.enums.Materials;
 import gregtechmod.api.enums.OrePrefixes;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -25,9 +25,9 @@ public class GT_OreDictUnificator {
 	public static volatile int VERSION = 404;
 	
 	private static final HashMap<String, ItemStack> sName2OreMap = new HashMap<String, ItemStack>();
-	private static final HashMap<Integer, String> sItemhash2NameMap = new HashMap<Integer, String>();
+	private static final HashMap<Item, String> sItemhash2NameMap = new HashMap<Item, String>();
 	private static final HashMap<Integer, Materials> sItemhash2MaterialMap = new HashMap<Integer, Materials>();
-	private static final ArrayList<Integer> sBlackList = new ArrayList<Integer>();
+	private static final ArrayList<Item> sBlackList = new ArrayList<Item>();
 	
 	private static int isRegisteringOre = 0;
 	
@@ -36,7 +36,7 @@ public class GT_OreDictUnificator {
 	 * Useful if you have things like the Industrial Diamond, which is better than regular Diamond, but also placeable in absolutely all Diamond Recipes.
 	 */
 	public static void addToBlacklist(ItemStack aStack) {
-		if (aStack != null) sBlackList.add(GT_Utility.stackToInt(aStack));
+		if (aStack != null) sBlackList.add(aStack.getItem());
 	}
 	
 	public static void add(OrePrefixes aPrefix, Materials aMaterial, ItemStack aOreStack) {
@@ -57,6 +57,7 @@ public class GT_OreDictUnificator {
 	
 	public static void set(String aOreDictName, ItemStack aOreStack, boolean aOverwrite) {
 		if (aOreDictName == null || aOreDictName.equals("") || aOreDictName.startsWith("itemDust") || aOreStack == null || aOreStack.getItemDamage() < 0) return;
+		
 		aOreStack = GT_Utility.copy(1, aOreStack);
 		addAssociation(aOreDictName, aOreStack);
 		if (sName2OreMap.get(aOreDictName) == null) {
@@ -113,7 +114,7 @@ public class GT_OreDictUnificator {
 	public static ItemStack setStack(boolean aUseBlackList, ItemStack aOreStack) {
 		if (aOreStack == null) return null;
 		ItemStack tStack = get(true, aOreStack);
-		aOreStack.itemID = tStack.itemID;
+		aOreStack = tStack;
 		aOreStack.setItemDamage(tStack.getItemDamage());
 		return aOreStack;
 	}
@@ -125,7 +126,7 @@ public class GT_OreDictUnificator {
 	public static ItemStack get(boolean aUseBlackList, ItemStack aOreStack) {
 		if (aOreStack == null) return null;
 		if (aUseBlackList && GT_Utility.isItemStackInList(aOreStack, sBlackList)) return GT_Utility.copy(aOreStack);
-		String tName = sItemhash2NameMap.get(GT_Utility.stackToInt(aOreStack));
+		String tName = sItemhash2NameMap.get(aOreStack.getItem());
 		ItemStack rStack = null;
 		if (tName != null) rStack = sName2OreMap.get(tName);
 		if (rStack == null) rStack = aOreStack;
@@ -140,15 +141,15 @@ public class GT_OreDictUnificator {
 			aOreStack = GT_Utility.copy(aOreStack);
 			for (byte i = 0; i < 16; i++) {
 				aOreStack.setItemDamage(i);
-				sItemhash2NameMap.put(GT_Utility.stackToInt(aOreStack), aOreDictName);
+				sItemhash2NameMap.put(aOreStack.getItem(), aOreDictName);
 			}
 		}
 		
-		sItemhash2NameMap.put(GT_Utility.stackToInt(aOreStack), aOreDictName);
+		sItemhash2NameMap.put(aOreStack.getItem(), aOreDictName);
 	}
 	
 	public static String getAssociation(ItemStack aOreStack) {
-		return sItemhash2NameMap.get(GT_Utility.stackToInt(aOreStack));
+		return sItemhash2NameMap.get(aOreStack.getItem());
 	}
 	
 	public static boolean isItemStackInstanceOf(ItemStack aOreStack, String aOreName) {
@@ -176,7 +177,7 @@ public class GT_OreDictUnificator {
     	ArrayList<ItemStack> tList = getOres(tName);
     	for (int i = 0; i < tList.size(); i++) if (GT_Utility.areStacksEqual(tList.get(i), aStack)) return false;
     	isRegisteringOre++;
-    	OreDictionary.registerOre(tName, GT_Utility.copy(1, aStack));
+    	OreDictionary.registerOre(tName, aStack);
     	isRegisteringOre--;
     	return true;
     }

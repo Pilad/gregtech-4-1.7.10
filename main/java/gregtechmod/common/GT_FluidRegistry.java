@@ -1,10 +1,9 @@
 package gregtechmod.common;
 
-import gregtechmod.api.enums.Materials;
-import gregtechmod.api.util.GT_LanguageManager;
-
 import java.util.ArrayList;
 
+import gregtechmod.api.enums.Materials;
+import gregtechmod.api.util.GT_LanguageManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;

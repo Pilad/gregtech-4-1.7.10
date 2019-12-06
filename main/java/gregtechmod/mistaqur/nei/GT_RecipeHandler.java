@@ -2,14 +2,8 @@ package gregtechmod.mistaqur.nei;
 
 import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_OreDictUnificator;
-import gregtechmod.api.util.GT_Recipe;
 
 import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,6 +11,11 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.util.GT_OreDictUnificator;
+import gregtechmod.api.util.GT_Recipe;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 
 public abstract class GT_RecipeHandler extends TemplateRecipeHandler {
 	

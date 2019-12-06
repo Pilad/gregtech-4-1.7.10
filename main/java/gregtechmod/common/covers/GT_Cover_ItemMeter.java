@@ -4,6 +4,7 @@ import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_Cover_ItemMeter extends GT_CoverBehavior {
@@ -13,7 +14,7 @@ public class GT_Cover_ItemMeter extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		int[] tSlots = aTileEntity.getAccessibleSlotsFromSide(aSide);
 		int tAll = 0, tFull = 0;
 		for (int i : tSlots) {
@@ -33,7 +34,7 @@ public class GT_Cover_ItemMeter extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		if (aCoverVariable==0)
 			GT_Utility.sendChatToPlayer(aPlayer, "Inverted");
 		else
@@ -42,42 +43,42 @@ public class GT_Cover_ItemMeter extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean manipulatesSidedRedstoneOutput(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean manipulatesSidedRedstoneOutput(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 5;
 	}
 }

@@ -5,13 +5,10 @@ import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtechmod.api.util.GT_Recipe;
 import gregtechmod.api.util.GT_Utility;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import thaumcraft.api.EnumTag;
-import thaumcraft.api.ObjectTags;
-import thaumcraft.common.aura.AuraManager;
 
 public class GT_MetaTileEntity_MagicEnergyConverter extends GT_MetaTileEntity_BasicTank {
 	
@@ -54,7 +51,7 @@ public class GT_MetaTileEntity_MagicEnergyConverter extends GT_MetaTileEntity_Ba
     				mInventory[2] = null;
     			else
     				if (mInventory[2] == null)
-    					mInventory[2] = new ItemStack(Block.fire, 1);
+    					mInventory[2] = new ItemStack(Blocks.fire, 1);
     		} else {
     			if (getFuelValue(mFluid) > 0) while (getBaseMetaTileEntity().getUniversalEnergyStored() < (getBaseMetaTileEntity().getOutputVoltage() * 10 + getMinimumStoredEU()) && mFluid.amount > 0) {
     				if (getBaseMetaTileEntity().increaseStoredEnergyUnits(getFuelValue(mFluid), true)) mFluid.amount--;
@@ -93,18 +90,7 @@ public class GT_MetaTileEntity_MagicEnergyConverter extends GT_MetaTileEntity_Ba
     
     @Override
 	public void onExplosion() {
-	   	try {
-			ObjectTags tTags = new ObjectTags();
-			tTags.add(EnumTag.MECHANISM, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.DESTRUCTION, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.FLUX, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.EVIL, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.FIRE, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.DARK, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.POWER, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			tTags.add(EnumTag.EXCHANGE, 20 + getBaseMetaTileEntity().getRandomNumber(20));
-			AuraManager.addFluxToClosest(getBaseMetaTileEntity().getWorld(), getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord(), getBaseMetaTileEntity().getZCoord(), tTags);
-		} catch(Throwable e) {}
+	    
     }
     
     public boolean isValidFuel(FluidStack aFluid) {

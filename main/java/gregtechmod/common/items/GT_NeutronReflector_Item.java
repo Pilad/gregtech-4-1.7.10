@@ -14,14 +14,14 @@ public class GT_NeutronReflector_Item extends GT_Generic_Item implements IReacto
     }
     
 	@Override
-	public void processChamber(IReactor aReactor, ItemStack aStack, int x, int y) {
+	public void processChamber(IReactor aReactor, ItemStack aStack, int x, int y, boolean heat) {
 		return;
 	}
 	
 	@Override
-	public boolean acceptUraniumPulse(IReactor aReactor, ItemStack aStack, ItemStack pulsingStack, int x, int y, int pulseX, int pulseY) {
+	public boolean acceptUraniumPulse(IReactor aReactor, ItemStack aStack, ItemStack pulsingStack, int x, int y, int pulseX, int pulseY, boolean heat) {
 		if (aStack.stackSize > 1) return false;
-		((IReactorComponent)pulsingStack.getItem()).acceptUraniumPulse(aReactor, pulsingStack, aStack, pulseX, pulseY, x, y);
+		((IReactorComponent)pulsingStack.getItem()).acceptUraniumPulse(aReactor, pulsingStack, aStack, pulseX, pulseY, x, y, heat);
 		if (getMaxDamage() > 0)
 			if (aStack.getItemDamage() + 1 >= getMaxDamage())
 				aReactor.setItemAt(x, y, null);

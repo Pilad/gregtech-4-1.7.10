@@ -2,11 +2,12 @@ package gregtechmod.common.items;
 
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.util.GT_LanguageManager;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class GT_MetaOre_Item extends ItemBlock {
-    public GT_MetaOre_Item(int par1) {
+    public GT_MetaOre_Item(Block par1) {
         super(par1);
         setMaxDamage(0);
         setHasSubtypes(true);

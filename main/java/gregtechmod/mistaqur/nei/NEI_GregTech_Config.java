@@ -1,10 +1,10 @@
 package gregtechmod.mistaqur.nei;
 
+import codechicken.nei.api.IConfigureNEI;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.util.GT_Log;
 import gregtechmod.common.gui.GT_GUIContainer_AdvancedWorkbench;
 import gregtechmod.common.gui.GT_GUIContainer_BronzeWorkbench;
-import codechicken.nei.api.IConfigureNEI;
 
 public class NEI_GregTech_Config implements IConfigureNEI {
 	public static boolean sIsAdded = true;

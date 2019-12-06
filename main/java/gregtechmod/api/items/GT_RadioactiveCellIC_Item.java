@@ -1,11 +1,10 @@
 package gregtechmod.api.items;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.util.GT_Utility;
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorComponent;
-
-import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
 
 public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implements IReactorComponent {
@@ -96,16 +95,16 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
 	    }
     }
 
-    protected int checkPulseable(IReactor var1, int var2, int var3, ItemStack var4, int var5, int var6) {
-        ItemStack var7 = var1.getItemAt(var2, var3);
-        return var7 != null && var7.getItem() instanceof IReactorComponent && ((IReactorComponent)var7.getItem()).acceptUraniumPulse(var1, var7, var4, var2, var3, var5, var6) ? 1 : 0;
+    protected int checkPulseable(IReactor reactor, int x, int y, ItemStack stackPulse, int pulseX, int pulseY) {
+        ItemStack stacks = reactor.getItemAt(x, y);
+        return stacks != null && stacks.getItem() instanceof IReactorComponent && ((IReactorComponent)stacks.getItem()).acceptUraniumPulse(reactor, stacks, stackPulse, x, y, pulseX, pulseY, false) ? 1 : 0;
     }
     
-    protected void checkHeatAcceptor(IReactor var1, int var2, int var3, ArrayList var4) {
-        ItemStack var5 = var1.getItemAt(var2, var3);
+    protected void checkHeatAcceptor(IReactor reactor, int x, int y, ArrayList list) {
+        ItemStack stack = reactor.getItemAt(x, y);
 
-        if (var5 != null && var5.getItem() instanceof IReactorComponent && ((IReactorComponent)var5.getItem()).canStoreHeat(var1, var5, var2, var3)) {
-            var4.add(new ItemStackCoord(this, var5, var2, var3));
+        if (stack != null && stack.getItem() instanceof IReactorComponent && ((IReactorComponent)stack.getItem()).canStoreHeat(reactor, stack, x, y)) {
+            list.add(new ItemStackCoord(this, stack, x, y));
         }
     }
     

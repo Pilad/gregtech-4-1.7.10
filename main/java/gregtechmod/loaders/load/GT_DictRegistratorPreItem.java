@@ -94,7 +94,7 @@ public class GT_DictRegistratorPreItem implements Runnable {
     	GT_OreDictUnificator.add("oreIron"			, new ItemStack(Blocks.iron_ore, 1));
     	GT_OreDictUnificator.add("oreLapis"			, new ItemStack(Blocks.lapis_ore, 1));
     	GT_OreDictUnificator.add("oreRedstone"		, new ItemStack(Blocks.redstone_ore, 1));
-    	GT_OreDictUnificator.add("oreRedstone"		, new ItemStack(Blocks.lit_redstone_ore, 1));
+    	//GT_OreDictUnificator.add("oreRedstone"	    , new ItemStack(Blocks.redstone, 1));
     	GT_OreDictUnificator.add("oreGold"			, new ItemStack(Blocks.gold_ore, 1));
     	GT_OreDictUnificator.add("oreDiamond"		, new ItemStack(Blocks.diamond_ore, 1));
     	GT_OreDictUnificator.add("oreEmerald"		, new ItemStack(Blocks.emerald_ore, 1));

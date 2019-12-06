@@ -4,6 +4,7 @@ import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.interfaces.IMachineProgress;
 import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Utility;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_Cover_Vent extends GT_CoverBehavior {
@@ -16,7 +17,7 @@ public class GT_Cover_Vent extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aTileEntity instanceof IMachineProgress) {
 			if (((IMachineProgress)aTileEntity).hasThingsToDo() && aCoverVariable != ((IMachineProgress)aTileEntity).getProgress()) {
 				if (!GT_Utility.hasBlockHitBox(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1))) {
@@ -29,7 +30,7 @@ public class GT_Cover_Vent extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 60;
 	}
 }

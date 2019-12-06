@@ -1,13 +1,12 @@
 package gregtechmod.common.tileentities;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.metatileentity.implementations.GT_MetaTileEntity_BasicTank;
 import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -125,7 +124,7 @@ public class GT_MetaTileEntity_AdvancedCraftingTable extends GT_MetaTileEntity_B
     
     public void setBluePrint(ItemStack aStack) {
     	if (aStack == null) aStack = mInventory[30];
-    	if (mInventory[31] == null || aStack == null || aStack.itemID != -2 || aStack.getItemDamage() != 0 || aStack.stackSize != 1 || aStack.hasTagCompound()) return;
+    	if (mInventory[31] == null || aStack == null || aStack != null || aStack.getItemDamage() != 0 || aStack.stackSize != 1 || aStack.hasTagCompound()) return;
     	NBTTagCompound tNBT = new NBTTagCompound();
         NBTTagList tNBT_ItemList = new NBTTagList();
         for (int i = 0; i < 9; i++) {
@@ -142,11 +141,11 @@ public class GT_MetaTileEntity_AdvancedCraftingTable extends GT_MetaTileEntity_B
     }
     
     public ItemStack getCraftingOutput() {
-    	if (mInventory[30] != null && mInventory[30].itemID == -2 && mInventory[30].getItemDamage() == 0 && mInventory[30].hasTagCompound()) {
+    	if (mInventory[30] != null && mInventory[30] == null && mInventory[30].getItemDamage() == 0 && mInventory[30].hasTagCompound()) {
     		NBTTagCompound tNBT = mInventory[30].getTagCompound();
-        	NBTTagList tNBT_ItemList = tNBT.getTagList("Blueprint");
+        	NBTTagList tNBT_ItemList = tNBT.getTagList("Blueprint", 10);
             for (int i = 0; i < tNBT_ItemList.tagCount() && i < 9; i++) {
-                NBTTagCompound tag = (NBTTagCompound) tNBT_ItemList.tagAt(i);
+                NBTTagCompound tag = (NBTTagCompound) tNBT_ItemList.getCompoundTagAt(i);
                 byte slot = tag.getByte("Slot");
                 if (slot >= 0 && slot < 9 && mInventory[slot+21] == null) {
 	                mInventory[slot+21] = GT_Utility.loadItem(tag);

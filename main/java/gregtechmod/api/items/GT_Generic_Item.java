@@ -1,19 +1,19 @@
 package gregtechmod.api.items;
 
+import java.util.List;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.util.GT_LanguageManager;
 import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_OreDictUnificator;
-
-import java.util.List;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Extended by most Items, also used as a fallback Item, to prevent the accidental deletion when Errors occur.
@@ -30,9 +30,11 @@ public class GT_Generic_Item extends Item {
 	
 	public GT_Generic_Item(int aID, String aName, String aTooltip, boolean aTranslateToolTip) {
 		super();
+		
 		setUnlocalizedName(aName);
 		setCreativeTab(GregTech_API.TAB_GREGTECH);
 		mTooltip = aTooltip == null || aTooltip.equals("") ? "" : aTranslateToolTip ? GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".tooltip_main", aTooltip) : aTooltip;
+		GameRegistry.registerItem(this, aName);
 	}
 	
 	public final GT_Generic_Item registerAtOreDict(String aName, short aDamage) {

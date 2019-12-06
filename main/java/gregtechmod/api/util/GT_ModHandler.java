@@ -1,5 +1,12 @@
 package gregtechmod.api.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.enums.Materials;
@@ -9,17 +16,10 @@ import gregtechmod.api.interfaces.ICapsuleCellContainer;
 import gregtechmod.api.interfaces.IHasWorldObjectAndCoords;
 import ic2.api.item.IBoxable;
 import ic2.api.item.IC2Items;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
@@ -32,12 +32,10 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -315,7 +313,7 @@ public class GT_ModHandler {
 		if (aItem == null || aItem.equals("")) return null;
 		ItemStack rStack = null;
 		try {
-			rStack = thermalexpansion.api.item.ItemRegistry.getItem(aItem, aAmount);
+			//rStack = thermalexpansion.api.item.ItemRegistry.getItem(aItem, aAmount);
 		} catch (Throwable e) {}
 		return GT_Utility.copy(aAmount, rStack, aReplacement);
 	}
@@ -354,7 +352,7 @@ public class GT_ModHandler {
 		if (aItem == null || aItem.equals("")) return null;
 		ItemStack rStack = null;
 		try {
-			rStack = forestry.api.core.ItemInterface.getItem(aItem);
+			//rStack = forestry.api.core.ItemInterface.getItem(aItem);
 		} catch (Throwable e) {}
 		return GT_Utility.copy(aAmount, rStack);
 	}
@@ -418,10 +416,10 @@ public class GT_ModHandler {
 	/**
 	 * Adds a Valuable Ore to the Miner
 	 */
-	public static boolean addValuableOre(int aID, int aMeta, int aValue) {
+	public static boolean addValuableOre(Block block, int aValue) {
 		if (aValue <= 0) return false;
 		try {
-			Class.forName("ic2.core.IC2").getMethod("addValuableOre", int.class, int.class, int.class).invoke(null, aID, aMeta, aValue);
+			Class.forName("ic2.core.IC2").getMethod("addValuableOre", int.class, int.class, int.class).invoke(null, block, aValue);
 		} catch (Throwable e) {}
 		return true;
 	}
@@ -447,9 +445,14 @@ public class GT_ModHandler {
 	 */
 	public static boolean addToRecyclerBlackList(ItemStack aRecycledStack) {
 		if (aRecycledStack == null) return false;		
-		try {
-			ic2.api.recipe.Recipes.recyclerBlacklist.add(GT_Utility.copy(aRecycledStack));
+		
+		/*try {
+			RecipeInputItemStack recipe = Ic2;
+			recipe.input = GT_Utility.copy(aRecycledStack);
+			
+			ic2.api.recipe.Recipes.recyclerBlacklist.add(recipe);
 		} catch (Throwable e) {}
+		*/
 		return true;
 	}
 	
@@ -461,7 +464,7 @@ public class GT_ModHandler {
 		if (aInput == null || aOutput == null) return false;
 		if (aInput.getItem().hasContainerItem()) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.smelting, aInput, true)) return false;
-		FurnaceRecipes.smelting().addSmelting(aInput.itemID, aInput.getItemDamage(), GT_Utility.copy(aOutput), 0.0F);
+		GameRegistry.addSmelting(aInput.getItem(), GT_Utility.copy(aOutput), 0.0F);
 		return true;
 	}
 	
@@ -498,10 +501,9 @@ public class GT_ModHandler {
 		aFullContainer = GT_OreDictUnificator.get(true, aFullContainer);
 		if (aEmptyContainer == null || aFullContainer == null || aLiquid == null) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.liquidtransposer, aFullContainer, true)) return false;
-		try {
-			thermalexpansion.api.crafting.CraftingManagers.transposerManager.addFillRecipe(aMJ, aEmptyContainer, aFullContainer, aLiquid, true, false);
-		} catch(Throwable e) {}
+		
 		return true;
+		 
 	}
 	
 	/**
@@ -511,9 +513,6 @@ public class GT_ModHandler {
 		aFullContainer = GT_OreDictUnificator.get(true, aFullContainer);
 		if (aEmptyContainer == null || aFullContainer == null || aLiquid == null) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.liquidtransposerfilling, aFullContainer, true)) return false;
-		try {
-			thermalexpansion.api.crafting.CraftingManagers.transposerManager.addFillRecipe(aMJ, aEmptyContainer, aFullContainer, aLiquid, false, false);
-		} catch(Throwable e) {}
 		return true;
 	}
 	
@@ -524,9 +523,6 @@ public class GT_ModHandler {
 		aEmptyContainer = GT_OreDictUnificator.get(true, aEmptyContainer);
 		if (aFullContainer == null || aEmptyContainer == null || aLiquid == null) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.liquidtransposeremptying, aFullContainer, true)) return false;
-		try {
-			thermalexpansion.api.crafting.CraftingManagers.transposerManager.addExtractionRecipe(aMJ, aFullContainer, aEmptyContainer, aLiquid, 100, false, false);
-		} catch(Throwable e) {}
 		return true;
 	}
 	
@@ -558,32 +554,27 @@ public class GT_ModHandler {
 		return true;
 	}
 	
-	private static Map<Integer, Object> sPulverizerRecipes = new HashMap<Integer, Object>();
+	private static Map<Item, Object> sPulverizerRecipes = new HashMap<Item, Object>();
 	
 	/**
 	 * @return Object that can either be cast into IPulverizerRecipe or into GT_PulverizerRecipe
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public static Object getPulverizerRecipe(ItemStack aInput) {
 		if (aInput == null) return null;
-		Object tObject = sPulverizerRecipes.get(GT_Utility.stackToInt(aInput));
+		Object tObject = sPulverizerRecipes.get(aInput);
 		if (tObject != null) {
 			return tObject;
 		}
 		
 		ItemStack tInput = GT_Utility.copy(aInput);
 		tInput.setItemDamage(GregTech_API.ITEM_WILDCARD_DAMAGE);
-		tObject = sPulverizerRecipes.get(GT_Utility.stackToInt(tInput));
+		tObject = sPulverizerRecipes.get(tInput);
 		if (tObject != null) {
 			return tObject;
 		}
 		
-		try {
-    		for (thermalexpansion.api.crafting.IPulverizerRecipe tRecipe : thermalexpansion.api.crafting.CraftingManagers.pulverizerManager.getRecipeList()) {
-    			if (GT_Utility.areStacksEqual(tRecipe.getInput(), aInput)) {
-		    		return tRecipe;
-    			}
-    		}
-		} catch(Throwable e) {}
+		 
 		return null;
 	}
 	
@@ -628,47 +619,53 @@ public class GT_ModHandler {
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.maceration, aInput, true)) return false;
 		if (!aInput.getItem().hasContainerItem()) {
 			if (aInput.getItemDamage() == GregTech_API.ITEM_WILDCARD_DAMAGE) {
-				for (byte i = 0; i < 16; i++) GT_Utility.removeSimpleIC2MachineRecipe(new ItemStack(aInput.itemID, aInput.stackSize, i), getMaceratorRecipeList(), null);
+				for (byte i = 0; i < 16; i++) GT_Utility.removeSimpleIC2MachineRecipe(new ItemStack(aInput.getItem(), aInput.stackSize, i), getMaceratorRecipeList(), null);
 				GT_Utility.addSimpleIC2MachineRecipe(aInput, getMaceratorRecipeList(), aOutput1);
 			} else {
 				GT_Utility.addSimpleIC2MachineRecipe(aInput, getMaceratorRecipeList(), aOutput1);
 			}
 		}
+		
 		try {
-			sPulverizerRecipes.put(GT_Utility.stackToInt(aInput), new GT_PulverizerRecipe(aInput, aOutput1, aOutput2, aChance<=0?10:aChance));
+			sPulverizerRecipes.put(aInput.getItem(), new GT_PulverizerRecipe(aInput, aOutput1, aOutput2, aChance<=0?10:aChance));
 		} catch(Throwable e) {}
+		
 		if (Materials.Wood.contains(aOutput1)) {
 			try {
 				if (!aInput.getItem().hasContainerItem()) {
+					/*
 					if (aOutput2 == null)
 						thermalexpansion.api.crafting.CraftingManagers.sawmillManager.addRecipe(80, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), aOverwrite);
 					else
 						thermalexpansion.api.crafting.CraftingManagers.sawmillManager.addRecipe(80, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), GT_Utility.copy(aOutput2), aChance<=0?10:aChance, aOverwrite);
+					 */
 				}
 			} catch(Throwable e) {}
 		} else {
 			try {
 				if (!aInput.getItem().hasContainerItem()) {
 					if (OrePrefixes.ingot.contains(aInput)) {
-						appeng.api.Util.getGrinderRecipeManage().addRecipe(aInput, aOutput1, 5);
+						//appeng.api.Util.getGrinderRecipeManage().addRecipe(aInput, aOutput1, 5);
 					}
 				}
 			} catch(Throwable e) {}
+			
 			try {
 				if (!aInput.getItem().hasContainerItem()) {
-					if (aInput.itemID != Block.obsidian.blockID) {
+					if (aInput.getItem() != Item.getItemFromBlock(Blocks.obsidian)) {
 						mods.railcraft.api.crafting.IRockCrusherRecipe tRecipe = mods.railcraft.api.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(GT_Utility.copy(1, aInput), aInput.getItemDamage() != GregTech_API.ITEM_WILDCARD_DAMAGE, false);
 						tRecipe.addOutput(GT_Utility.copy(aOutput1), 1.0F/aInput.stackSize);
 						tRecipe.addOutput(GT_Utility.copy(aOutput2), (0.01F*(aChance<=0?10:aChance))/aInput.stackSize);
 					}
 				}
 			} catch(Throwable e) {}
+			
 			try {
 				if (!aInput.getItem().hasContainerItem()) {
 					if (aOutput2 == null) {
-						thermalexpansion.api.crafting.CraftingManagers.pulverizerManager.addRecipe(400, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), aOverwrite);
+					//	thermalexpansion.api.crafting.CraftingManagers.pulverizerManager.addRecipe(400, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), aOverwrite);
 					} else {
-						thermalexpansion.api.crafting.CraftingManagers.pulverizerManager.addRecipe(400, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), GT_Utility.copy(aOutput2), aChance<=0?10:aChance, aOverwrite);
+					//	thermalexpansion.api.crafting.CraftingManagers.pulverizerManager.addRecipe(400, GT_Utility.copy(aInput), GT_Utility.copy(aOutput1), GT_Utility.copy(aOutput2), aChance<=0?10:aChance, aOverwrite);
 					}
 				}
 			} catch(Throwable e) {}
@@ -685,7 +682,7 @@ public class GT_ModHandler {
 		if (aInput1 == null || aOutput1 == null) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.sawmill, aInput1, true)) return false;
 	    try {
-	    	thermalexpansion.api.crafting.CraftingManagers.sawmillManager.addRecipe(160, aInput1, aOutput1, aOutput2, 100, false);
+	    	//thermalexpansion.api.crafting.CraftingManagers.sawmillManager.addRecipe(160, aInput1, aOutput1, aOutput2, 100, false);
 		} catch(Throwable e) {}
 	    GregTech_API.sRecipeAdder.addSawmillRecipe(aInput1, getWaterCell(1), aOutput1, aOutput2, getEmptyCell(1));
 		return true;
@@ -712,7 +709,7 @@ public class GT_ModHandler {
 		if (aInput1 == null || aOutput1 == null || aInput1.getItem().hasContainerItem()) return false;
 		if (!GregTech_API.sConfiguration.addAdvConfig(GT_ConfigCategories.inductionsmelter, aInput2==null?aInput1:aOutput1, true)) return false;
 	    try {
-	    	thermalexpansion.api.crafting.CraftingManagers.smelterManager.addRecipe(aEnergy, GT_Utility.copy(aInput1), aInput2==null?new ItemStack(Block.sand, 1, 0):aInput2, aOutput1, aOutput2, aChance, false);
+	    	//thermalexpansion.api.crafting.CraftingManagers.smelterManager.addRecipe(aEnergy, GT_Utility.copy(aInput1), aInput2==null?new ItemStack(Block.sand, 1, 0):aInput2, aOutput1, aOutput2, aChance, false);
 		} catch(Throwable e) {}
 		return true;
 	}
@@ -724,7 +721,7 @@ public class GT_ModHandler {
 		aOutput = GT_OreDictUnificator.get(true, aOutput);
 		if (aInput == null || aOutput == null) return false;
 		try {
-			new thermalexpansion.api.crafting.CraftingHelpers().addSmelterDustToIngotsRecipe(aInput, aOutput);
+			//new thermalexpansion.api.crafting.CraftingHelpers().addSmelterDustToIngotsRecipe(aInput, aOutput);
 		} catch(Throwable e) {}
 		addSmeltingRecipe(aInput, aOutput);
 		return true;
@@ -737,9 +734,10 @@ public class GT_ModHandler {
 		aOutput = GT_OreDictUnificator.get(true, aOutput);
 		if (aInput == null || aOutput == null) return false;
 		try {
-			new thermalexpansion.api.crafting.CraftingHelpers().addSmelterOreToIngotsRecipe(aInput, aOutput);
+			//new thermalexpansion.api.crafting.CraftingHelpers().addSmelterOreToIngotsRecipe(aInput, aOutput);
 		} catch(Throwable e) {}
-		FurnaceRecipes.smelting().addSmelting(aInput.itemID, aInput.getItemDamage(), GT_Utility.copy(aOutput), 0.0F);
+		
+		GameRegistry.addSmelting(aInput, GT_Utility.copy(aOutput), 0.0F);
 		return true;
 	}
 	
@@ -1012,8 +1010,9 @@ public class GT_ModHandler {
 	public static boolean removeFurnaceSmelting(ItemStack aInput, ItemStack aOutput) {
 		boolean temp = false;
 		if (aInput != null) {
-			FurnaceRecipes.smelting().getMetaSmeltingList().remove(Arrays.asList(aInput.itemID, aInput.getItemDamage()));
-			FurnaceRecipes.smelting().getSmeltingList().remove(aInput.itemID);
+			//FurnaceRecipes.smelting().getMetaSmeltingList().remove(Arrays.asList(aInput.itemID, aInput.getItemDamage()));
+			FurnaceRecipes.smelting().getSmeltingList().remove(aInput);
+			
 			temp = true;
 		}
 		if (aOutput != null) {
@@ -1340,8 +1339,10 @@ public class GT_ModHandler {
 		try {
 			Object temp = GT_Utility.callPublicMethod(aTileEntity, "isAddedToEnergyNet");
 			if (aTileEntity instanceof ic2.api.energy.tile.IEnergyTile && temp != null && temp instanceof Boolean && !((Boolean)temp)) {
-				net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileLoadEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergyTile)aTileEntity);
-				MinecraftForge.EVENT_BUS.post(tEvent);
+				 
+				 
+				//net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileLoadEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergyTile)aTileEntity);
+				//MinecraftForge.EVENT_BUS.post(tEvent);
 				return true;
 			}
 		} catch(Throwable e) {}
@@ -1355,8 +1356,8 @@ public class GT_ModHandler {
 		try {
 			Object temp = GT_Utility.callPublicMethod(aTileEntity, "isAddedToEnergyNet");
 			if (aTileEntity instanceof ic2.api.energy.tile.IEnergyTile && temp != null && temp instanceof Boolean && (Boolean)temp) {
-				net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileUnloadEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergyTile)aTileEntity);
-				MinecraftForge.EVENT_BUS.post(tEvent);
+				//net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileUnloadEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergyTile)aTileEntity);
+				//MinecraftForge.EVENT_BUS.post(tEvent);
 				return true;
 			}
 		} catch(Throwable e) {}
@@ -1372,13 +1373,15 @@ public class GT_ModHandler {
 			Object temp = GT_Utility.callPublicMethod(aTileEntity, "isAddedToEnergyNet");
 			if (aTileEntity instanceof ic2.api.energy.tile.IEnergySource && temp != null && temp instanceof Boolean && (Boolean)temp) {
 				try {
-					net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileSourceEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergySource)aTileEntity, aVoltage);
-					MinecraftForge.EVENT_BUS.post(tEvent);
-					return ((ic2.api.energy.event.EnergyTileSourceEvent)tEvent).amount;
+					//net.minecraftforge.event.Event tEvent = (net.minecraftforge.event.Event)Class.forName("ic2.api.energy.event.EnergyTileSourceEvent").getConstructors()[0].newInstance((ic2.api.energy.tile.IEnergySource)aTileEntity, aVoltage);
+					//MinecraftForge.EVENT_BUS.post(tEvent);
+					//EnergyTileLoadEvent event;
+					//return amaunt;
 				} catch(Throwable e) {}
 				return aVoltage;
 			}
 		} catch(Throwable e) {}
+		
 		if (aTileEntity instanceof IBasicEnergyContainer && aTileEntity instanceof IHasWorldObjectAndCoords) {
 			for (byte i = 0; i < 6; i++) if (((IBasicEnergyContainer)aTileEntity).outputsEnergyTo(i)) {
 				TileEntity tTileEntity = ((IHasWorldObjectAndCoords)aTileEntity).getTileEntityAtSide(i);
@@ -1400,7 +1403,7 @@ public class GT_ModHandler {
 	 * Charges an Electric Item. Only if it's a valid Electric Item of course.
 	 * @return the actually used Energy.
 	 */
-	public static double chargeElectricItem(ItemStack aStack, int aCharge, int aTier, boolean aIgnoreLimit, boolean aSimulate) {
+	public static double chargeElectricItem(ItemStack aStack, double aCharge, int aTier, boolean aIgnoreLimit, boolean aSimulate) {
 		try {
 			if (isElectricItem(aStack)) {
 				return ic2.api.item.ElectricItem.manager.charge(aStack, aCharge, aTier, aIgnoreLimit, aSimulate);
@@ -1413,11 +1416,11 @@ public class GT_ModHandler {
 	 * Discharges an Electric Item. Only if it's a valid Electric Item for that of course.
 	 * @return the Energy got from the Item.
 	 */
-	public static int dischargeElectricItem(ItemStack aStack, int aCharge, int aTier, boolean aIgnoreLimit, boolean aSimulate, boolean aIgnoreDischargability) {
+	public static double dischargeElectricItem(ItemStack aStack, double aCharge, int aTier, boolean aIgnoreLimit, boolean aSimulate, boolean aIgnoreDischargability) {
 		try {
 			if (isElectricItem(aStack)) {
 				if (aIgnoreDischargability || ((ic2.api.item.IElectricItem)aStack.getItem()).canProvideEnergy(aStack)) {
-					return ic2.api.item.ElectricItem.manager.discharge(aStack, aCharge, aTier, aIgnoreLimit, aSimulate);
+					return ic2.api.item.ElectricItem.manager.discharge(aStack, aCharge, aTier, aIgnoreLimit, aSimulate, aIgnoreDischargability);
 				}
 			}
 		} catch (Throwable e) {}
@@ -1491,7 +1494,7 @@ public class GT_ModHandler {
 				if (aStack.getItem().hasContainerItem()) {
 					ItemStack tStack = aStack.getItem().getContainerItem(aStack);
 					if (tStack != null) {
-						aStack.itemID = tStack.itemID;
+						aStack = tStack;
 						aStack.setItemDamage(tStack.getItemDamage());
 						aStack.stackSize = tStack.stackSize;
 						aStack.setTagCompound(tStack.getTagCompound());

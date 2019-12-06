@@ -1,27 +1,22 @@
 package gregtechmod.common.tileentities;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Config;
 import gregtechmod.api.util.GT_Log;
-
-import java.util.ArrayList;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
-import thaumcraft.api.EnumTag;
-import thaumcraft.api.ObjectTags;
-import thaumcraft.common.aura.AuraManager;
-import thaumcraft.common.entities.monster.EntityWisp;
 
 public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
 	
@@ -95,8 +90,8 @@ public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
 			                NBTTagList tEnchantments = mInventory[0].getEnchantmentTagList();
 			                if (tEnchantments != null) {
 			                    for (int i = 0; i < tEnchantments.tagCount(); i++) {
-			                        short tID = ((NBTTagCompound)tEnchantments.tagAt(i)).getShort("id");
-			                        short tLevel = ((NBTTagCompound)tEnchantments.tagAt(i)).getShort("lvl");
+			                        short tID = ((NBTTagCompound)tEnchantments.getCompoundTagAt(i)).getShort("id");
+			                        short tLevel = ((NBTTagCompound)tEnchantments.getCompoundTagAt(i)).getShort("lvl");
 			                        if (tID > -1 && tID < Enchantment.enchantmentsList.length) {
 				                        Enchantment tEnchantment = Enchantment.enchantmentsList[tID];
 				                        if (tEnchantment != null) {
@@ -110,8 +105,8 @@ public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
 		    				NBTTagList tEnchantments = ((ItemEnchantedBook)mInventory[0].getItem()).func_92110_g(mInventory[0]);
 			                if (tEnchantments != null) {
 			                    for (int i = 0; i < tEnchantments.tagCount(); i++) {
-			                        short tID = ((NBTTagCompound)tEnchantments.tagAt(i)).getShort("id");
-			                        short tLevel = ((NBTTagCompound)tEnchantments.tagAt(i)).getShort("lvl");
+			                        short tID = ((NBTTagCompound)tEnchantments.getCompoundTagAt(i)).getShort("id");
+			                        short tLevel = ((NBTTagCompound)tEnchantments.getCompoundTagAt(i)).getShort("lvl");
 			                        if (tID > -1 && tID < Enchantment.enchantmentsList.length) {
 				                        Enchantment tEnchantment = Enchantment.enchantmentsList[tID];
 				                        if (tEnchantment != null) {
@@ -119,7 +114,7 @@ public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
 				                        }
 			                        }
 			                    }
-			    				mInventory[0] = new ItemStack(Item.book, 1);
+			    				mInventory[0] = new ItemStack(Items.book, 1);
 			                }
 		    			}
 		    			
@@ -155,16 +150,7 @@ public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
     		
     		if (sEnergyFromVis > 0 && isActive2 && getBaseMetaTileEntity().getUniversalEnergyStored() < sEnergyFromVis) {
     			try {
-    				if (AuraManager.decreaseClosestAura(getBaseMetaTileEntity().getWorld(), getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord(), getBaseMetaTileEntity().getZCoord(), 1)) {
-    					getBaseMetaTileEntity().increaseStoredEnergyUnits(sEnergyFromVis, true);
-    					ObjectTags tTags = new ObjectTags();
-    					tTags.add(EnumTag.MECHANISM, 1 + getBaseMetaTileEntity().getRandomNumber(3));
-    					tTags.add(EnumTag.VOID, 1 + getBaseMetaTileEntity().getRandomNumber(2));
-    					tTags.add(EnumTag.FLUX, 1 + getBaseMetaTileEntity().getRandomNumber(2));
-    					AuraManager.addFluxToClosest(getBaseMetaTileEntity().getWorld(), getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord(), getBaseMetaTileEntity().getZCoord(), tTags);
-    					ArrayList<EntityWisp> tList = (ArrayList<EntityWisp>)getBaseMetaTileEntity().getWorld().getEntitiesWithinAABB(EntityWisp.class, AxisAlignedBB.getBoundingBox(getBaseMetaTileEntity().getXCoord()-8, getBaseMetaTileEntity().getYCoord()-8, getBaseMetaTileEntity().getZCoord()-8, getBaseMetaTileEntity().getXCoord()+8, getBaseMetaTileEntity().getYCoord()+8, getBaseMetaTileEntity().getZCoord()+8));
-    	    			if (!tList.isEmpty()) getBaseMetaTileEntity().doExplosion(8192);
-    				}
+    				getBaseMetaTileEntity().doExplosion(8192);
     			} catch(Throwable e) {
     				if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);
     			}
@@ -177,20 +163,7 @@ public class GT_MetaTileEntity_MagicEnergyAbsorber extends MetaTileEntity {
     @Override
 	public void onExplosion() {
     	if (sEnergyFromVis > 0 && isActive2) {
-	    	try {
-				ObjectTags tTags = new ObjectTags();
-				tTags.add(EnumTag.MECHANISM, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.DESTRUCTION, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.FLUX, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.EVIL, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.FIRE, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.DARK, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.POWER, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				tTags.add(EnumTag.VOID, 50 + getBaseMetaTileEntity().getRandomNumber(50));
-				AuraManager.addFluxToClosest(getBaseMetaTileEntity().getWorld(), getBaseMetaTileEntity().getXCoord(), getBaseMetaTileEntity().getYCoord(), getBaseMetaTileEntity().getZCoord(), tTags);
-			} catch(Throwable e) {
-				if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);
-			}
+	    	 
     	}
     }
     

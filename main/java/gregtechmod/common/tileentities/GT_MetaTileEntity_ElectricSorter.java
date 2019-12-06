@@ -1,12 +1,12 @@
 package gregtechmod.common.tileentities;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -52,7 +52,7 @@ public class GT_MetaTileEntity_ElectricSorter extends GT_MetaTileEntity_Electric
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != mTargetDirection && aSide != getBaseMetaTileEntity().getBackFacing();
 	}
 	

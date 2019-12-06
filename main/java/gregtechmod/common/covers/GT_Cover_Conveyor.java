@@ -6,6 +6,7 @@ import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_Cover_Conveyor extends GT_CoverBehavior {
@@ -15,7 +16,7 @@ public class GT_Cover_Conveyor extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aCoverVariable % 6 > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != (aCoverVariable % 6 < 4))) return aCoverVariable;
 		IInventory tTileEntity = aTileEntity.getIInventoryAtSide(aSide);
 		if (tTileEntity == null) {
@@ -29,10 +30,12 @@ public class GT_Cover_Conveyor extends GT_CoverBehavior {
 			}
 			*/
 		} else {
-			if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0) && aTileEntity.getUniversalEnergyCapacity() >= 128) {
+			if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0) /*&& aTileEntity.getUniversalEnergyCapacity() >= 128*/) {
+				/*
 				if (aTileEntity.getUniversalEnergyStored() >= 128) {
 					aTileEntity.decreaseStoredEnergyUnits(GT_Utility.moveOneItemStack(aCoverVariable%2==0?aTileEntity:tTileEntity, aCoverVariable%2!=0?aTileEntity:tTileEntity, (byte)(aCoverVariable%2!=0?GT_Utility.getOppositeSide(aSide):aSide), (byte)(aCoverVariable%2==0?GT_Utility.getOppositeSide(aSide):aSide), null, false, (byte)64, (byte)1, (byte)64, (byte)1), true);
 				}
+				*/
 			} else {
 				GT_Utility.moveOneItemStack(aCoverVariable%2==0?aTileEntity:tTileEntity, aCoverVariable%2!=0?aTileEntity:tTileEntity, aSide, GT_Utility.getOppositeSide(aSide), null, false, (byte)64, (byte)1, (byte)64, (byte)1);
 			}
@@ -41,7 +44,7 @@ public class GT_Cover_Conveyor extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		aCoverVariable=(aCoverVariable+1)%12;
 		if (aCoverVariable== 0) GT_Utility.sendChatToPlayer(aPlayer, "Export");
 		if (aCoverVariable== 1) GT_Utility.sendChatToPlayer(aPlayer, "Import");
@@ -59,47 +62,47 @@ public class GT_Cover_Conveyor extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean letsRedstoneGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return aCoverVariable>=6||aCoverVariable%2!=0;
 	}
 	
 	@Override
-	public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return aCoverVariable>=6||aCoverVariable%2==0;
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 10;
 	}
 }

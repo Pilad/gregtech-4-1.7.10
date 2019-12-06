@@ -1,5 +1,7 @@
 package gregtechmod.loaders.postload;
 
+import java.util.Map;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.enums.Materials;
@@ -13,9 +15,6 @@ import gregtechmod.common.items.GT_MetaItem_Component;
 import gregtechmod.common.items.GT_MetaItem_Dust;
 import gregtechmod.common.items.GT_MetaItem_Material;
 import gregtechmod.common.items.GT_MetaItem_SmallDust;
-
-import java.util.Map;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -41,7 +40,7 @@ public class GT_MachineRecipeLoader implements Runnable {
 		GT_ModHandler.addCompressionRecipe(GT_MetaItem_Material.instance.getStack(8, 8), GT_ModHandler.getIC2Item("compressedPlantBall", 1));
 		GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.glowstone, 1), GT_OreDictUnificator.get("dustGlowstone", 4), null, 0, false);
 		GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.redstone_lamp, 1), GT_OreDictUnificator.get("dustGlowstone", 4), GT_OreDictUnificator.get("dustRedstone", 4), 90, false);
-		GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.lit_redstone_lamp, 1), GT_OreDictUnificator.get("dustGlowstone", 4), GT_OreDictUnificator.get("dustRedstone", 4), 90, false);
+		//GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.lit_redstone_lamp, 1), GT_OreDictUnificator.get("dustGlowstone", 4), GT_OreDictUnificator.get("dustRedstone", 4), 90, false);
 		GT_ModHandler.addPulverisationRecipe(GT_ModHandler.getRCItem("cube.crushed.obsidian", 1), GT_OreDictUnificator.get("dustObsidian", 1), null, 0, true);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.reeds, 1), new ItemStack(Items.sugar, 2), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.clay, 1), GT_OreDictUnificator.get("dustClay", 2), null, 0, false);

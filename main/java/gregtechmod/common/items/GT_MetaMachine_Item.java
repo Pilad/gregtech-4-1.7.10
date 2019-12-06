@@ -1,25 +1,24 @@
 package gregtechmod.common.items;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.util.GT_LanguageManager;
 import gregtechmod.api.util.GT_Log;
-
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_MetaMachine_Item extends ItemBlock {
-	public static int mItemID = 0;
+	public static Block mItemID;
 	
 	public String[] mString0 = new String[GregTech_API.MAXIMUM_METATILE_IDS],
 					mString1 = new String[GregTech_API.MAXIMUM_METATILE_IDS],
@@ -29,7 +28,7 @@ public class GT_MetaMachine_Item extends ItemBlock {
 					mString5 = new String[GregTech_API.MAXIMUM_METATILE_IDS],
 					mString6 = new String[GregTech_API.MAXIMUM_METATILE_IDS];
 	
-    public GT_MetaMachine_Item(int par1) {
+    public GT_MetaMachine_Item(Block par1) {
         super(par1);
         mItemID = par1;
         setMaxDamage(0);
@@ -58,7 +57,7 @@ public class GT_MetaMachine_Item extends ItemBlock {
 				} else {
 					TileEntity temp = GregTech_API.sBlockList[1].createTileEntity(aPlayer.worldObj, tDamage>15?GregTech_API.mMetaTileList[tDamage] == null?0:GregTech_API.mMetaTileList[tDamage].getTileEntityBaseType():tDamage);
 					if (temp != null) {
-						temp.worldObj = aPlayer.worldObj; temp.xCoord = 0; temp.yCoord = 0; temp.zCoord = 0;
+						temp.setWorldObj(aPlayer.worldObj); temp.xCoord = 0; temp.yCoord = 0; temp.zCoord = 0;
 						if (temp instanceof IGregTechTileEntity) {
 							IGregTechTileEntity tTileEntity = (IGregTechTileEntity)temp;
 							tTileEntity.setInitialValuesAsNBT(new NBTTagCompound(), (short)tDamage);
@@ -103,10 +102,10 @@ public class GT_MetaMachine_Item extends ItemBlock {
 			e.printStackTrace(GT_Log.err);
 		}
     }
-	
+	/*
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister aIconRegister) {
+    public void registerIcons(IIconRegister aIconRegister) {
 		GT_Log.out.println("GT_Mod: Setting up Icon Register for Items");
     	GregTech_API.sItemIcons = aIconRegister;
     	
@@ -119,7 +118,7 @@ public class GT_MetaMachine_Item extends ItemBlock {
     		}
     	}
     }
-    
+    */
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         return false;
@@ -145,28 +144,28 @@ public class GT_MetaMachine_Item extends ItemBlock {
     	   if (GregTech_API.mMetaTileList[tDamage] == null) {
     		   return false;
     	   } else {
-	    	   if (!aWorld.setBlock(aX, aY, aZ, getBlockID(), GregTech_API.mMetaTileList[tDamage].getTileEntityBaseType(), 3)) {
+	    	   if (!aWorld.setBlock(aX, aY, aZ, mItemID, GregTech_API.mMetaTileList[tDamage].getTileEntityBaseType(), 3)) {
 	    		   return false;
 	    	   }
-	    	   IGregTechTileEntity tTileEntity = (IGregTechTileEntity)aWorld.getBlockTileEntity(aX, aY, aZ);
+	    	   IGregTechTileEntity tTileEntity = (IGregTechTileEntity)aWorld.getTileEntity(aX, aY, aZ);
 	    	   if (tTileEntity != null) {
 	    		   if (aStack.getTagCompound() != null && tTileEntity.isServerSide()) {
 	        		   tTileEntity.setInitialValuesAsNBT(aStack.getTagCompound(), tDamage);
 	    		   } else {
 	        		   tTileEntity.setInitialValuesAsNBT(null, tDamage);
 	    		   }
-	    		   if (aPlayer != null) tTileEntity.setOwnerName(aPlayer.username);
+	    		   if (aPlayer != null) tTileEntity.setOwnerName(aPlayer.getDisplayName());
 	    	   }
     	   }
        } else {
-    	   if (!aWorld.setBlock(aX, aY, aZ, getBlockID(), tDamage, 3)) {
+    	   if (!aWorld.setBlock(aX, aY, aZ, mItemID, tDamage, 3)) {
                return false;
            }
        }
        
-       if (aWorld.getBlockId(aX, aY, aZ) == getBlockID()) {
-           Block.blocksList[getBlockID()].onBlockPlacedBy(aWorld, aX, aY, aZ, aPlayer, aStack);
-           Block.blocksList[getBlockID()].onPostBlockPlaced(aWorld, aX, aY, aZ, tDamage);
+       if (aWorld.getBlock(aX, aY, aZ) == mItemID) {
+    	   mItemID.onBlockPlacedBy(aWorld, aX, aY, aZ, aPlayer, aStack);
+    	   mItemID.onPostBlockPlaced(aWorld, aX, aY, aZ, tDamage);
        }
        return true;
     }

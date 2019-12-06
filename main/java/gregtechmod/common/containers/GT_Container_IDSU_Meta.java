@@ -1,12 +1,11 @@
 package gregtechmod.common.containers;
 
+import java.util.Iterator;
+
 import gregtechmod.api.gui.GT_ContainerMetaTile_Machine;
 import gregtechmod.api.gui.GT_Slot_Armor;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.common.tileentities.GT_MetaTileEntity_IDSU;
-
-import java.util.Iterator;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;

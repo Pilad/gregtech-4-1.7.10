@@ -93,13 +93,13 @@ public class GT_MetaTileEntity_IDSU extends MetaTileEntity {
     }
 	
 	@Override
-	public void setEUVar(int aEU) {
+	public void setEUVar(double aEU) {
 	    GregTech_API.sIDSUList.remove(mFrequency);
-	    GregTech_API.sIDSUList.put(mFrequency, aEU);
+	    GregTech_API.sIDSUList.put(mFrequency, (int) aEU);
 	}
 	
 	@Override
-	public int getEUVar() {
+	public double getEUVar() {
 	    Integer tEU = GregTech_API.sIDSUList.get(mFrequency);
 	    if (tEU == null) tEU = 0;
 	    return tEU;

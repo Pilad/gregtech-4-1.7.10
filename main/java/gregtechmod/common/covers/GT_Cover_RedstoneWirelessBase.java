@@ -5,6 +5,7 @@ import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public abstract class GT_Cover_RedstoneWirelessBase extends GT_CoverBehavior {
@@ -14,16 +15,16 @@ public abstract class GT_Cover_RedstoneWirelessBase extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean onCoverRemoval(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
+	public boolean onCoverRemoval(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
 		GregTech_API.sWirelessRedstone.put(aCoverVariable, (byte)0);
 		return true;
 	}
 	
 	@Override
-	public boolean onCoverRightclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public boolean onCoverRightclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		if (((aX > 0.375 && aX < 0.625) || aSide > 3) && ((aY > 0.375 && aY < 0.625) || aSide < 2) && ((aZ > 0.375 && aZ < 0.625) || aSide == 2 || aSide == 3)) {
 			GregTech_API.sWirelessRedstone.put(aCoverVariable, (byte)0);
-			aCoverVariable = GT_Utility.stackToInt(aPlayer.inventory.getCurrentItem());
+			//aCoverVariable = aPlayer.inventory.getCurrentItem();
 			aTileEntity.setCoverDataAtSide(aSide, aCoverVariable);
 			GT_Utility.sendChatToPlayer(aPlayer, "Frequency: " + aCoverVariable);
 			return true;
@@ -32,7 +33,7 @@ public abstract class GT_Cover_RedstoneWirelessBase extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		if (((aX > 0.375 && aX < 0.625) || aSide > 3) && ((aY > 0.375 && aY < 0.625) || aSide < 2) && ((aZ > 0.375 && aZ < 0.625) || aSide == 2 || aSide == 3)) {
 			
 		} else {
@@ -77,42 +78,42 @@ public abstract class GT_Cover_RedstoneWirelessBase extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public String getDescription(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public String getDescription(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return "Frequency: " + aCoverVariable;
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 1;
 	}
 }

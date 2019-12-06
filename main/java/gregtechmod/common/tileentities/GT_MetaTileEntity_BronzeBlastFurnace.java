@@ -5,12 +5,13 @@ import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Utility;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
 
@@ -51,8 +52,8 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
 	@Override public int increaseProgress(int aProgress)			{mProgresstime += aProgress; return mMaxProgresstime-mProgresstime;}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
-		return GregTech_API.getCoverBehavior(aCoverID).isSimpleCover() && super.allowCoverOnSide(aSide, aCoverID);
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		return GregTech_API.getCoverBehavior(new ItemStack(aCoverID)).isSimpleCover() && super.allowCoverOnSide(aSide, aCoverID);
 	}
 	
 	@Override
@@ -100,9 +101,9 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
     	int xDir = ForgeDirection.getOrientation(getBaseMetaTileEntity().getBackFacing()).offsetX, zDir = ForgeDirection.getOrientation(getBaseMetaTileEntity().getBackFacing()).offsetZ;
     	for (int i = -1; i < 2; i++) for (int j = -1; j < 3; j++) for (int k = -1; k < 2; k++) if (xDir+i != 0 || j != 0 || zDir+k != 0) {
     		if (i!=0||j==-1||k!=0) {
-    			if (getBaseMetaTileEntity().getBlockIDOffset(xDir+i, j, zDir+k) != GregTech_API.sBlockList[4].blockID || getBaseMetaTileEntity().getMetaIDOffset(xDir+i, j, zDir+k) != 13) return false;
+    			if (getBaseMetaTileEntity().getWorld().getBlock(xDir+i, j, zDir+k) != GregTech_API.sBlockList[4] || getBaseMetaTileEntity().getMetaIDOffset(xDir+i, j, zDir+k) != 13) return false;
     		} else {
-    			if (getBaseMetaTileEntity().getBlockIDOffset(xDir+i, j, zDir+k) != Block.lavaStill.blockID && !getBaseMetaTileEntity().getAirOffset(xDir+i, j, zDir+k)) return false;
+    			if (getBaseMetaTileEntity().getWorld().getBlock(xDir+i, j, zDir+k) != Blocks.flowing_lava && !getBaseMetaTileEntity().getAirOffset(xDir+i, j, zDir+k)) return false;
     		}
     	}
     	return true;
@@ -142,11 +143,11 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
     		getBaseMetaTileEntity().setActive(mMaxProgresstime > 0 && mMachine);
     		
     		if (getBaseMetaTileEntity().isActive()) {
-    			if (getBaseMetaTileEntity().getAir(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1))) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Block.lavaStill.blockID, 1, 2);
-    			if (getBaseMetaTileEntity().getAir(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1))) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Block.lavaStill.blockID, 1, 2);
+    			if (getBaseMetaTileEntity().getAir(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1))) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Blocks.lava, 1, 2);
+    			if (getBaseMetaTileEntity().getAir(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1))) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Blocks.lava, 1, 2);
     		} else {
-    			if (getBaseMetaTileEntity().getBlockID(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1)) == Block.lavaStill.blockID) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), 0, 0, 2);
-    			if (getBaseMetaTileEntity().getBlockID(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1)) == Block.lavaStill.blockID) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), 0, 0, 2);
+    			if (getBaseMetaTileEntity().getWorld().getBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1)) == Blocks.lava) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()  , getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Blocks.air, 0, 2);
+    			if (getBaseMetaTileEntity().getWorld().getBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1)) == Blocks.lava) getBaseMetaTileEntity().getWorld().setBlock(getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getBackFacing(), 1), getBaseMetaTileEntity().getYCoord()+1, getBaseMetaTileEntity().getOffsetZ(getBaseMetaTileEntity().getBackFacing(), 1), Blocks.air, 0, 2);
             }
 		}
     }
@@ -177,7 +178,7 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
     	
 		if (mInventory[0] != null && mInventory[1] != null && mInventory[0].stackSize >= 1) {
 			if (GT_OreDictUnificator.isItemStackInstanceOf(mInventory[0], "dustIron") || GT_OreDictUnificator.isItemStackInstanceOf(mInventory[0], "ingotIron")) {
-				if (mInventory[1].getItem() == Item.coal && mInventory[1].stackSize >= 4 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 1), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 4))) {
+				if (mInventory[1].getItem() == Items.coal && mInventory[1].stackSize >= 4 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 1), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 4))) {
 					getBaseMetaTileEntity().decrStackSize(0, 1);
 					getBaseMetaTileEntity().decrStackSize(1, 4);
 					mMaxProgresstime = 7200;
@@ -196,7 +197,7 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
 					return true;
 				}
 			} else if (GT_OreDictUnificator.isItemStackInstanceOf(mInventory[0], "dustSteel")) {
-				if (mInventory[1].getItem() == Item.coal && mInventory[1].stackSize >= 2 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 1), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 2))) {
+				if (mInventory[1].getItem() == Items.coal && mInventory[1].stackSize >= 2 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 1), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 2))) {
 					getBaseMetaTileEntity().decrStackSize(0, 1);
 					getBaseMetaTileEntity().decrStackSize(1, 2);
 					mMaxProgresstime = 3600;
@@ -215,7 +216,7 @@ public class GT_MetaTileEntity_BronzeBlastFurnace extends MetaTileEntity {
 					return true;
 				}
 			} else if (GT_OreDictUnificator.isItemStackInstanceOf(mInventory[0], "blockIron")) {
-				if (mInventory[1].getItem() == Item.coal && mInventory[1].stackSize >= 36 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 9), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 36))) {
+				if (mInventory[1].getItem() == Items.coal && mInventory[1].stackSize >= 36 && spaceForOutput(mOutputItem1 = GT_OreDictUnificator.get("ingotSteel", 9), mOutputItem2 = GT_OreDictUnificator.get("dustDarkAsh", 36))) {
 					getBaseMetaTileEntity().decrStackSize(0, 1);
 					getBaseMetaTileEntity().decrStackSize(1, 36);
 					mMaxProgresstime = 64800;

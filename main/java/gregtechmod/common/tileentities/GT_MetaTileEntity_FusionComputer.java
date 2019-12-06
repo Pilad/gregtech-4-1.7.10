@@ -1,18 +1,18 @@
 package gregtechmod.common.tileentities;
 
+import java.util.ArrayList;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Recipe;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
 public class GT_MetaTileEntity_FusionComputer extends MetaTileEntity {
@@ -39,7 +39,7 @@ public class GT_MetaTileEntity_FusionComputer extends MetaTileEntity {
 	@Override public boolean isFacingValid(byte aFacing)			{return aFacing > 1;}
 	@Override public int getInvSize()								{return 1;}
     @Override public int maxEUStore()								{return 160000000;}
-    @Override public int getEUVar()									{return getStoredEU();}
+    @Override public double getEUVar()									{return getStoredEU();}
 	@Override public void onRightclick(EntityPlayer aPlayer)		{getBaseMetaTileEntity().openGUI(aPlayer, 143);}
 	@Override public boolean isAccessAllowed(EntityPlayer aPlayer)	{return true;}
 	@Override public int getProgresstime()							{return mProgresstime;}
@@ -52,7 +52,7 @@ public class GT_MetaTileEntity_FusionComputer extends MetaTileEntity {
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != getBaseMetaTileEntity().getFrontFacing();
 	}
 	
@@ -521,11 +521,11 @@ public class GT_MetaTileEntity_FusionComputer extends MetaTileEntity {
     }
     
     private boolean isAdvancedMachineCasing(int aX, int aY, int aZ) {
-    	return getBaseMetaTileEntity().getBlockID(aX, aY, aZ) == GregTech_API.sBlockList[0].blockID && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) == 15;
+    	return getBaseMetaTileEntity().getWorld().getBlock(aX, aY, aZ) == GregTech_API.sBlockList[0] && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) == 15;
     }
     
     private boolean isFusionCoil(int aX, int aY, int aZ) {
-    	return getBaseMetaTileEntity().getBlockID(aX, aY, aZ) == GregTech_API.sBlockList[0].blockID && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) ==  1;
+    	return getBaseMetaTileEntity().getWorld().getBlock(aX, aY, aZ) == GregTech_API.sBlockList[0] && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) ==  1;
     }
     
     private boolean isEnergyInjector(int aX, int aY, int aZ) {

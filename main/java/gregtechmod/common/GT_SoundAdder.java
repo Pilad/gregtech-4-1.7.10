@@ -1,15 +1,16 @@
 package gregtechmod.common;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_Log;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.client.event.sound.SoundLoadEvent;
 
 public class GT_SoundAdder {
 	public GT_SoundAdder() {
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(this);
 	}
 	
-	@net.minecraftforge.event.ForgeSubscribe
-    public void onSound(net.minecraftforge.client.event.sound.SoundLoadEvent event) {
+	@SubscribeEvent
+    public void onSound(SoundLoadEvent event) {
+		/*
 		try {
 			event.manager.soundPoolSounds.addSound(GregTech_API.IC2_MOD_ID + ":" + "tools/chainsaw/ChainsawIdle" + ".ogg");
 			event.manager.soundPoolSounds.addSound(GregTech_API.IC2_MOD_ID + ":" + "tools/chainsaw/ChainsawStop" + ".ogg");
@@ -50,5 +51,6 @@ public class GT_SoundAdder {
 		} catch(Throwable e) {
 			e.printStackTrace(GT_Log.err);
 		}
+		*/
     }
 }

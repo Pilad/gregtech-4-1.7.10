@@ -4,6 +4,7 @@ import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_MetaTileEntity_Hatch_Input extends GT_MetaTileEntity_BasicTank {
@@ -67,5 +68,29 @@ public class GT_MetaTileEntity_Hatch_Input extends GT_MetaTileEntity_BasicTank {
 	@Override
 	public int getTankPressure() {
 		return -100;
+	}
+
+	@Override
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

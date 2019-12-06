@@ -130,7 +130,7 @@ public class GT_RecyclingRecipeLoader implements Runnable {
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.stone_pressure_plate, 1), new ItemStack(Blocks.sand, 2), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.wooden_pressure_plate, 1), GT_OreDictUnificator.get("dustWood", 2), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.redstone_torch, 1), GT_OreDictUnificator.get("dustSmallWood", 2), new ItemStack(Items.redstone, 1), 95, false);
-        GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.unlit_redstone_torch, 1), GT_OreDictUnificator.get("dustSmallWood", 2), new ItemStack(Items.redstone, 1), 95, false);
+        //GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.unlit_redstone_torch, 1), GT_OreDictUnificator.get("dustSmallWood", 2), new ItemStack(Items.redstone, 1), 95, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.lever, 1), new ItemStack(Blocks.sand, 1), GT_OreDictUnificator.get("dustSmallWood", 2), 95, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Blocks.ladder, 1, 0), GT_OreDictUnificator.get("dustWood", 1), null, 0, false);
         GT_ModHandler.addPulverisationRecipe(new ItemStack(Items.item_frame, 1, 0), new ItemStack(Items.leather, 1), GT_OreDictUnificator.get("dustWood", 4), 95, false);

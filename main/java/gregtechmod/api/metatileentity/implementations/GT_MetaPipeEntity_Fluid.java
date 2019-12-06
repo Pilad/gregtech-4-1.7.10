@@ -1,13 +1,12 @@
 package gregtechmod.api.metatileentity.implementations;
 
-import gregtechmod.api.interfaces.IGregTechTileEntity;
-import gregtechmod.api.metatileentity.MetaPipeEntity;
-
 import java.util.HashMap;
 
+import gregtechmod.api.interfaces.IGregTechTileEntity;
+import gregtechmod.api.metatileentity.MetaPipeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -37,7 +36,7 @@ public abstract class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
 	public void saveNBTData(NBTTagCompound aNBT) {
 		if (mFluid != null) {
 			try {
-				aNBT.setCompoundTag("mLiquid", mFluid.writeToNBT(new NBTTagCompound("mLiquid")));
+				aNBT.setTag("tank", mFluid.writeToNBT(new NBTTagCompound()));
 			} catch(Throwable e) {}
 		}
 		aNBT.setByte("mLastReceivedFrom", mLastReceivedFrom);
@@ -45,7 +44,7 @@ public abstract class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
 	
 	@Override
 	public void loadNBTData(NBTTagCompound aNBT) {
-    	mFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mLiquid"));
+    	mFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("tank"));
     	mLastReceivedFrom = aNBT.getByte("mLastReceivedFrom");
 	}
 	
@@ -145,9 +144,9 @@ public abstract class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
 	
 	@Override
 	public final int fill_default(ForgeDirection aSide, FluidStack aFluid, boolean doFill) {
-		if (aFluid == null || aFluid.fluidID <= 0) return 0;
+		if (aFluid == null || aFluid.getFluidID() <= 0) return 0;
 		
-		if (mFluid == null || mFluid.fluidID <= 0) {
+		if (mFluid == null || mFluid.getFluidID() <= 0) {
 			if(aFluid.amount <= getCapacity()) {
 				if (doFill) {
 					mFluid = aFluid.copy();

@@ -1,25 +1,29 @@
 package gregtechmod.common.items;
 
+import java.util.Set;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.util.GT_OreDictUnificator;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_Vanilla_Tool extends ItemTool {
     protected final int mHarvestLevel, mEnchantability;
     protected final String mMaterialName;
     
-	public GT_Vanilla_Tool(int aID, String aUnlocalizedName, String aMaterialName, int aHarvestLevel, int aEnchantability, int aMaxDamage, float aEfficiency, float aEntityDamage, Block[] aBlockList) {
-		super(aID, 0.0F, EnumToolMaterial.STONE, aBlockList);
+	public GT_Vanilla_Tool(String aUnlocalizedName, String aMaterialName, int aHarvestLevel, int aEnchantability, int aMaxDamage, float aEfficiency, float aEntityDamage, Set<Block> aBlockList) {
+		//super(aID, 0.0F, ToolMaterial.STONE, aBlockList);
+		super(aEntityDamage, ToolMaterial.STONE, aBlockList);
 		mHarvestLevel = aHarvestLevel;
 		mEnchantability = aEnchantability;
 		efficiencyOnProperMaterial = aEfficiency;
-		damageVsEntity = aEntityDamage;
+		//damageVsEntity = aEntityDamage;
 		mMaterialName = aMaterialName;
+		
 		setCreativeTab(CreativeTabs.tabTools);
 		setUnlocalizedName(aUnlocalizedName);
 		setTextureName(aUnlocalizedName);

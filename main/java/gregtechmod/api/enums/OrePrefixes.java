@@ -1,10 +1,9 @@
 package gregtechmod.api.enums;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_Utility;
-
 import java.util.ArrayList;
 
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.util.GT_Utility;
 import net.minecraft.item.ItemStack;
 
 public enum OrePrefixes {

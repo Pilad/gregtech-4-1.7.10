@@ -1,5 +1,10 @@
 package gregtechmod.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import gregtechmod.GT_Mod;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.Dyes;
@@ -16,18 +21,13 @@ import gregtechmod.api.util.GT_RecipeRegistrator;
 import gregtechmod.api.util.GT_Utility;
 import gregtechmod.common.items.GT_MetaItem_Component;
 import gregtechmod.common.items.GT_MetaItem_Material;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 
 public class GT_OreDictHandler {
 	public static final GT_OreDictHandler instance = new GT_OreDictHandler();
@@ -137,7 +137,7 @@ public class GT_OreDictHandler {
 		if (aEvent.Name.contains(" ")) {
 			System.err.println("\nWARNING: '" + aEvent.Name + "' is an invalid OreDictionary Name, as it contains spaces! Register it without spaces to fix that.");
 			GT_OreDictUnificator.registerOre(aEvent.Name.replaceAll(" ", ""), GT_Utility.copy(aEvent.Ore));
-			aEvent.Ore.setItemName("Invalid OreDictionary Tag");
+			aEvent.Ore.getItem().setUnlocalizedName("Invalid OreDictionary Tag");
 			return;
 		}
 		
@@ -330,13 +330,14 @@ public class GT_OreDictHandler {
 	 */
     public void activateHandler() {
     	mActivated = true;
-		for (net.minecraftforge.oredict.OreDictionary.OreRegisterEvent tEvent : mEvents) {
+		for (OreRegisterEvent tEvent : mEvents) {
 	    	OrePrefixes tPrefix = OrePrefixes.getPrefix(tEvent.Name);
 			if (tPrefix != null && tPrefix.mIsUnificatable) {
 				GT_OreDictUnificator.add(tEvent.Name, tEvent.Ore);
 			}
 		}
-		for (net.minecraftforge.oredict.OreDictionary.OreRegisterEvent tEvent : mEvents) try {
+		
+		for (OreRegisterEvent tEvent : mEvents) try {
 			registerRecipes(tEvent);
 		} catch(Throwable e) {
 			e.printStackTrace(GT_Log.err);
@@ -344,7 +345,7 @@ public class GT_OreDictHandler {
 		mEvents.clear();
     }
     
-    public void registerRecipes(net.minecraftforge.oredict.OreDictionary.OreRegisterEvent aEvent) {
+    public void registerRecipes(OreRegisterEvent aEvent) {
     	if (aEvent.Ore == null || aEvent.Ore.getItem() == null) return;
     	
     	if (GregTech_API.SECONDARY_DEBUG_MODE) {
@@ -407,7 +408,7 @@ public class GT_OreDictHandler {
 	    		    GT_ModHandler.addPulverisationRecipe(GT_Utility.copy(1, aStack), GT_OreDictUnificator.get(OrePrefixes.dustImpure, aMaterial, 1), GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, 1), 10, false);
 	                break;
 	    		case Obsidian:
-	    			if (aItem instanceof ItemBlock) Blocks.blocksList[((ItemBlock)aItem).getBlockID()].setResistance(20.0F);
+	    			if (aItem instanceof ItemBlock) Block.getBlockFromItem(aItem).setResistance(20.0F);
 	        		GregTech_API.sRecipeAdder.addAssemblerRecipe(GT_ModHandler.getIC2Item("compressedCoalBall", 8), GT_Utility.copy(1, aStack), GT_ModHandler.getIC2Item("coalChunk", 1), 400, 4);
 	        		GT_ModHandler.addPulverisationRecipe(GT_Utility.copy(1, aStack), GT_ModHandler.getRCItem("cube.crushed.obsidian", 1, GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, 1)), GT_OreDictUnificator.get(OrePrefixes.dust, aMaterial, 1), 10, true);
 	        		break;
@@ -437,8 +438,8 @@ public class GT_OreDictHandler {
 	    	case stoneBricks: case stoneChiseled: case stoneCracked: case stoneMossyBricks: case stoneMossy: case stoneSmooth:
 	    		if (aItem instanceof ItemBlock) {
 	        		if (aItem.getItemStackLimit() > GT_Mod.sBlockStackSize) aItem.setMaxStackSize(GT_Mod.sBlockStackSize);
-	        		Block tBlock = Blocks.blocksList[((ItemBlock)aItem).getBlockID()];
-	        		int tHarvestLevel = net.minecraftforge.common.MinecraftForge.getBlockHarvestLevel(tBlock, aMeta>=0||aMeta<16?aMeta:0, "pickaxe");
+	        		Block tBlock = Block.getBlockFromItem(aItem);
+	        		int tHarvestLevel = tBlock.getHarvestLevel(aMeta>=0||aMeta<16?aMeta:0);
 	        		if (tHarvestLevel <= 3) GregTech_API.sRecipeAdder.addJackHammerMinableBlock(tBlock, tHarvestLevel >= 3);
 	        	}
 	    		break;
@@ -885,7 +886,7 @@ public class GT_OreDictHandler {
 			    if (aEvent.Name.startsWith("slabWood")) {
 			    	if (aItem instanceof ItemBlock && GT_Mod.sPlankStackSize < aItem.getItemStackLimit()) aItem.setMaxStackSize(GT_Mod.sPlankStackSize);
 				    GT_ModHandler.addPulverisationRecipe(GT_Utility.copy(1, aStack), GT_OreDictUnificator.get(OrePrefixes.dustSmall, Materials.Wood, 2), null, 0, false);
-				    GregTech_API.sRecipeAdder.addCannerRecipe(GT_ModHandler.getRCItem("fluid.creosote.bucket", 1), GT_Utility.copy(3, aStack), GT_ModHandler.getRCItem("part.tie.wood", 1), new ItemStack(Item.bucket, 1), 200, 4);
+				    GregTech_API.sRecipeAdder.addCannerRecipe(GT_ModHandler.getRCItem("fluid.creosote.bucket", 1), GT_Utility.copy(3, aStack), GT_ModHandler.getRCItem("part.tie.wood", 1), new ItemStack(Items.bucket, 1), 200, 4);
 				    GregTech_API.sRecipeAdder.addCannerRecipe(GT_ModHandler.getRCItem("fluid.creosote.cell", 1), GT_Utility.copy(3, aStack), GT_ModHandler.getRCItem("part.tie.wood", 1), GT_ModHandler.getEmptyCell(1), 200, 4);
 				}
 	    		break;
@@ -902,7 +903,7 @@ public class GT_OreDictHandler {
 	    		if (aEvent.Name.equals("sandCracked")) {
 			    	if (aItem instanceof ItemBlock) {
 			    		if (aItem.getItemStackLimit() > GT_Mod.sBlockStackSize) aItem.setMaxStackSize(GT_Mod.sBlockStackSize);
-						GregTech_API.sRecipeAdder.addJackHammerMinableBlock(Blocks.blocksList[((ItemBlock)aItem).getBlockID()], false);
+							GregTech_API.sRecipeAdder.addJackHammerMinableBlock(Block.getBlockFromItem((ItemBlock)aItem), false);
 			    	}
 			    	GregTech_API.sRecipeAdder.addCentrifugeRecipe(GT_Utility.copy(16, aStack), -1, GT_ModHandler.getFuelCan(25000), GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Saltpeter, 8), null, new ItemStack(Blocks.sand, 10), 2500);
 	    		} else if (aEvent.Name.equals("sandOil")) {
@@ -990,7 +991,7 @@ public class GT_OreDictHandler {
     
 	private static boolean registerStandardOreRecipes(Materials aMaterial, ItemStack aOreStack, int aMultiplier) {
 		if (aOreStack == null || aMaterial == null) return false;
-		GT_ModHandler.addValuableOre(aOreStack.itemID, aOreStack.getItemDamage(), aMaterial.mOreValue);
+		GT_ModHandler.addValuableOre(Block.getBlockFromItem(aOreStack.getItem()), aMaterial.mOreValue);
 		Materials tMaterial = aMaterial.mOreReplacement, tPrimaryByMaterial = null, tSecondaryByMaterial = null;
 		aMultiplier = Math.max(1, aMultiplier);
 		aOreStack = GT_Utility.copy(aOreStack);

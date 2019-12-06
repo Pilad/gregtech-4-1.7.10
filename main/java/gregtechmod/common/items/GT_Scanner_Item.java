@@ -1,21 +1,21 @@
 package gregtechmod.common.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.items.GT_Generic_Item;
 import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_Utility;
 import ic2.api.item.IElectricItem;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_Scanner_Item extends GT_Generic_Item implements IElectricItem {
 	
@@ -43,17 +43,17 @@ public class GT_Scanner_Item extends GT_Generic_Item implements IElectricItem {
 	}
 	
 	@Override
-	public int getChargedItemId(ItemStack aStack) {
-		return itemID;
+	public Item getChargedItem(ItemStack aStack) {
+		return this;
 	}
 	
 	@Override
-	public int getEmptyItemId(ItemStack aStack) {
-		return itemID;
+	public Item getEmptyItem(ItemStack aStack) {
+		return this;
 	}
 	
 	@Override
-	public int getMaxCharge(ItemStack aStack) {
+	public double getMaxCharge(ItemStack aStack) {
 		return 100000;
 	}
 	
@@ -63,14 +63,14 @@ public class GT_Scanner_Item extends GT_Generic_Item implements IElectricItem {
 	}
 	
 	@Override
-	public int getTransferLimit(ItemStack aStack) {
+	public double getTransferLimit(ItemStack aStack) {
 		return 100;
 	}
 	
 	@Override
 	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aClickX, float aClickY, float aClickZ) {
 		if (aWorld.isRemote) {
-    		GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(108), 1.0F, aX, aY, aZ);
+    		//GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(108), 1.0F, aX, aY, aZ);
     		return false;
     	}
 		if (aPlayer instanceof EntityPlayerMP && GT_ModHandler.canUseElectricItem(aStack, 25000)) {

@@ -6,11 +6,12 @@ import gregtechmod.api.world.GT_Worldgen_Ore_SingleBlock;
 import gregtechmod.api.world.GT_Worldgen_Ore_SingleBlock_UnderLava;
 import gregtechmod.api.world.GT_Worldgen_Stone_Ore_SingleBlock;
 import gregtechmod.common.GT_Worldgenerator;
+import net.minecraft.block.Block;
 
 public class GT_Worldgenloader implements Runnable {
 	@Override
 	public void run() {
-		int tID = GregTech_API.sBlockList[2].blockID;
+		Block tID = GregTech_API.sBlockList[2];
 		
 		//new GT_Worldgen_Boulder						("Overworld.Boulder.BlackGranite_Small"		, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1, 30, 1,   0, 120, null, true);
 		//new GT_Worldgen_Boulder						("Overworld.Boulder.BlackGranite_Medium"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1, 40, 2,   0, 120, null, true);
@@ -20,17 +21,19 @@ public class GT_Worldgenloader implements Runnable {
 		//new GT_Worldgen_Boulder						("Overworld.Boulder.RedGranite_Medium"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1, 50, 2,   0, 120, null, true);
 		//new GT_Worldgen_Boulder						("Overworld.Boulder.RedGranite_Large"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1, 60, 4,   0, 120, null, true);
 		
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Tiny"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1, 50, 48,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Small"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1,100, 96,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Medium"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1,200,144,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Large"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1,300,192,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Huge"	, true , GregTech_API.sBlockList[5].blockID,  0,  0,  1,400,240,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		/** String aName, boolean aDefault, Block aBlockID, int aBlockMeta, int aDimensionType, int aAmount, int aSize, int aProbability, int aMinY, int aMaxY, Collection<String> aBiomeList, boolean aAllowToGenerateinVoid, Block[] aOreIDs, int[] aOreMetas, int[] aOreChances**/
 		
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Tiny"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1, 50, 48,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Small"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1,100, 96,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Medium"	, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1,200,144,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Large"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1,300,192,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
-		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Huge"		, true , GregTech_API.sBlockList[5].blockID,  8,  0,  1,400,240,   0, 120, null, false, new int[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Tiny"	, true , GregTech_API.sBlockList[5],  0,  0,  1, 50, 48,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Small"	, true , GregTech_API.sBlockList[5],  0,  0,  1,100, 96,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Medium"	, true , GregTech_API.sBlockList[5],  0,  0,  1,200,144,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Large"	, true , GregTech_API.sBlockList[5],  0,  0,  1,300,192,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.BlackGranite_Huge"	, true , GregTech_API.sBlockList[5],  0,  0,  1,400,240,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {2, 9, 10}, new int[] {20000, 2500, 15000});
+		
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Tiny"		, true , GregTech_API.sBlockList[5],  8,  0,  1, 50, 48,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Small"		, true , GregTech_API.sBlockList[5],  8,  0,  1,100, 96,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Medium"	, true , GregTech_API.sBlockList[5],  8,  0,  1,200,144,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Large"		, true , GregTech_API.sBlockList[5],  8,  0,  1,300,192,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
+		new GT_Worldgen_Stone_Ore_SingleBlock     	("Overworld.Layer.RedGranite_Huge"		, true , GregTech_API.sBlockList[5],  8,  0,  1,400,240,   0, 120, null, false, new Block[] {tID, tID, tID}, new int[] {7, 8, 13}, new int[] {20000, 2000, 5000});
 		
 		new GT_Worldgen_Ore_Normal     				("Overworld.Ore.Galena"					, true , tID,  1,  0,  1, 16,  3,   0,  32, null, false);
 		

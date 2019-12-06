@@ -4,6 +4,8 @@ import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class GT_MetaTileEntity_BronzeCraftingTable extends GT_MetaTileEntity_AdvancedCraftingTable {
 	
@@ -36,8 +38,8 @@ public class GT_MetaTileEntity_BronzeCraftingTable extends GT_MetaTileEntity_Adv
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
-		return GregTech_API.getCoverBehavior(aCoverID).isSimpleCover();
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		return GregTech_API.getCoverBehavior(new ItemStack(aCoverID)).isSimpleCover();
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -23,7 +24,7 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends MetaTileEntity {
 	@Override public boolean isOutputFacing(byte aSide)				{return aSide==getBaseMetaTileEntity().getFrontFacing();}
 	@Override public int getInvSize()								{return 0;}
 	@Override public int getMinimumStoredEU()						{return 512;}
-    @Override public int maxEUOutput()								{return Math.max(0, Math.min(getEUVar() - getMinimumStoredEU(), GregTech_API.VOLTAGE_EXTREME));}
+    @Override public int maxEUOutput()								{return (int) Math.max(0, Math.min(getEUVar() - getMinimumStoredEU(), GregTech_API.VOLTAGE_EXTREME));}
     @Override public int maxEUStore()								{return GregTech_API.VOLTAGE_EXTREME * 4 + getMinimumStoredEU();}
     @Override public String getSpecialVoltageToolTip()				{return "Max EU/p OUT: 0 - 2048 (depends on generated Energy)";}
 	
@@ -61,5 +62,29 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends MetaTileEntity {
 	@Override
 	public boolean allowPutStack(int aIndex, byte aSide, ItemStack aStack) {
 		return false;
+	}
+
+	@Override
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

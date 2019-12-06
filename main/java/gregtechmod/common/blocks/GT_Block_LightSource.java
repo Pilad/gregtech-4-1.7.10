@@ -1,37 +1,37 @@
 package gregtechmod.common.blocks;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.common.tileentities.GT_TileEntity_LightSource;
-
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.GregTech_API;
+import gregtechmod.common.tileentities.GT_TileEntity_LightSource;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_Block_LightSource extends BlockContainer {
 	
 	public GT_Block_LightSource(int aID) {
         super(Material.air);
-        setUnlocalizedName("GT_LightSource");
-        setLightValue(1.0F);
+        setBlockName("GT_LightSource");
         setLightOpacity(1);
+        setLightLevel(1.0F);
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
     @SideOnly(Side.CLIENT)
 	@Override
-    public void registerIcons(IIconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon(GregTech_API.TEXTURE_PATH_ITEM + "void");
     }
+     
+ 
     
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
@@ -83,4 +83,10 @@ public class GT_Block_LightSource extends BlockContainer {
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
         
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

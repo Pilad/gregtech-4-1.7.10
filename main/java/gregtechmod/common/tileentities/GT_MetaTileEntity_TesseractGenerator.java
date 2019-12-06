@@ -1,5 +1,8 @@
 package gregtechmod.common.tileentities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.interfaces.IDigitalChest;
 import gregtechmod.api.interfaces.IGregTechDeviceInformation;
@@ -7,18 +10,15 @@ import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_Config;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -52,7 +52,7 @@ public class GT_MetaTileEntity_TesseractGenerator extends MetaTileEntity {
 	@Override public boolean isOutputFacing(byte aSide)				{return false;}
 	@Override public boolean isValidSlot(int aIndex)				{return false;}
 	@Override public int getInvSize()								{return 0;}
-	@Override public int getMinimumStoredEU()						{return getBaseMetaTileEntity().getEUCapacity()/2;}
+	@Override public int getMinimumStoredEU()						{return (int) (getBaseMetaTileEntity().getEUCapacity()/2);}
 	@Override public int maxEUInput()								{return 128;}
     @Override public int maxEUOutput()								{return 0;}
     @Override public int maxEUStore()								{return 10000;}
@@ -170,7 +170,7 @@ public class GT_MetaTileEntity_TesseractGenerator extends MetaTileEntity {
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != getBaseMetaTileEntity().getFrontFacing();
 	}
 	
@@ -298,7 +298,7 @@ public class GT_MetaTileEntity_TesseractGenerator extends MetaTileEntity {
 	public String getInvName() {
 		IInventory tTileEntity = getBaseMetaTileEntity().getIInventoryAtSide(getBaseMetaTileEntity().getBackFacing());
 		if (tTileEntity == null || !getBaseMetaTileEntity().isAllowedToWork()) return "";
-		return tTileEntity.getInvName();
+		return tTileEntity.getInventoryName();
 	}
 	
 	@Override

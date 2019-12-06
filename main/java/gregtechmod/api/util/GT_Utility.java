@@ -1,14 +1,5 @@
 package gregtechmod.api.util;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.events.GT_ScannerEvent;
-import gregtechmod.api.interfaces.ICoverable;
-import gregtechmod.api.interfaces.IDebugableBlock;
-import gregtechmod.api.interfaces.IGregTechTileEntity;
-import gregtechmod.api.interfaces.IMachineProgress;
-import gregtechmod.api.interfaces.IUpgradableMachine;
-import gregtechmod.api.items.GT_EnergyArmor_Item;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -24,6 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.events.GT_ScannerEvent;
+import gregtechmod.api.interfaces.ICoverable;
+import gregtechmod.api.interfaces.IDebugableBlock;
+import gregtechmod.api.interfaces.IGregTechTileEntity;
+import gregtechmod.api.interfaces.IMachineProgress;
+import gregtechmod.api.interfaces.IUpgradableMachine;
+import gregtechmod.api.items.GT_EnergyArmor_Item;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -32,6 +31,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -39,32 +39,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.network.packet.Packet41EntityEffect;
-import net.minecraft.network.packet.Packet9Respawn;
+import net.minecraft.network.Packet;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
-
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -82,6 +75,11 @@ public class GT_Utility {
 	public static final List<Character> sNumberedCharacters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 	public static final List<Character> sUpperCasedCharacters = Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 	public static final List<Character> sLowerCasedCharacters = Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+	
+	public static ItemStack stacksToLong(ItemStack aStack1, ItemStack aStack2) {
+		if (aStack1 == null) return null;
+		return (aStack1 == null) ? aStack2 : aStack1 ;
+	}
 	
 	@Deprecated
 	public static void applyUsagesForMaterials(ItemStack aMat, ItemStack aOutput, boolean aBackSmelting, boolean aBackMacerating) {
@@ -294,7 +292,7 @@ public class GT_Utility {
 	
 	public static void sendChatToPlayer(EntityPlayer aPlayer, String aChatMessage) {
 		if (aPlayer != null && aPlayer instanceof EntityPlayerMP && aChatMessage != null) {
-			aPlayer.addChatMessage(aChatMessage);
+			aPlayer.addChatMessage(new ChatComponentText(aChatMessage));;
 		}
 	}
 	
@@ -404,8 +402,8 @@ public class GT_Utility {
 					tAmount = moveOneItemStack(tTileEntity1.adjacentChestZNeg, aTileEntity2, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
 				} else if (tTileEntity1.adjacentChestXPos != null) {
 					tAmount = moveOneItemStack(tTileEntity1.adjacentChestXPos, aTileEntity2, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
-				} else if (tTileEntity1.adjacentChestZPosition != null) {
-					tAmount = moveOneItemStack(tTileEntity1.adjacentChestZPosition, aTileEntity2, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
+				} else if (tTileEntity1.adjacentChestZPos != null) {
+					tAmount = moveOneItemStack(tTileEntity1.adjacentChestZPos, aTileEntity2, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
 				}
 				if (tAmount != 0) return tAmount;
 			}
@@ -420,8 +418,8 @@ public class GT_Utility {
 					tAmount = moveOneItemStack(aTileEntity1, tTileEntity2.adjacentChestZNeg, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
 				} else if (tTileEntity2.adjacentChestXPos != null) {
 					tAmount = moveOneItemStack(aTileEntity1, tTileEntity2.adjacentChestXPos, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
-				} else if (tTileEntity2.adjacentChestZPosition != null) {
-					tAmount = moveOneItemStack(aTileEntity1, tTileEntity2.adjacentChestZPosition, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
+				} else if (tTileEntity2.adjacentChestZPos != null) {
+					tAmount = moveOneItemStack(aTileEntity1, tTileEntity2.adjacentChestZPos, aGrabFrom, aPutTo, aFilter, aInvertFilter, aMaxTargetStackSize, aMinTargetStackSize, aMaxMoveAtOnce, aMinMoveAtOnce, false);
 				}
 				if (tAmount != 0) return tAmount;
 			}
@@ -548,7 +546,7 @@ public class GT_Utility {
 	public static ItemStack getContainerItem(ItemStack aStack) {
 		if (aStack == null || aStack.getItem() == null) return null;
 		
-		if (aStack.getItem().hasContainerItem()) return aStack.getItem().getContainerItemStack(aStack);
+		if (aStack.getItem().hasContainerItem()) return aStack.getItem().getContainerItem(aStack);
 		
 		if (areStacksEqual(aStack, GT_ModHandler.getEmptyCell(1))) return null;
 		
@@ -610,16 +608,17 @@ public class GT_Utility {
 	public static ItemStack getWrittenBook(String aTitle, String aAuthor, String[] aPages) {
 		if (aTitle == null || aAuthor == null || aPages == null || aPages.length <= 0 || aTitle.equals("") || aAuthor.equals("")) return null;
 		sBookCount++;
-		ItemStack rStack = new ItemStack(Item.writtenBook, 1);
+		ItemStack rStack = new ItemStack(Items.written_book, 1);
         NBTTagCompound tNBT = new NBTTagCompound();
         tNBT.setString("title", GT_LanguageManager.addStringLocalization("Book." + aTitle + ".Name", aTitle));
         tNBT.setString("author", aAuthor);
-        NBTTagList tNBTList = new NBTTagList("pages");
+        NBTTagList tNBTList = new NBTTagList();
+         
         for (byte i = 0; i < aPages.length; i++) {
         	aPages[i] = GT_LanguageManager.addStringLocalization("Book." + aTitle + ".Page" + ((i<10)?"0"+i:i), aPages[i]);
 	        if (i < 48) {
 	        	if (aPages[i].length() < 256)
-	        		tNBTList.appendTag(new NBTTagString("PAGE " + i, aPages[i]));
+	        		tNBTList.appendTag(new NBTTagString("PAGE " + i));
 	        	else
 	        		GT_Log.err.println("WARNING: String for written Book too long! -> " + aPages[i]);
 	        } else {
@@ -627,7 +626,7 @@ public class GT_Utility {
 	        	break;
 	        }
         }
-		tNBTList.appendTag(new NBTTagString("FINAL PAGE", "Credits to " + aAuthor + " for writing this Book. This was Book Nr. " + sBookCount + " at its creation. Gotta get 'em all!"));
+		tNBTList.appendTag(new NBTTagString("FINAL PAGE"));
         tNBT.setTag("pages", tNBTList);
         rStack.setTagCompound(tNBT);
         GregTech_API.sBookList.put(aTitle, rStack);
@@ -664,7 +663,7 @@ public class GT_Utility {
 	
 	public static boolean sendSoundToPlayers(World aWorld, String aSoundName, float aSoundStrength, float aSoundModulation, int aX, int aY, int aZ) {
 		if (aSoundName == null || aSoundName.equals("") || aWorld == null || aWorld.isRemote) return false;
-		
+		/*
 		Packet250CustomPayload tPacket = new Packet250CustomPayload();
 		tPacket.channel = GregTech_API.SOUND_PACKET_CHANNEL;
         tPacket.isChunkDataPacket = false;
@@ -683,7 +682,7 @@ public class GT_Utility {
         tPacket.length = tPacket.data.length;
         
         sendPacketToAllPlayersInRange(aWorld, tPacket, aX, aZ);
-        
+        */
 		return true;
 	}
 	
@@ -694,8 +693,8 @@ public class GT_Utility {
 				if (GregTech_API.gregtechmod.allowPacketToBeSent(aPacket, tPlayer)) {
 					Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
 					if (tPlayer.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(tPlayer, tChunk.xPosition, tChunk.zPosition)) {
-						if (GregTech_API.DEBUG_MODE) GT_Log.out.println("sent Packet to " + tPlayer.username);
-						tPlayer.playerNetServerHandler.sendPacketToPlayer(aPacket);
+						if (GregTech_API.DEBUG_MODE) GT_Log.out.println("sent Packet to " + tPlayer.getDisplayName());
+						tPlayer.playerNetServerHandler.sendPacket(aPacket);
 					}
 	        	}
         	} else {
@@ -703,48 +702,33 @@ public class GT_Utility {
         	}
         }
 	}
-	
+	/*
 	public static int stackToInt(ItemStack aStack) {
 		if (aStack == null) return 0;
 		return aStack.itemID | (aStack.getItemDamage()<<16);
 	}
-	
-	public static ItemStack intToStack(int aStack) {
-		int tID = aStack&(~0>>>16), tMeta = aStack>>>16;
-		if (tID > 0 && tID < Item.itemsList.length && Item.itemsList[tID] != null) return new ItemStack(tID, 1, tMeta);
-		return null;
-	}
-	
+	 
 	public static long stacksToLong(ItemStack aStack1, ItemStack aStack2) {
 		if (aStack1 == null) return 0;
 		return ((long)stackToInt(aStack1)) | (((long)stackToInt(aStack2)) << 32);
 	}
-
+*/
 	public static boolean isDebugItem(ItemStack aStack) {
 		if (aStack == null) return false;
 		return areStacksEqual(aStack, new ItemStack(GregTech_API.sItemList[18], 1, GregTech_API.ITEM_WILDCARD_DAMAGE));
 	}
-	
-	public static boolean isItemStackInList(ItemStack aStack, Collection<Integer> aList) {
-		if (aStack == null || aList == null) return false;
+	 
+	public static boolean isItemStackInList(ItemStack aStack, List<Item> stoollist) {
+		if (aStack == null || stoollist == null) return false;
 		ItemStack tStack = copy(aStack); tStack.setItemDamage(GregTech_API.ITEM_WILDCARD_DAMAGE);
-		return aList.contains(stackToInt(tStack)) || aList.contains(stackToInt(aStack));
+		return stoollist.contains(tStack) || stoollist.contains(aStack);
 	}
-	
-	public static boolean isAirBlock(World aWorld, int aX, int aY, int aZ) {
-		int tID = aWorld.getBlockId(aX, aY, aZ);
-		if (tID > 0 && tID < Block.blocksList.length && Block.blocksList[tID] != null) {
-			return Block.blocksList[tID].isAirBlock(aWorld, aX, aY, aZ);
-		}
-		return true;
-	}
-	
+	   
 	public static boolean hasBlockHitBox(World aWorld, int aX, int aY, int aZ) {
-		int tID = aWorld.getBlockId(aX, aY, aZ);
-		if (tID < Block.blocksList.length && Block.blocksList[tID] != null) {
-			return Block.blocksList[tID].getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;
-		}
-		return false;
+		Block block = aWorld.getBlock(aX, aY, aZ);
+		
+		return block.getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;
+		 
 	}
 	
 	/**
@@ -826,7 +810,9 @@ public class GT_Utility {
 	 * This checks if the Dimension is really a Dimension and not another Planet or something.
 	 * Used for my Teleporter.
 	 */
+    /*
 	public static boolean isRealDimension(int aDimensionID) {
+		
 		try {
 			if (DimensionManager.getProvider(aDimensionID) instanceof com.xcompwiz.mystcraft.world.WorldProviderMyst) return true;
 		} catch (Throwable e) {}
@@ -834,7 +820,9 @@ public class GT_Utility {
 			if (DimensionManager.getProvider(aDimensionID) instanceof twilightforest.world.WorldProviderTwilightForest) return true;
 		} catch (Throwable e) {}
 		return GregTech_API.sDimensionalList.contains(aDimensionID);
-	}
+		
+		 
+	}*/
 	
 	public static boolean moveEntityToDimensionAtCoords(Entity aEntity, int aDimension, double aX, double aY, double aZ) {
 		WorldServer tTargetWorld = DimensionManager.getWorld(aDimension), tOriginalWorld = DimensionManager.getWorld(aEntity.worldObj.provider.dimensionId);
@@ -845,7 +833,7 @@ public class GT_Utility {
 			if (aEntity instanceof EntityPlayerMP) {
 				EntityPlayerMP aPlayer = (EntityPlayerMP)aEntity;
 		        aPlayer.dimension = aDimension;
-		        aPlayer.playerNetServerHandler.sendPacketToPlayer(new Packet9Respawn(aPlayer.dimension, (byte)aPlayer.worldObj.difficultySetting, tTargetWorld.getWorldInfo().getTerrainType(), tTargetWorld.getHeight(), aPlayer.theItemInWorldManager.getGameType()));
+		        //aPlayer.playerNetServerHandler.sendPacketToPlayer(new Packet9Respawn(aPlayer.dimension, (byte)aPlayer.worldObj.difficultySetting, tTargetWorld.getWorldInfo().getTerrainType(), tTargetWorld.getHeight(), aPlayer.theItemInWorldManager.getGameType()));
 		        tOriginalWorld.removePlayerEntityDangerously(aPlayer);
 		        aPlayer.isDead = false;
 		        aPlayer.setWorld(tTargetWorld);
@@ -857,10 +845,10 @@ public class GT_Utility {
 		        Iterator tIterator = aPlayer.getActivePotionEffects().iterator();
 		        while (tIterator.hasNext()) {
 		            PotionEffect potioneffect = (PotionEffect)tIterator.next();
-		            aPlayer.playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(aPlayer.entityId, potioneffect));
+		            //aPlayer.playerNetServerHandler.sendPacket(new Packet41EntityEffect(aPlayer.entityId, potioneffect));
 		        }
 		        aPlayer.playerNetServerHandler.setPlayerLocation(aX+0.5, aY+0.5, aZ+0.5, aPlayer.rotationYaw, aPlayer.rotationPitch);
-		        GameRegistry.onPlayerChangedDimension(aPlayer);
+		       // GameRegistry.onPlayerChangedDimension(aPlayer);
 			} else {
 				aEntity.setPosition(aX+0.5, aY+0.5, aZ+0.5);
 				aEntity.worldObj.removeEntity(aEntity);
@@ -899,16 +887,16 @@ public class GT_Utility {
 		ArrayList<String> tList = new ArrayList<String>();
 		int rEUAmount = 0;
 		
-		TileEntity tTileEntity = aWorld.getBlockTileEntity(aX, aY, aZ);
+		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 	    
-	    Block tBlock = Block.blocksList[aWorld.getBlockId(aX, aY, aZ)];
+	    Block tBlock = aWorld.getBlock(aX, aY, aZ);
 	    
     	tList.add("-----");
 	    try {
 		    if (tTileEntity != null && tTileEntity instanceof IInventory)
-		    	tList.add("Name: " + ((IInventory)tTileEntity).getInvName() + "  ID: " + tBlock.blockID + "  MetaData: " + aWorld.getBlockMetadata(aX, aY, aZ));
+		    	tList.add("Name: " + ((IInventory)tTileEntity).getInventoryName() + "  MetaData: " + aWorld.getBlockMetadata(aX, aY, aZ));
 		    else
-		    	tList.add("Name: " + tBlock.getUnlocalizedName() + "  ID: " + tBlock.blockID + "  MetaData: " + aWorld.getBlockMetadata(aX, aY, aZ));
+		    	tList.add("Name: " + tBlock.getUnlocalizedName() + "  MetaData: " + aWorld.getBlockMetadata(aX, aY, aZ));
 		    
 		    tList.add("Hardness: " + tBlock.getBlockHardness(aWorld, aX, aY, aZ) + "  Blast Resistance: " + tBlock.getExplosionResistance(aPlayer, aWorld, aX, aY, aZ, aPlayer.posX, aPlayer.posY, aPlayer.posZ));
 		} catch(Throwable e) {if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);}
@@ -941,7 +929,7 @@ public class GT_Utility {
 			try {if (tTileEntity instanceof ic2.api.energy.tile.IEnergySink) {
 				rEUAmount+=400;
 		        //aList.add("Demanded Energy: " + ((ic2.api.energy.tile.IEnergySink)tTileEntity).demandsEnergy());
-		        tList.add("Max Safe Input: " + ((ic2.api.energy.tile.IEnergySink)tTileEntity).getMaxSafeInput());
+		        tList.add("Max Safe Input: " + ((ic2.api.energy.tile.IEnergySink)tTileEntity).getDemandedEnergy());
 		    }} catch(Throwable e) {if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);}
 			try {if (tTileEntity instanceof ic2.api.energy.tile.IEnergySource) {
 				rEUAmount+=400;
@@ -1072,5 +1060,15 @@ public class GT_Utility {
 			return aSide;
 		}
 		return -1;
+	}
+
+	public static ItemStack intToStack(ItemStack aStack) {
+		ItemStack tID = aStack;
+		int	tMeta = aStack.getItemDamage();
+		    	
+    	if (tID != null && tMeta >= 0)
+			return new ItemStack(tID.getItem(), 1, tMeta);
+    	
+		return null;
 	}
 }

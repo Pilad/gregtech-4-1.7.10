@@ -6,10 +6,11 @@ import gregtechmod.api.metatileentity.MetaTileEntity;
 import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Recipe;
 import gregtechmod.api.util.GT_Utility;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GT_MetaTileEntity_BlastFurnace extends MetaTileEntity {
 
@@ -121,9 +122,10 @@ public class GT_MetaTileEntity_BlastFurnace extends MetaTileEntity {
     	int xDir = ForgeDirection.getOrientation(getBaseMetaTileEntity().getFrontFacing()).offsetX*2, yDir = ForgeDirection.getOrientation(getBaseMetaTileEntity().getFrontFacing()).offsetY*2, zDir = ForgeDirection.getOrientation(getBaseMetaTileEntity().getFrontFacing()).offsetZ*2;
     	mHeatCapacity = mHeatingCoilTier * 500;
     	for (int i = -1; i < 2; i++) for (int j = 0; j < 4; j++) for (int k = -1; k < 2; k++) {
-    		int tBlockID = getBaseMetaTileEntity().getBlockIDOffset(-xDir+i, -yDir+j, -zDir+k);
+    		Block tBlockID = getBaseMetaTileEntity().getWorld().getBlock(-xDir+i, -yDir+j, -zDir+k);
+    		int meta = getBaseMetaTileEntity().getWorld().getBlockMetadata(-xDir+i, -yDir+j, -zDir+k);
     		if (i!=0||(j!=1&&j!=2)||k!=0) {
-    			if (tBlockID != GregTech_API.sBlockList[0].blockID) return false;
+    			if (tBlockID != GregTech_API.sBlockList[0]) return false;
             	int tMeta = getBaseMetaTileEntity().getMetaIDOffset(-xDir+i, -yDir+j, -zDir+k);
     			if (tMeta == 13)
             		mHeatCapacity += 30;
@@ -133,7 +135,7 @@ public class GT_MetaTileEntity_BlastFurnace extends MetaTileEntity {
             		mHeatCapacity += 70;
             	else return false;
     		} else {
-    			if (tBlockID == 10 || tBlockID == 11) {
+    			if (meta == 10 || meta == 11) {
     				mHeatCapacity += 250;
     			} else if (!getBaseMetaTileEntity().getAirOffset(-xDir+i, -yDir+j, -zDir+k)) {
     				return false;

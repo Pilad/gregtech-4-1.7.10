@@ -1,16 +1,15 @@
 package gregtechmod.api.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.GT_ConfigCategories;
 import gregtechmod.api.enums.GT_ToolDictNames;
 import gregtechmod.api.enums.Materials;
 import gregtechmod.api.enums.OrePrefixes;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -58,7 +57,7 @@ public class GT_RecipeRegistrator {
 		}
 		
 		if (aBackMacerating || aBackSmelting) {
-			sMt1.itemID = aMat.itemID;
+			sMt1 = aMat;
 			sMt1.stackSize = 1;
 			sMt1.setItemDamage(aMat.getItemDamage());
 			
@@ -76,7 +75,7 @@ public class GT_RecipeRegistrator {
 		    for (Materials tMaterial : sRodMaterialList) {
 		    	ItemStack tMt2 = GT_OreDictUnificator.getFirstOre(OrePrefixes.stick.toString() + tMaterial, 1), tMt3 = GT_OreDictUnificator.getFirstOre(OrePrefixes.dustSmall.toString() + tMaterial, 2);
 		    	if (tMt2 != null) {
-					sMt2.itemID = tMt2.itemID;
+					sMt2 = tMt2;
 					sMt2.stackSize = 1;
 					sMt2.setItemDamage(tMt2.getItemDamage());
 					
@@ -124,7 +123,8 @@ public class GT_RecipeRegistrator {
 	}
 	*/
 	
-	private static final ItemStack sMt1 = new ItemStack(0, 1, 0), sMt2 = new ItemStack(0, 1, 1);
+	private static ItemStack sMt1 = new ItemStack(Blocks.air, 1, 0);
+	private static ItemStack sMt2 = new ItemStack(Blocks.air, 1, 1);
 	private static final String s_H = "H", s_F = "F", s_I = "I", s_P = "P", s_R = "R", s_W = "W";
 	
 	private static final ItemStack[][]

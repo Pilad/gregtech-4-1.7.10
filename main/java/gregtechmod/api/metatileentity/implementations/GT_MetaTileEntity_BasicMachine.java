@@ -6,6 +6,7 @@ import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -131,7 +132,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends MetaTileEntity {
 	    		getBaseMetaTileEntity().setActive(false);
 	    	}
 	    	
-			if (doesAutoOutput() && bItemTransfer && ((getBaseMetaTileEntity().isActive() && mMaxProgresstime <= 0) || getBaseMetaTileEntity().getTimer()%1200 == 0 || bOutputBlocked) && getBaseMetaTileEntity().getFrontFacing() != mMainFacing && getBaseMetaTileEntity().getUniversalEnergyStored() >= 500) {
+			if (doesAutoOutput() && bItemTransfer && ((getBaseMetaTileEntity().isActive() && mMaxProgresstime <= 0) || getBaseMetaTileEntity().getTimer()%1200 == 0 || bOutputBlocked) && getBaseMetaTileEntity().getFrontFacing() != mMainFacing) {
 				if (mInventory[3] != null || mInventory[4] != null) {
 					TileEntity tTileEntity2 = getBaseMetaTileEntity().getTileEntityAtSide(getBaseMetaTileEntity().getFrontFacing());
 					if (tTileEntity2 != null && tTileEntity2 instanceof IInventory) {
@@ -147,7 +148,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends MetaTileEntity {
 				}
 			}
 			
-	    	if (allowToCheckRecipe() && mMaxProgresstime <= 0 && getBaseMetaTileEntity().isAllowedToWork() && getBaseMetaTileEntity().getUniversalEnergyStored() > 900) {
+	    	if (allowToCheckRecipe() && mMaxProgresstime <= 0 && getBaseMetaTileEntity().isAllowedToWork() ) {
 	    		checkRecipe();
 	        	if (mInventory[1] != null && mInventory[1].stackSize <= 0) mInventory[1] = null;
 	        	if (mInventory[2] != null && mInventory[2].stackSize <= 0) mInventory[2] = null;
@@ -391,8 +392,9 @@ public abstract class GT_MetaTileEntity_BasicMachine extends MetaTileEntity {
 		return true;
 	}
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
-		return aSide != mMainFacing || GregTech_API.getCoverBehavior(aCoverID).isGUIClickable(aSide, aCoverID, 0, getBaseMetaTileEntity());
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		return false;
+		//return aSide != mMainFacing || GregTech_API.getCoverBehavior(new ItemStack(aCoverID)).isGUIClickable(aSide, aCoverID, 0, getBaseMetaTileEntity());
 	}
 	@Override
 	public void onScrewdriverRightClick(byte aSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {

@@ -1,28 +1,43 @@
 package gregtechmod.common;
 
-import gregtechmod.GT_Mod;
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_OreDictUnificator;
-import gregtechmod.api.util.GT_Utility;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
-import java.util.EnumSet;
-import java.util.Random;
-
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-
-public class GT_TickHandler implements ITickHandler {
+public class GT_TickHandler {
 	public static boolean isFirstTick = true;
 	
 	public GT_TickHandler(boolean aServer) {
-		TickRegistry.registerTickHandler(this, aServer?Side.SERVER:Side.CLIENT);
+		FMLCommonHandler.instance().bus().register(this); 
+ 	}
+	
+	@SubscribeEvent
+	public void onClientTick(TickEvent.ClientTickEvent event){
+		
 	}
 	
+	@SubscribeEvent
+	public void onServerTick(TickEvent.ServerTickEvent event){
+		
+	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event){
+		
+	}
+	
+	@SubscribeEvent
+	public void onWorldTick(TickEvent.WorldTickEvent event){
+		
+	}
+	
+	@SubscribeEvent
+	public void onRenderTick(TickEvent.RenderTickEvent event){
+		
+	}
+	
+	
+	/*
     @Override
     public void tickStart(EnumSet<TickType> aType, Object... aData) {
     	
@@ -36,6 +51,7 @@ public class GT_TickHandler implements ITickHandler {
         }
         if (aType.contains(TickType.CLIENT)) {
         	if (GregTech_API.sClientTickCounter++%30 == 0) GT_Utility.sPlayedSoundMap.clear();
+        	
         	/*
     		try {
     			if (GT_ConnectionHandler.sClientManager != null) {
@@ -47,7 +63,7 @@ public class GT_TickHandler implements ITickHandler {
 			} catch (Throwable e) {
 				if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);
 			}
-			*/
+			 
         }
         
         if (aType.contains(TickType.WORLD)) {
@@ -61,7 +77,7 @@ public class GT_TickHandler implements ITickHandler {
 	            	isFirstTick = false;
 	            }
 	            
-	            /*
+	            
 	            if (mServerTickCounter % 1000 == 100 || mClientTickCounter % 1000 == 100) {
 		            ItemStack tStack = GT_ModHandler.getAllRecipeOutput(new ItemStack[] {new ItemStack(Blocks.wood, 1, 0)}, tWorld);
 		            if (   (GT_Mod.sNerfedStoneTools  && (Item.pickaxeStone.getMaxDamage() != 48 || Item.shovelStone.getMaxDamage() != 48 || Item.axeStone.getMaxDamage() != 48 || Item.swordStone.getMaxDamage() != 48 || Item.hoeStone.getMaxDamage() != 48))
@@ -70,7 +86,7 @@ public class GT_TickHandler implements ITickHandler {
 		            	throw new GT_ItsNotMyFaultException("Another Mod decided to ACTIVELY break a fully configurable Feature of GregTech. Please report this to said Mod Author and not to me, as I can't do anything against that misbehavior. If the detection of breaking my Features, results in incompatibility between said Mod and GregTech, then I don't care.");
 		            }
 	            }
-	            */
+	              
 	            
 	            if (GregTech_API.sServerTickCounter%20==0) {
 		            for (Object tItem : tWorld.loadedEntityList) {
@@ -134,6 +150,7 @@ public class GT_TickHandler implements ITickHandler {
         }
     }
     
+	
     @Override
     public EnumSet<TickType> ticks() {
         return EnumSet.of(TickType.RENDER, TickType.WORLD, TickType.PLAYER, TickType.SERVER, TickType.CLIENT);
@@ -141,4 +158,5 @@ public class GT_TickHandler implements ITickHandler {
 
     @Override
     public String getLabel() { return "GT_TickHandler"; }
+    */
 }

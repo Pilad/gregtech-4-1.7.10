@@ -3,39 +3,41 @@ package gregtechmod.api.util;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.ICoverable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
  * For Covers with a special behavior.
  */
 public abstract class GT_CoverBehavior {
+	
 	public static volatile int VERSION = 404;
 	
 	/**
 	 * Gives all Covers which are out of these Stacks a special behavior.
 	 */
 	public GT_CoverBehavior(ItemStack[] aCovers) {
-		for (ItemStack tCover : aCovers) GregTech_API.sCoverBehaviors.put(GT_Utility.stackToInt(tCover), this);
+		for (ItemStack tCover : aCovers) GregTech_API.sCoverBehaviors.put(tCover.getItem(), this);
 	}
 	
 	/**
 	 * Gives all Covers which are this ID a special behavior.
 	 */
-	public GT_CoverBehavior(int[] aCovers) {
-		for (int tCover : aCovers) GregTech_API.sCoverBehaviors.put(tCover, this);
+	public GT_CoverBehavior(Item[] aCovers) {
+		for (Item tCover : aCovers) GregTech_API.sCoverBehaviors.put(tCover, this);
 	}
 	
 	/**
 	 * Gives Cover which is out of this Stack a special behavior.
 	 */
 	public GT_CoverBehavior(ItemStack aCover) {
-		GregTech_API.sCoverBehaviors.put(GT_Utility.stackToInt(aCover), this);
+		GregTech_API.sCoverBehaviors.put(aCover.getItem(), this);
 	}
 	
 	/**
 	 * Gives Cover which has this ID a special behavior.
 	 */
-	public GT_CoverBehavior(int aCover) {
+	public GT_CoverBehavior(Item aCover) {
 		GregTech_API.sCoverBehaviors.put(aCover, this);
 	}
 	
@@ -49,7 +51,7 @@ public abstract class GT_CoverBehavior {
 	/**
 	 * Called by updateEntity inside the covered TileEntity. aCoverVariable is the Value you returned last time.
 	 */
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return aCoverVariable;
 	}
 	
@@ -58,7 +60,7 @@ public abstract class GT_CoverBehavior {
 	 * 
 	 * return true, if something actually happens.
 	 */
-	public boolean onCoverRightclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public boolean onCoverRightclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		return false;
 	}
 	
@@ -76,14 +78,14 @@ public abstract class GT_CoverBehavior {
 	 * 
 	 * return the new Value of the Cover Variable
 	 */
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		return aCoverVariable;
 	}
 	
 	/**
 	 * Checks if the Cover can be placed on this.
 	 */
-	public boolean isCoverPlaceable(byte aSide, int aCoverID, ICoverable aTileEntity) {
+	public boolean isCoverPlaceable(byte aSide, Item aCoverID, ICoverable aTileEntity) {
 		return true;
 	}
 	
@@ -91,21 +93,21 @@ public abstract class GT_CoverBehavior {
 	 * Removes the Cover if this returns true, or if aForced is true.
 	 * Doesn't get called when the Machine Block is getting broken, only if you break the Cover away from the Machine.
 	 */
-	public boolean onCoverRemoval(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
+	public boolean onCoverRemoval(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
 		return true;
 	}
 	
 	/**
 	 * Gives a small Text for the status of the Cover.
 	 */
-	public String getDescription(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public String getDescription(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return "";
 	}
 	
 	/**
 	 * How Blast Proof the Cover is. 30 is normal.
 	 */
-	public float getBlastProofLevel(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public float getBlastProofLevel(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 30.0F;
 	}
 	
@@ -114,63 +116,63 @@ public abstract class GT_CoverBehavior {
 	 * 
 	 * This is just Informative so that Machines know if their Redstone Input is blocked or not
 	 */
-	public boolean letsRedstoneGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets RS-Signals out of the Block
 	 */
-	public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Energy into the Block
 	 */
-	public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Energy out of the Block
 	 */
-	public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Liquids into the Block
 	 */
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Liquids out of the Block
 	 */
-	public boolean letsLiquidOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Items into the Block
 	 */
-	public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets Items out of the Block
 	 */
-	public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
 	/**
 	 * If it lets you rightclick the Machine normally
 	 */
-	public boolean isGUIClickable(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean isGUIClickable(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
@@ -178,7 +180,7 @@ public abstract class GT_CoverBehavior {
 	 * Needs to return true for Covers, which have a Redstone Output on their Facing.
 	 * 
 	 */
-	public boolean manipulatesSidedRedstoneOutput(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean manipulatesSidedRedstoneOutput(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return false;
 	}
 	
@@ -187,7 +189,7 @@ public abstract class GT_CoverBehavior {
 	 * Returns the original Redstone per default.
 	 * The Cover should @letsRedstoneGoIn or the aInputRedstone Parameter is always 0.
 	 */
-	public byte getRedstoneInput(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public byte getRedstoneInput(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return letsRedstoneGoIn(aSide, aCoverID, aCoverVariable, aTileEntity)?aInputRedstone:0;
 	}
 	
@@ -196,7 +198,7 @@ public abstract class GT_CoverBehavior {
 	 * 
 	 * 0 = No Ticks! Yes, 0 is Default, you have to override this
 	 */
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 0;
 	}
 	

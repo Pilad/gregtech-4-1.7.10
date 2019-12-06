@@ -1,9 +1,8 @@
 package gregtechmod.api.world;
 
-import gregtechmod.api.GregTech_API;
-
 import java.util.Random;
 
+import gregtechmod.api.GregTech_API;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 

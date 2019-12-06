@@ -1,8 +1,8 @@
 package gregtechmod.api.enums;
 
-import gregtechmod.api.util.GT_Utility;
-
 import java.util.ArrayList;
+
+import gregtechmod.api.util.GT_Utility;
 
 /**
  * This is some kind of Periodic Table, which I use to determine Properties of the Materials.

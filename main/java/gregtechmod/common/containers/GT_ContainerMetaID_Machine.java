@@ -1,15 +1,14 @@
 package gregtechmod.common.containers;
 
-import gregtechmod.api.gui.GT_Container;
-import gregtechmod.common.tileentities.GT_TileEntityMetaID_Machine;
-
 import java.util.Iterator;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.gui.GT_Container;
+import gregtechmod.common.tileentities.GT_TileEntityMetaID_Machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_ContainerMetaID_Machine extends GT_Container {
 

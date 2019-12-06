@@ -98,4 +98,22 @@ public class GT_MetaTileEntity_AESU extends MetaTileEntity {
 	public boolean allowPutStack(int aIndex, byte aSide, ItemStack aStack) {
 		return aIndex < 2;
 	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
+	}
 }

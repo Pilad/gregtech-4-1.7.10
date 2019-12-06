@@ -1,10 +1,9 @@
 package gregtechmod.common.tileentities;
 
-import gregtechmod.api.util.GT_LanguageManager;
-import gregtechmod.api.util.GT_Utility;
-
 import java.util.Iterator;
 
+import gregtechmod.api.util.GT_LanguageManager;
+import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -92,7 +91,7 @@ public class GT_TileEntity_PlayerDetector extends GT_TileEntityMetaID_Machine {
         GT_Utility.sendChatToPlayer(aPlayer, tMessage);
     }
     
-    @Override public String getInvName() {return GT_LanguageManager.mNameList1[13];}
+    @Override public String getInventoryName() {return GT_LanguageManager.mNameList1[13];}
     
     @Override
     public int getTexture(int aSide, int aMeta) {

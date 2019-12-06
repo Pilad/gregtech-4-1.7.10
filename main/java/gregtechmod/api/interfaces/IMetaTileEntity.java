@@ -1,19 +1,19 @@
 package gregtechmod.api.interfaces;
 
-import gregtechmod.api.util.GT_Config;
-
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.util.GT_Config;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Warning, this Interface has just been made to be able to add multiple kinds of MetaTileEntities (Cables, Pipes, Transformers, but not the regular Blocks)
@@ -83,7 +83,7 @@ public interface IMetaTileEntity extends ISidedInventory, IFluidTank, IFluidHand
 	 * If a Cover of that Type can be placed on this Side.
 	 * Also Called when the Facing of the Block Changes and a Cover is on said Side.
 	 */
-	public boolean allowCoverOnSide(byte aSide, int aCoverID);
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID);
 	
 	/**
 	 * When a Player rightclicks the Facing with a Screwdriver.
@@ -291,6 +291,15 @@ public interface IMetaTileEntity extends ISidedInventory, IFluidTank, IFluidHand
 	public byte getComparatorValue(byte aSide);
 	
 	public String getInvName();
+	
+	 
+	public String getInventoryName();
+
+	 
+	public boolean hasCustomInventoryName();
+
+	 
+	public void markDirty();
 	
 	public String getMainInfo();
 	public String getSecondaryInfo();

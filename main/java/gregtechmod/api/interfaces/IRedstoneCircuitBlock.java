@@ -1,6 +1,7 @@
 package gregtechmod.api.interfaces;
 
 import gregtechmod.api.util.GT_CoverBehavior;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -33,7 +34,7 @@ public interface IRedstoneCircuitBlock {
 	 */
 	public GT_CoverBehavior getCover(byte aSide);
 	
-	public int getCoverID(byte aSide);
+	public Item getCoverID(byte aSide);
 	
 	public int getCoverVariable(byte aSide);
 	

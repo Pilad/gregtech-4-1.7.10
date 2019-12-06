@@ -519,7 +519,7 @@ public class GT_ItemLoader implements Runnable {
 		GregTech_API.sItemList[ 44] = GregTech_API.constructElectricArmorItem			(GT_Mod.sItemIDs[ 44], GT_LanguageManager.mNameListItem[ 44],    10000,   32, 1,  0, 16|32, 0.0D, false, 0, tArmorID1);
 		GregTech_API.sItemList[ 45] = GregTech_API.constructElectricArmorItem			(GT_Mod.sItemIDs[ 45], GT_LanguageManager.mNameListItem[ 45],100000000, 8192, 5,  0,     0, 0.0D,  true, 1, tArmorID1);
 		GregTech_API.sItemList[ 46] = GregTech_API.constructElectricDrillItem			(GT_Mod.sItemIDs[ 46], GT_LanguageManager.mNameListItem[ 46],       10, 0, 5, 3.0F, 1000, -1).setElectricTier(1).addToMaterialList(Material.anvil).addToMaterialList(Material.iron).addToMaterialList(Material.rock).setPrimaryToolClass("pickaxe").setSilkyness(3);
-		try {GregTech_API.sItemList[ 47] = new GT_Teslastaff_Item						(GT_Mod.sItemIDs[ 47], GT_LanguageManager.mNameListItem[ 47]);																					} catch(Throwable e) {if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);}
+		try {GregTech_API.sItemList[ 47] = new GT_Teslastaff_Item						(GT_LanguageManager.mNameListItem[ 47]);																					} catch(Throwable e) {if (GregTech_API.DEBUG_MODE) e.printStackTrace(GT_Log.err);}
 		GregTech_API.sItemList[ 48] = GregTech_API.constructRadioactiveCellItem			(GT_Mod.sItemIDs[ 48], GT_LanguageManager.mNameListItem[ 48],    25000, 1, -5, null);
 		GregTech_API.sItemList[ 49] = GregTech_API.constructRadioactiveCellItem			(GT_Mod.sItemIDs[ 49], GT_LanguageManager.mNameListItem[ 49],    25000, 2, -5, null);
 		GregTech_API.sItemList[ 50] = GregTech_API.constructRadioactiveCellItem			(GT_Mod.sItemIDs[ 50], GT_LanguageManager.mNameListItem[ 50],    25000, 4, -5, null);

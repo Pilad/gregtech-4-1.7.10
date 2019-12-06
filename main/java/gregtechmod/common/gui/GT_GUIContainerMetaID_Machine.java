@@ -1,11 +1,11 @@
 package gregtechmod.common.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import gregtechmod.api.gui.GT_GUIContainer;
 import gregtechmod.common.containers.GT_ContainerMetaID_Machine;
 import gregtechmod.common.tileentities.GT_TileEntityMetaID_Machine;
 import net.minecraft.entity.player.InventoryPlayer;
-
-import org.lwjgl.opengl.GL11;
 
 public class GT_GUIContainerMetaID_Machine extends GT_GUIContainer {
 

@@ -6,7 +6,6 @@ import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.common.blocks.GT_BlockMetaID_Machine;
 import gregtechmod.common.items.GT_MetaItem_Component;
 import gregtechmod.common.items.GT_MetaItem_Material;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -14,8 +13,8 @@ import net.minecraft.util.IIcon;
 public class GT_CoverLoader implements Runnable {
 	@Override
 	public void run() {
-		GregTech_API.sCovers.put(-1, GT_BlockMetaID_Machine.mIcons[51]);
-		GregTech_API.sCovers.put(-2, GT_BlockMetaID_Machine.mIcons[95]);
+		//GregTech_API.sCovers.put(-1, GT_BlockMetaID_Machine.mIcons[51]);
+		//GregTech_API.sCovers.put(-2, GT_BlockMetaID_Machine.mIcons[95]);
 		
 		GregTech_API.registerCover(GT_MetaItem_Material .instance.getStack(15, 1), GT_BlockMetaID_Machine.mIcons[ 10]);
 		

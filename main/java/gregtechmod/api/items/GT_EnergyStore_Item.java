@@ -1,14 +1,13 @@
 package gregtechmod.api.items;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.util.GT_ModHandler;
-
 import java.util.List;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.util.GT_ModHandler;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 
 public class GT_EnergyStore_Item extends GT_Generic_Item {
 	public int mCharge, mTransfer, mTier, mEmptyID, mFullID;
@@ -64,7 +63,7 @@ public class GT_EnergyStore_Item extends GT_Generic_Item {
 		//return GregTech_API.getGregTechItem(mEmptyID, 1, 0).itemID;
 	//}
 	
-	public int getMaxCharge(ItemStack aStack) {
+	public double getMaxCharge(ItemStack aStack) {
 		return mCharge;
 	}
 	
@@ -72,7 +71,7 @@ public class GT_EnergyStore_Item extends GT_Generic_Item {
 		return mTier;
 	}
 	
-	public int getTransferLimit(ItemStack aStack) {
+	public double getTransferLimit(ItemStack aStack) {
 		return mTransfer;
 	}
 }

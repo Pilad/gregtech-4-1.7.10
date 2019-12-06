@@ -1,10 +1,9 @@
 package gregtechmod.api.items;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.interfaces.ICapsuleCellContainer;
-
 import java.util.List;
 
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.interfaces.ICapsuleCellContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

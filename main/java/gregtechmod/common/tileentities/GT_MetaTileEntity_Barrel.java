@@ -14,7 +14,9 @@ import net.minecraft.tileentity.TileEntity;
 
 public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 	
-	public int mItemCount = 0, mItemID = 0, mItemMeta = 0;
+	public int mItemCount = 0, mItemMeta = 0;
+	
+	public Item mItemID;
 	
 	public boolean isDigitalChest;
 	
@@ -47,9 +49,9 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 	    ItemStack tPlayerItem = aPlayer.inventory.getCurrentItem();
 	    
 	    if (tPlayerItem == null) {
-		    if (mItemID > 0) {
+		    if (mItemID != null) {
 		    	for (int i = 0; mItemCount < getMaxItemCount() && i < aPlayer.inventory.getSizeInventory(); i++) {
-		    		if (aPlayer.inventory.getStackInSlot(i) != null && aPlayer.inventory.getStackInSlot(i).itemID == mItemID && aPlayer.inventory.getStackInSlot(i).getItemDamage() == mItemMeta && !aPlayer.inventory.getStackInSlot(i).hasTagCompound()) {
+		    		if (aPlayer.inventory.getStackInSlot(i) != null && aPlayer.inventory.getStackInSlot(i) == null && aPlayer.inventory.getStackInSlot(i).getItemDamage() == mItemMeta && !aPlayer.inventory.getStackInSlot(i).hasTagCompound()) {
 					    mItemCount += aPlayer.inventory.getStackInSlot(i).stackSize;
 					    if (aPlayer.inventory.getStackInSlot(i).stackSize == 111) {
 					    	mItemCount = getMaxItemCount() + 192 - (mItemCount + (mInventory[0]==null?0:mInventory[0].stackSize)+(mInventory[1]==null?0:mInventory[1].stackSize)+(mInventory[2]==null?0:mInventory[2].stackSize));
@@ -80,13 +82,9 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 		    	return;
 		    }
 		    
-		    if (mItemID <= 0) {
-		    	mItemID = tPlayerItem.itemID;
-		    	mItemMeta = tPlayerItem.getItemDamage();
-		    	mItemCount = 0;
-		    }
-		    if (mItemID > 0) {
-				if (mItemCount < getMaxItemCount() && tPlayerItem.itemID == mItemID && tPlayerItem.getItemDamage() == mItemMeta && !tPlayerItem.hasTagCompound()) {
+		     
+		    if (mItemID != null) {
+				if (mItemCount < getMaxItemCount() && tPlayerItem.getItem() == mItemID && tPlayerItem.getItemDamage() == mItemMeta && !tPlayerItem.hasTagCompound()) {
 				    mItemCount += tPlayerItem.stackSize;
 				    if (tPlayerItem.stackSize == 111) {
 				    	mItemCount = getMaxItemCount();
@@ -127,35 +125,31 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 	@Override
 	public void saveNBTData(NBTTagCompound aNBT) {
     	aNBT.setInteger("mItemCount", mItemCount);
-    	aNBT.setInteger("mItemID"	, mItemID);
+    	//aNBT.setInteger("mItemID"	, mItemID);
     	aNBT.setInteger("mItemMeta"	, mItemMeta);
 	}
 	
 	@Override
 	public void loadNBTData(NBTTagCompound aNBT) {
     	mItemCount	= aNBT.getInteger("mItemCount");
-    	mItemID		= aNBT.getInteger("mItemID");
+    	//mItemID		= aNBT.getInteger("mItemID");
     	mItemMeta	= aNBT.getInteger("mItemMeta");
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != getBaseMetaTileEntity().getFrontFacing();
 	}
 	
 	@Override
 	public void onPostTick() {
-		if (getBaseMetaTileEntity().isAllowedToWork() && getBaseMetaTileEntity().isServerSide() && mItemID != 0) {
-			if (Item.itemsList[mItemID] == null) {
-				mItemID = 0;
-				mItemMeta = 0;
-				mItemCount = 0;
-			}
+		if (getBaseMetaTileEntity().isAllowedToWork() && getBaseMetaTileEntity().isServerSide() && mItemID != null) {
+		 
 			
 			if (mInventory[1] == null) {
 			    mInventory[1] = new ItemStack(mItemID, 0, mItemMeta);
 			} else {
-				if (mItemCount < getMaxItemCount() && mInventory[1].itemID == mItemID && mInventory[1].getItemDamage() == mItemMeta && !mInventory[1].hasTagCompound()) {
+				if (mItemCount < getMaxItemCount() && mInventory[1].getItem() == mItemID && mInventory[1].getItemDamage() == mItemMeta && !mInventory[1].hasTagCompound()) {
 				    mItemCount += mInventory[1].stackSize;
 			    	if (mItemCount > getMaxItemCount()) {
 					  	mInventory[1].stackSize = mItemCount - getMaxItemCount();
@@ -169,7 +163,7 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 			if (mInventory[2] == null) {
 			    mInventory[2] = new ItemStack(mItemID, 0, mItemMeta);
 			} else {
-			    if (mItemCount < getMaxItemCount() && mInventory[2].itemID == mItemID && mInventory[2].getItemDamage() == mItemMeta && !mInventory[2].hasTagCompound()) {
+			    if (mItemCount < getMaxItemCount() && mInventory[2].getItem() == mItemID && mInventory[2].getItemDamage() == mItemMeta && !mInventory[2].hasTagCompound()) {
 				  	mItemCount += mInventory[2].stackSize;
 			    	if (mItemCount > getMaxItemCount()) {
 					   	mInventory[2].stackSize = mItemCount - getMaxItemCount();
@@ -184,7 +178,7 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 			    if (mInventory[0] == null) {
 			    	mInventory[0] = new ItemStack(mItemID, 0, mItemMeta);
 			    }
-			    if (mInventory[0] != null && mInventory[0].itemID == mItemID && mInventory[0].getItemDamage() == mItemMeta && !mInventory[0].hasTagCompound()) {
+			    if (mInventory[0] != null && mInventory[0].getItem() == mItemID && mInventory[0].getItemDamage() == mItemMeta && !mInventory[0].hasTagCompound()) {
 				    while (mInventory[0].stackSize < mInventory[0].getMaxStackSize() && mItemCount > 0) {
 				    	mItemCount--;
 				    	mInventory[0].stackSize++;
@@ -206,7 +200,7 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 	}
 	
 	public ItemStack getStoredItem() {
-		if (mItemID == 0) return null;
+		if (mItemID == null) return null;
 		return new ItemStack(mItemID, 1, mItemMeta);
 	}
 	
@@ -248,6 +242,24 @@ public class GT_MetaTileEntity_Barrel extends MetaTileEntity {
 	
 	@Override
 	public boolean allowPutStack(int aIndex, byte aSide, ItemStack aStack) {
-		return (aIndex==1||aIndex==2) && aStack.itemID == mItemID && aStack.getItemDamage() == mItemMeta && !aStack.hasTagCompound();
+		return (aIndex==1||aIndex==2) && aStack.getItem() == mItemID && aStack.getItemDamage() == mItemMeta && !aStack.hasTagCompound();
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markDirty() {
+		// TODO Auto-generated method stub
+		
 	}
 }

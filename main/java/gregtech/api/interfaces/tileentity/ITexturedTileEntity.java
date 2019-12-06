@@ -1,6 +1,5 @@
 package gregtech.api.interfaces.tileentity;
 
-import gregtech.api.interfaces.ITexture;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 

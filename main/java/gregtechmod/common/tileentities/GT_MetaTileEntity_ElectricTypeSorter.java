@@ -8,6 +8,7 @@ import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Recipe;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -57,7 +58,7 @@ public class GT_MetaTileEntity_ElectricTypeSorter extends GT_MetaTileEntity_Elec
 	}
 	
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
 		return aSide != mTargetDirection && aSide != getBaseMetaTileEntity().getBackFacing();
 	}
 	

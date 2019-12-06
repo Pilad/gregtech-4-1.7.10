@@ -1,11 +1,10 @@
 package gregtechmod.common.items;
 
+import java.util.List;
+
 import gregtechmod.api.items.GT_Generic_Item;
 import gregtechmod.api.util.GT_Utility;
 import gregtechmod.common.tileentities.GT_TileEntity_Sonictron;
-
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -97,9 +96,9 @@ public class GT_Dataorb_Item extends GT_Generic_Item {
     	NBTTagCompound tNBT = aStack.getTagCompound();
     	if (tNBT == null) return tInventory;
     	
-    	NBTTagList tNBT_ItemList = tNBT.getTagList("Inventory");
+    	NBTTagList tNBT_ItemList = tNBT.getTagList("Inventory", 10);
         for (int i = 0; i < tNBT_ItemList.tagCount(); i++) {
-            NBTTagCompound tag = (NBTTagCompound) tNBT_ItemList.tagAt(i);
+            NBTTagCompound tag = (NBTTagCompound) tNBT_ItemList.getCompoundTagAt(i);
             byte slot = tag.getByte("Slot");
             if (slot >= 0 && slot < tInventory.length) {
                 tInventory[slot] = GT_Utility.loadItem(tag);

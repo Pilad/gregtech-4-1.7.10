@@ -12,9 +12,9 @@ public class GT_MetaItem_Nugget extends GT_MetaItem_Abstract {
 	public static GT_MetaItem_Abstract instance;
 	
 	public GT_MetaItem_Nugget(int aID, String aName) {
-		super(aID, aName);
+		super(aName);
 		instance = this;
-	}
+ 	}
 	
 	public static ItemStack[] getStackList() {
 		return instance.mStackList;

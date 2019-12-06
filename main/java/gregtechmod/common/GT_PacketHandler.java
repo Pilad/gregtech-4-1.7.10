@@ -1,20 +1,16 @@
 package gregtechmod.common;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.metatileentity.BaseMetaPipeEntity;
-import gregtechmod.api.metatileentity.BaseMetaTileEntity;
-import gregtechmod.api.util.GT_Log;
-import gregtechmod.api.util.GT_Utility;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
+import java.io.IOException;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.Packet;
+import net.minecraft.network.PacketBuffer;
 
 
-public class GT_PacketHandler implements IPacketHandler {
-	@Override
-	public void onPacketData(INetworkManager aManager, Packet250CustomPayload aPacket, Player aPlayer) {
+public class GT_PacketHandler extends Packet {
+	 
+	//public void onPacketData(INetworkManager aManager, Packet250CustomPayload aPacket, EntityPlayer aPlayer) {
+		/*
 		try {
 			if (aPacket.channel.equals(GregTech_API.TILEENTITY_PACKET_CHANNEL)) {
 				ByteArrayDataInput tIn = ByteStreams.newDataInput(aPacket.data);
@@ -41,5 +37,24 @@ public class GT_PacketHandler implements IPacketHandler {
 		} catch(Throwable e) {
 			e.printStackTrace(GT_Log.err);
 		}
+		*/
+	//}
+
+	@Override
+	public void readPacketData(PacketBuffer p_148837_1_) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writePacketData(PacketBuffer p_148840_1_) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void processPacket(INetHandler p_148833_1_) {
+		// TODO Auto-generated method stub
+		
 	}
 }

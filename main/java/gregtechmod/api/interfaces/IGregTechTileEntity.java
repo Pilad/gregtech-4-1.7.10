@@ -1,5 +1,6 @@
 package gregtechmod.api.interfaces;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -105,4 +106,8 @@ public interface IGregTechTileEntity extends IGearEnergyTileEntity, ICoverable, 
 	
 	public int getTextureIndex(byte aSide, byte aMeta);
 	public IIcon getTextureIcon(byte aSide, byte aMeta);
+
+	public Block getBlockIDAtSideAndDistance(byte backFacing, int i);
+
+	
 }

@@ -1,14 +1,13 @@
 package gregtechmod.api.metatileentity.implementations;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.interfaces.IMetaTileEntity;
 import gregtechmod.api.metatileentity.BaseMetaPipeEntity;
 import gregtechmod.api.metatileentity.MetaPipeEntity;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

@@ -1,21 +1,24 @@
 package gregtechmod.common.tileentities;
 
+import javax.swing.Icon;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
 import gregtechmod.api.metatileentity.MetaTileEntity;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.IIcon;
 
 public class GT_MetaTileEntity_RedstoneButtonPanel extends MetaTileEntity {
 	
 	public byte mRedstoneStrength = 0, mType = 0, mUpdate = 0;
 	
-	public static Icon[] sIconList = new Icon[256];
+	public static IIcon[] sIconList = new IIcon[256];
 	
 	public GT_MetaTileEntity_RedstoneButtonPanel(int aID, String mName, String mNameRegional) {
 		super(aID, mName, mNameRegional);
@@ -139,8 +142,8 @@ public class GT_MetaTileEntity_RedstoneButtonPanel extends MetaTileEntity {
     }
     
 	@Override
-	public boolean allowCoverOnSide(byte aSide, int aCoverID) {
-		return aSide != getBaseMetaTileEntity().getFrontFacing() || GregTech_API.getCoverBehavior(aCoverID).isGUIClickable(aSide, aCoverID, 0, getBaseMetaTileEntity());
+	public boolean allowCoverOnSide(byte aSide, Item aCoverID) {
+		return aSide != getBaseMetaTileEntity().getFrontFacing() || GregTech_API.getCoverBehavior(new ItemStack(aCoverID)).isGUIClickable(aSide, aCoverID, 0, getBaseMetaTileEntity());
 	}
 	
 	@Override
@@ -149,13 +152,13 @@ public class GT_MetaTileEntity_RedstoneButtonPanel extends MetaTileEntity {
 	}
 	
 	@Override
-	public Icon getTextureIcon(byte aSide, byte aFacing, boolean aActive, boolean aRedstone) {
+	public IIcon getTextureIcon(byte aSide, byte aFacing, boolean aActive, boolean aRedstone) {
 		return aSide==aFacing?sIconList[mType*16+mRedstoneStrength]:null;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister aBlockIconRegister) {
+	public void registerIcons(IIconRegister aBlockIconRegister) {
 		for (int i = 0; i < 48; i++) {
 			sIconList[i] = aBlockIconRegister.registerIcon(GregTech_API.TEXTURE_PATH_ITEM + "tile.ButtonPanel/" + i);
 		}

@@ -5,8 +5,9 @@ import gregtechmod.api.interfaces.IMachineProgress;
 import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
@@ -17,7 +18,7 @@ public class GT_Cover_Valve extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aCoverVariable % 6 > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != (aCoverVariable % 6 < 4))) return aCoverVariable;
 		if (aTileEntity instanceof IFluidHandler) {
 			IFluidHandler tTank2 = aTileEntity.getITankContainerAtSide(aSide);
@@ -29,11 +30,12 @@ public class GT_Cover_Valve extends GT_CoverBehavior {
 						tLiquid = tLiquid.copy();
 						tLiquid.amount = tTank2.fill(ForgeDirection.getOrientation(aSide).getOpposite(), tLiquid, false);
 						if (tLiquid.amount > 0) {
-							if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0) && aTileEntity.getUniversalEnergyCapacity() >= Math.min(1, tLiquid.amount/100)) {
-								if (aTileEntity.getUniversalEnergyStored() >= Math.min(1, tLiquid.amount/100)) {
+							if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0)/* && aTileEntity.getUniversalEnergyCapacity() >= Math.min(1, tLiquid.amount/100)*/) {
+								/*if (aTileEntity.getUniversalEnergyStored() >= Math.min(1, tLiquid.amount/100)) {
 									aTileEntity.decreaseStoredEnergyUnits(Math.min(1, tLiquid.amount/100), true);
 									tTank2.fill(ForgeDirection.getOrientation(aSide).getOpposite(), tTank1.drain(ForgeDirection.getOrientation(aSide), tLiquid.amount, true), true);
 								}
+								*/
 							} else {
 								tTank2.fill(ForgeDirection.getOrientation(aSide).getOpposite(), tTank1.drain(ForgeDirection.getOrientation(aSide), tLiquid.amount, true), true);
 							}
@@ -45,11 +47,11 @@ public class GT_Cover_Valve extends GT_CoverBehavior {
 						tLiquid = tLiquid.copy();
 						tLiquid.amount = tTank1.fill(ForgeDirection.getOrientation(aSide), tLiquid, false);
 						if (tLiquid.amount > 0) {
-							if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0) && aTileEntity.getUniversalEnergyCapacity() >= Math.min(1, tLiquid.amount/100)) {
-								if (aTileEntity.getUniversalEnergyStored() >= Math.min(1, tLiquid.amount/100)) {
+							if (!(aCoverVariable%2==1&&aSide==1) && !(aCoverVariable%2==0&&aSide==0) /*&& aTileEntity.getUniversalEnergyCapacity() >= Math.min(1, tLiquid.amount/100)*/) {
+								/*if (aTileEntity.getUniversalEnergyStored() >= Math.min(1, tLiquid.amount/100)) {
 									aTileEntity.decreaseStoredEnergyUnits(Math.min(1, tLiquid.amount/100), true);
 									tTank1.fill(ForgeDirection.getOrientation(aSide), tTank2.drain(ForgeDirection.getOrientation(aSide).getOpposite(), tLiquid.amount, true), true);
-								}
+								}*/
 							} else {
 								tTank1.fill(ForgeDirection.getOrientation(aSide), tTank2.drain(ForgeDirection.getOrientation(aSide).getOpposite(), tLiquid.amount, true), true);
 							}
@@ -62,7 +64,7 @@ public class GT_Cover_Valve extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		aCoverVariable=(aCoverVariable+1)%12;
 		if (aCoverVariable== 0) GT_Utility.sendChatToPlayer(aPlayer, "Export");
 		if (aCoverVariable== 1) GT_Utility.sendChatToPlayer(aPlayer, "Import");
@@ -80,49 +82,49 @@ public class GT_Cover_Valve extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean letsRedstoneGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsRedstoneGoOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsEnergyOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsItemsOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return true;
 	}
 	
 	@Override
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aCoverVariable > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != aCoverVariable % 6 < 4)) return false;
 		return aCoverVariable>=6||aCoverVariable%2 != 0;
 	}
 	
 	@Override
-	public boolean letsLiquidOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidOut(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aCoverVariable > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != aCoverVariable % 6 < 4)) return false;
 		return aCoverVariable>=6||aCoverVariable%2 == 0;
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return 1;
 	}
 }

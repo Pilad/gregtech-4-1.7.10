@@ -1,22 +1,22 @@
 package gregtechmod.common.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.items.GT_Generic_Item;
 import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_Utility;
 import ic2.api.item.IElectricItem;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GT_Debug_Item extends GT_Generic_Item implements IElectricItem {
 	
@@ -55,19 +55,19 @@ public class GT_Debug_Item extends GT_Generic_Item implements IElectricItem {
 	}
 	
 	@Override
-	public int getChargedItemId(ItemStack aStack) {
+	public Item getChargedItem(ItemStack aStack) {
 		setCharge(aStack);
-		return itemID;
+		return this;
 	}
 	
 	@Override
-	public int getEmptyItemId(ItemStack aStack) {
+	public Item getEmptyItem(ItemStack aStack) {
 		setCharge(aStack);
-		return itemID;
+		return null;
 	}
 	
 	@Override
-	public int getMaxCharge(ItemStack aStack) {
+	public double getMaxCharge(ItemStack aStack) {
 		setCharge(aStack);
 		return 2000000000;
 	}
@@ -79,7 +79,7 @@ public class GT_Debug_Item extends GT_Generic_Item implements IElectricItem {
 	}
 	
 	@Override
-	public int getTransferLimit(ItemStack aStack) {
+	public double getTransferLimit(ItemStack aStack) {
 		setCharge(aStack);
 		return 2000000000;
 	}

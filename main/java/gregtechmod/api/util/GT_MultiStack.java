@@ -2,6 +2,7 @@ package gregtechmod.api.util;
 
 import java.util.ArrayList;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -12,7 +13,7 @@ import net.minecraft.item.ItemStack;
 public class GT_MultiStack {
 	public final ItemStack mStack;
 	public final String mOreName;
-	public final ArrayList<Integer> mStackHashList;
+	public final ArrayList<Item> mStackHashList;
 	public final ArrayList<ItemStack> mStackList;
 	public final ArrayList<String> mOreList;
 	
@@ -45,9 +46,9 @@ public class GT_MultiStack {
 		if (mStackList == null) {
 			mStackHashList = null;
 		} else {
-			mStackHashList = new ArrayList<Integer>();
+			mStackHashList = new ArrayList<Item>();
 			for (ItemStack tStack : mStackList) {
-				mStackHashList.add(GT_Utility.stackToInt(tStack));
+				mStackHashList.add(tStack.getItem());
 			}
 		}
 	}

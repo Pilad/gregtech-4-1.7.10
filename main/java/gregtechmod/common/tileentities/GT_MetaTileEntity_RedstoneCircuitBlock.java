@@ -1,5 +1,9 @@
 package gregtechmod.common.tileentities;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
+
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.interfaces.IGregTechTileEntity;
@@ -9,19 +13,16 @@ import gregtechmod.api.util.GT_CircuitryBehavior;
 import gregtechmod.api.util.GT_CoverBehavior;
 import gregtechmod.api.util.GT_Log;
 import gregtechmod.api.util.GT_Utility;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity implements IRedstoneCircuitBlock {
 	
-	public int mGate = 0, mGateData[] = new int[] {0,0,0,0,0,0,0,0};
+	public int mGate = 0;
+	public int mGateData[] = new int[] {0,0,0,0,0,0,0,0};
     public boolean bOutput = true;
 	
 	public GT_MetaTileEntity_RedstoneCircuitBlock(int aID, String mName, String mNameRegional) {
@@ -58,13 +59,13 @@ public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity imple
 	@Override
 	public void saveNBTData(NBTTagCompound aNBT) {
 		aNBT.setInteger("mGate", mGate);
-		aNBT.setIntArray("mGateData", mGateData);
+		//aNBT.setIntArray("mGateData", mGateData);
 	}
 	
 	@Override
 	public void loadNBTData(NBTTagCompound aNBT) {
 		mGate = aNBT.getInteger("mGate");
-		mGateData = aNBT.getIntArray("mGateData");
+		//mGateData = aNBT.getIntArray("mGateData");
 		if (mGateData.length != 8) mGateData = new int[] {0,0,0,0,0,0,0,0};
 	}
 
@@ -123,12 +124,12 @@ public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity imple
     }
     
 	public void changeGateData(int aIndex, int aValue) {
-		mGateData[aIndex] += aValue;
+		//mGateData[aIndex] += aValue;
 		validateGateData();
 	}
 	
 	public void stackGateData(int aIndex, ItemStack aStack) {
-		mGateData[aIndex] = GT_Utility.stackToInt(aStack);
+		//mGateData[aIndex] = GT_Utility.stackToInt(aStack);
 		validateGateData();
 	}
 	
@@ -161,10 +162,17 @@ public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity imple
 			    	GT_CircuitryBehavior tBehaviour = GregTech_API.sCircuitryBehaviors.get(mGate);
 			    	if (tBehaviour != null) {try{
 			    		tBehaviour.onTick(mGateData, this);
-				    	if (tBehaviour.displayItemStack(mGateData, this, 0)) mInventory[1] = GT_Utility.intToStack(mGateData[0]);
-				    	if (tBehaviour.displayItemStack(mGateData, this, 1)) mInventory[2] = GT_Utility.intToStack(mGateData[1]);
-				    	if (tBehaviour.displayItemStack(mGateData, this, 2)) mInventory[3] = GT_Utility.intToStack(mGateData[2]);
-				    	if (tBehaviour.displayItemStack(mGateData, this, 3)) mInventory[4] = GT_Utility.intToStack(mGateData[3]);
+				    	
+			    		/*if (tBehaviour.displayItemStack(mGateData, this, 0))
+				    		mInventory[1] = GT_Utility.intToStack(mGateData[0]);
+				    	if (tBehaviour.displayItemStack(mGateData, this, 1))
+				    		mInventory[2] = GT_Utility.intToStack(mGateData[1]);
+				    	if (tBehaviour.displayItemStack(mGateData, this, 2)) 
+				    		mInventory[3] = GT_Utility.intToStack(mGateData[2]);
+				    	if (tBehaviour.displayItemStack(mGateData, this, 3))
+				    		mInventory[4] = GT_Utility.intToStack(mGateData[3]);
+			    		*/
+			    		
 			    	} catch(Throwable e) {e.printStackTrace(GT_Log.err);}}
 		    	}
 				getBaseMetaTileEntity().setErrorDisplayID(0);
@@ -233,7 +241,9 @@ public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity imple
 	
 	@Override
 	public int getBlockIDAtSide(byte aSide) {
-		return getBaseMetaTileEntity().getBlockIDAtSide(aSide);
+		
+		//return getBaseMetaTileEntity().getBlockIDAtSide(aSide);
+		return 0;
 	}
 	
 	@Override
@@ -257,7 +267,7 @@ public class GT_MetaTileEntity_RedstoneCircuitBlock extends MetaTileEntity imple
 	}
 
 	@Override
-	public int getCoverID(byte aSide) {
+	public Item getCoverID(byte aSide) {
 		return getBaseMetaTileEntity().getCoverIDAtSide(aSide);
 	}
 

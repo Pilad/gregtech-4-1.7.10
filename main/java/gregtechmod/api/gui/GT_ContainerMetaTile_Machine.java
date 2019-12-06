@@ -1,14 +1,13 @@
 package gregtechmod.api.gui;
 
-import gregtechmod.api.interfaces.IGregTechTileEntity;
-
 import java.util.Iterator;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.interfaces.IGregTechTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * NEVER INCLUDE THIS FILE IN YOUR MOD!!!
@@ -38,8 +37,8 @@ public class GT_ContainerMetaTile_Machine extends GT_Container {
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
     	if (mTileEntity.isClientSide() || mTileEntity.getMetaTileEntity() == null) return;
-        mStorage = mTileEntity.getEUCapacity();
-    	mEnergy = mTileEntity.getStoredEU();
+        mStorage = (int) mTileEntity.getEUCapacity();
+    	mEnergy = (int) mTileEntity.getStoredEU();
         mMJStorage = mTileEntity.getMJCapacity();
     	mMJ = mTileEntity.getStoredMJ();
         mSteamStorage = mTileEntity.getSteamCapacity();

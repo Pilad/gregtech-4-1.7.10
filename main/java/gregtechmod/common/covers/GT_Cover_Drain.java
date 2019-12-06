@@ -7,8 +7,10 @@ import gregtechmod.api.util.GT_ModHandler;
 import gregtechmod.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -20,10 +22,10 @@ public class GT_Cover_Drain extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public int doCoverThings(byte aSide, byte aInputRedstone, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		if (aCoverVariable % 3 > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != ((aCoverVariable % 3) < 2))) return aCoverVariable;
 		if (aSide != 6) {
-			short tID = aTileEntity.getBlockIDAtSide(aSide);
+			Block tID = aTileEntity.getWorld().getBlock(aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1) );
 			if (aCoverVariable < 3 && aTileEntity instanceof IFluidHandler) {
 				if (aSide == 1) {
 					if (aTileEntity.getWorld().isRaining()) {
@@ -36,13 +38,13 @@ public class GT_Cover_Drain extends GT_CoverBehavior {
 					}
 				}
 				FluidStack tLiquid = null;
-				if (tID > 0) {
-					if ((tID == Block.waterStill.blockID || tID == Block.waterMoving.blockID) && aTileEntity.getMetaIDAtSide(aSide) == 0) {
+				if (tID != null) {
+					if ((tID == Blocks.water || tID == Blocks.flowing_water) && aTileEntity.getMetaIDAtSide(aSide) == 0) {
 						tLiquid = GT_ModHandler.getWater(1000);
-					} else if ((tID == Block.lavaStill.blockID || tID == Block.lavaMoving.blockID) && aTileEntity.getMetaIDAtSide(aSide) == 0) {
+					} else if ((tID == Blocks.lava || tID == Blocks.flowing_lava) && aTileEntity.getMetaIDAtSide(aSide) == 0) {
 						tLiquid = GT_ModHandler.getLava(1000);
-					} else if (Block.blocksList[tID] instanceof IFluidBlock) {
-						tLiquid = ((IFluidBlock)Block.blocksList[tID]).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
+					} else if (tID instanceof IFluidBlock) {
+						tLiquid = ((IFluidBlock)tID).drain(aTileEntity.getWorld(), aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), false);
 					}
 					if (tLiquid != null && tLiquid.getFluid() != null && (aSide > 1 || (aSide == 0 && tLiquid.getFluid().getDensity() <= 0) || (aSide == 1 && tLiquid.getFluid().getDensity() >= 0))) {
 						if (((IFluidHandler)aTileEntity).fill(ForgeDirection.getOrientation(aSide), tLiquid, false) == tLiquid.amount) {
@@ -52,9 +54,9 @@ public class GT_Cover_Drain extends GT_CoverBehavior {
 					}
 				}
 			}
-			if (aCoverVariable >= 3 && tID >= 0) {
-				if (tID == Block.lavaStill.blockID || tID == Block.lavaMoving.blockID || tID == Block.waterStill.blockID || tID == Block.waterMoving.blockID || Block.blocksList[tID] instanceof IFluidBlock) {
-					aTileEntity.getWorld().setBlock(aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), 0, 0, 0);
+			if (aCoverVariable >= 3 && tID != null) {
+				if (tID == Blocks.lava || tID == Blocks.flowing_lava || tID == Blocks.water || tID == Blocks.flowing_water || tID instanceof IFluidBlock) {
+					aTileEntity.getWorld().setBlock(aTileEntity.getOffsetX(aSide, 1), aTileEntity.getOffsetY(aSide, 1), aTileEntity.getOffsetZ(aSide, 1), Blocks.air, 0, 0);
 				}
 			}
 		}
@@ -62,7 +64,7 @@ public class GT_Cover_Drain extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
+	public int onCoverScrewdriverclick(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
 		aCoverVariable=(aCoverVariable+1)%6;
 		if (aCoverVariable == 0) GT_Utility.sendChatToPlayer(aPlayer, "Import");
 		if (aCoverVariable == 1) GT_Utility.sendChatToPlayer(aPlayer, "Import (conditional)");
@@ -74,12 +76,12 @@ public class GT_Cover_Drain extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public boolean letsLiquidIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public boolean letsLiquidIn(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return !(aCoverVariable > 1 && aTileEntity instanceof IMachineProgress && (((IMachineProgress)aTileEntity).isAllowedToWork() != aCoverVariable < 2));
 	}
 	
 	@Override
-	public short getTickRate(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public short getTickRate(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return aCoverVariable < 3 ? (short)50 : 1;
 	}
 }

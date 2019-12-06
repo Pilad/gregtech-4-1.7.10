@@ -1,13 +1,12 @@
 package gregtechmod.api.items;
 
-import gregtechmod.api.util.GT_LanguageManager;
-import gregtechmod.api.util.GT_ModHandler;
-
 import java.util.List;
 
+import buildcraft.api.tools.IToolWrench;
+import gregtechmod.api.util.GT_LanguageManager;
+import gregtechmod.api.util.GT_ModHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import buildcraft.api.tools.IToolWrench;
 
 public class GT_WrenchICBC_Item extends GT_WrenchIC_Item implements IToolWrench {
 	public GT_WrenchICBC_Item(int aID, String aName, int aMaxDamage, int aEntityDamage, int aDischargedGTID) {

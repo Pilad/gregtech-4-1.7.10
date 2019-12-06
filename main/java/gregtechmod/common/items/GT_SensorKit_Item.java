@@ -20,7 +20,7 @@ public class GT_SensorKit_Item extends GT_Generic_Item {
 	}
 	
     protected ChunkCoordinates getTargetCoordinates(World world, int x, int y, int z, ItemStack stack) {
-    	TileEntity tTileEntity = world.getBlockTileEntity(x, y, z);
+    	TileEntity tTileEntity = world.getTileEntity(x, y, z);
         if (tTileEntity != null && tTileEntity instanceof IGregTechDeviceInformation && ((IGregTechDeviceInformation)tTileEntity).isGivingInformation()) {
             ChunkCoordinates coordinates = new ChunkCoordinates();
             coordinates.posX = x;

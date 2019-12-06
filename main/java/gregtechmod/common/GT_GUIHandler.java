@@ -1,5 +1,7 @@
 package gregtechmod.common;
 
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.gui.GT_Container_BasicMachine;
 import gregtechmod.api.gui.GT_Container_BasicTank;
@@ -122,13 +124,11 @@ import gregtechmod.common.tileentities.GT_TileEntity_Sonictron;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class GT_GUIHandler implements IGuiHandler {
 	
 	public GT_GUIHandler() {
-		NetworkRegistry.instance().registerGuiHandler(GregTech_API.gregtechmod, this);
+		NetworkRegistry.INSTANCE.registerGuiHandler(GregTech_API.gregtechmod, this);
 	}
 	
 	@Override

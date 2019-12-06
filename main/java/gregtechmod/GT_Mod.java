@@ -1,5 +1,34 @@
 package gregtechmod;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Scanner;
+
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import gregtechmod.api.GregTech_API;
 import gregtechmod.api.enums.Element;
 import gregtechmod.api.enums.GT_ConfigCategories;
@@ -25,12 +54,9 @@ import gregtechmod.api.util.GT_OreDictUnificator;
 import gregtechmod.api.util.GT_Recipe;
 import gregtechmod.api.util.GT_RecipeRegistrator;
 import gregtechmod.api.util.GT_Utility;
-import gregtechmod.common.GT_ComputercubeDescription;
-import gregtechmod.common.GT_ConnectionHandler;
 import gregtechmod.common.GT_DummyWorld;
 import gregtechmod.common.GT_GUIHandler;
 import gregtechmod.common.GT_OreDictHandler;
-import gregtechmod.common.GT_PacketHandler;
 import gregtechmod.common.GT_Proxy;
 import gregtechmod.common.GT_TickHandler;
 import gregtechmod.common.GT_Worldgenerator;
@@ -79,27 +105,10 @@ import gregtechmod.loaders.postload.GT_SonictronLoader;
 import gregtechmod.loaders.postload.GT_UUMRecipeLoader;
 import gregtechmod.loaders.postload.GT_Worldgenloader;
 import gregtechmod.loaders.preload.GT_InitHardCodedCapeList;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Scanner;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -115,21 +124,6 @@ import net.minecraftforge.common.config.Configuration;
 //import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-//import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 /**
  * @author Gregorius Techneticies
@@ -145,7 +139,7 @@ public class GT_Mod implements IGT_Mod, IGT_RecipeAdder {
     
 	public static volatile int VERSION = 404;
 	
-    public static boolean sInventoryUnification = true, sIncreaseDungeonLoot = true, sAxeWhenAdventure = true, sSurvivalIntoAdventure = false, sPatchLightUpdateLag = false, sNerfedWoodPlank = true, sNerfedWoodenTools = true, sNerfedStoneTools = true, sInvisibleOres = false, sTinkersWarning = false, sHardRock = false, sHungerEffect = true, sUnificatorRP = false, sUnificatorTE = false, sUnificatorFR = false, sUnificatorRC = false, sUnificatorTC = false, mOnline = true, mAlreadyPlayed = false, mDetectIDConflicts = false, mDoNotInit = false;
+    public static boolean sInventoryUnification = true, sIncreaseDungeonLoot = true, sAxeWhenAdventure = true, sSurvivalIntoAdventure = false, sPatchLightUpdateLag = false, sNerfedWoodPlank = true, sNerfedWoodenTools = true, sNerfedStoneTools = true, sInvisibleOres = true, sTinkersWarning = false, sHardRock = false, sHungerEffect = true, sUnificatorRP = false, sUnificatorTE = false, sUnificatorFR = false, sUnificatorRC = false, sUnificatorTC = false, mOnline = true, mAlreadyPlayed = false, mDetectIDConflicts = false, mDoNotInit = false;
     
 	public static int sItemDespawnTime = 6000, sUpgradeCount = 4, sBarrelItemCount = 32768, sQuantumItemCount = 2000000000, sBlockStackSize = 64, sOreStackSize = 64, sWoodStackSize = 64, sPlankStackSize = 64;
     
@@ -265,8 +259,8 @@ public class GT_Mod implements IGT_Mod, IGT_RecipeAdder {
     	
     	GT_Log.out.println("GT_Mod: Setting Configs");
     	if (GT_Config.sConfigFileStandard.get("general", "TooEasyMode", false).getBoolean(false)) GregTech_API.sAfterGTPostload.add(new GT_TooEasyModeLoader());
-    	GregTech_API.DEBUG_MODE							= GT_Config.sConfigFileStandard.get("general", "Debug", false).getBoolean(false);
-    	GregTech_API.SECONDARY_DEBUG_MODE				= GT_Config.sConfigFileStandard.get("general", "Debug2", false).getBoolean(false);
+    	//GregTech_API.DEBUG_MODE							= GT_Config.sConfigFileStandard.get("general", "Debug", false).getBoolean(false);
+    	//GregTech_API.SECONDARY_DEBUG_MODE				= GT_Config.sConfigFileStandard.get("general", "Debug2", false).getBoolean(false);
     	
     	if (GT_Config.sConfigFileStandard.get("general", "disable_STDOUT", false).getBoolean(false)) System.out.close();
     	if (GT_Config.sConfigFileStandard.get("general", "disable_STDERR", false).getBoolean(false)) System.err.close();
@@ -391,19 +385,22 @@ public class GT_Mod implements IGT_Mod, IGT_RecipeAdder {
     		} catch(Throwable e) {
     			e.printStackTrace(GT_Log.err);
     		}
+    		
     	}
+    	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(GregTech_API.gregtechmod, new GT_GUIHandler());
     	
     	checkVersions();
         GT_Log.out.println("GT_Mod: Beginning Load-Phase.");
     	GregTech_API.sLoadStarted = true;
     	
         GT_Log.out.println("GT_Mod: Adding Blocks.");
-		GameRegistry.registerBlock(GregTech_API.sBlockList[0] = new GT_BlockMetaID_Block	(sBlockIDs[0]), GT_MetaBlock_Item.class		, "GT_Block"						, GregTech_API.MOD_ID);
-		GameRegistry.registerBlock(GregTech_API.sBlockList[1] = new GT_BlockMetaID_Machine	(sBlockIDs[1]), GT_MetaMachine_Item.class	, GT_LanguageManager.mNameList1[0]	, GregTech_API.MOD_ID);
-		GameRegistry.registerBlock(GregTech_API.sBlockList[2] = new GT_BlockMetaID_Ore		(sBlockIDs[2]), GT_MetaOre_Item.class		, GT_LanguageManager.mNameList2[0]	, GregTech_API.MOD_ID);
-		GameRegistry.registerBlock(GregTech_API.sBlockList[4] = new GT_BlockMetaID_Block2	(sBlockIDs[4]), GT_MetaBlock2_Item.class	, GT_LanguageManager.mNameList3[0]	, GregTech_API.MOD_ID);
-		GameRegistry.registerBlock(GregTech_API.sBlockList[3] = new GT_Block_LightSource	(sBlockIDs[3]), ItemBlock.class				, "GT_TransparentTileEntity"		, GregTech_API.MOD_ID);
-		GameRegistry.registerBlock(GregTech_API.sBlockList[5] = new GT_BlockMetaID_Stone1	(sBlockIDs[5]), GT_MetaStone1_Item.class	, GT_LanguageManager.mNameList4[0]	, GregTech_API.MOD_ID);
+		GameRegistry.registerBlock(GregTech_API.sBlockList[0] = new GT_BlockMetaID_Block	(sBlockIDs[0]), GT_MetaBlock_Item.class		, "GT_Block");
+		GameRegistry.registerBlock(GregTech_API.sBlockList[1] = new GT_BlockMetaID_Machine	(sBlockIDs[1]), GT_MetaMachine_Item.class	, GT_LanguageManager.mNameList1[0]);
+		GameRegistry.registerBlock(GregTech_API.sBlockList[2] = new GT_BlockMetaID_Ore		(sBlockIDs[2]), GT_MetaOre_Item.class		, GT_LanguageManager.mNameList2[0]);
+		GameRegistry.registerBlock(GregTech_API.sBlockList[4] = new GT_BlockMetaID_Block2	(sBlockIDs[4]), GT_MetaBlock2_Item.class	, GT_LanguageManager.mNameList3[0]);
+		GameRegistry.registerBlock(GregTech_API.sBlockList[3] = new GT_Block_LightSource	(sBlockIDs[3]), ItemBlock.class				, "GT_TransparentTileEntity");
+		GameRegistry.registerBlock(GregTech_API.sBlockList[5] = new GT_BlockMetaID_Stone1	(sBlockIDs[5]), GT_MetaStone1_Item.class	, GT_LanguageManager.mNameList4[0]);
 		
 		LanguageRegistry.addName(GregTech_API.sBlockList[0], GT_LanguageManager.mRegionalNameList0[0]);
 		LanguageRegistry.addName(GregTech_API.sBlockList[1], GT_LanguageManager.mRegionalNameList1[0]);
@@ -489,7 +486,7 @@ public class GT_Mod implements IGT_Mod, IGT_RecipeAdder {
     	new GT_BlockResistanceLoader().run();
         new GT_RecyclerBlacklistLoader().run();
 		new GT_MinableRegistrator().run();
-		new GT_SeedFlowerIterator().run();
+		//new GT_SeedFlowerIterator().run();
 		new GT_CraftingRecipeLoader().run();
     	new GT_BookAndLootLoader().run();
         new GT_MachineRecipeLoader().run();

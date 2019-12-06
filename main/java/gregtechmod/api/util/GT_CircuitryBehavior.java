@@ -1,9 +1,10 @@
 package gregtechmod.api.util;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.interfaces.IRedstoneCircuitBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.interfaces.IRedstoneCircuitBlock;
+import net.minecraft.item.Item;
 
 /**
  * Redstone Circuit Control Code
@@ -50,12 +51,12 @@ public abstract class GT_CircuitryBehavior {
 	 * @param aCircuitData, The Data Storage you can use (8 Slots)
 	 * @param aRedstoneCircuitBlock, The Circuit Block MetaTileEntity itself
 	 */
-	public abstract void onTick(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock);
+	public abstract void onTick(int[] mGateData, IRedstoneCircuitBlock aRedstoneCircuitBlock);
 
 	/**
 	 * If the ItemStack should be displayed. Parameters are between 0 and 3.
 	 */
-	public abstract boolean displayItemStack(int[] aCircuitData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex);
+	public abstract boolean displayItemStack(int[] mGateData, IRedstoneCircuitBlock aRedstoneCircuitBlock, int aIndex);
 
 	/*****************
 	 * GUI Functions *

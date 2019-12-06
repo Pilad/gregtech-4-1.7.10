@@ -1,17 +1,18 @@
 package gregtechmod.api.interfaces;
 
 import gregtechmod.api.util.GT_CoverBehavior;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public interface ICoverable extends IRedstoneTileEntity, IHasWorldObjectAndCoords, IHasInventory, IBasicEnergyContainer {
-	public boolean			canPlaceCoverIDAtSide	(byte aSide, int aID);
+	public boolean			canPlaceCoverIDAtSide	(byte aSide, Item aID);
 	public boolean			canPlaceCoverItemAtSide	(byte aSide, ItemStack aCover);
 	public boolean			dropCover				(byte aSide, byte aDroppedSide, boolean aForced);
 	public void				setCoverDataAtSide		(byte aSide, int aData);
-	public void				setCoverIDAtSide		(byte aSide, int aID);
+	public void				setCoverIDAtSide		(byte aSide, Item aID);
 	public void				setCoverItemAtSide		(byte aSide, ItemStack aCover);
 	public int				getCoverDataAtSide		(byte aSide);
-	public int				getCoverIDAtSide		(byte aSide);
+	public Item				getCoverIDAtSide		(byte aSide);
 	public ItemStack		getCoverItemAtSide		(byte aSide);
 	public GT_CoverBehavior	getCoverBehaviorAtSide	(byte aSide);
 	

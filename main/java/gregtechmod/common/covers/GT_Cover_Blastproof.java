@@ -2,6 +2,7 @@ package gregtechmod.common.covers;
 
 import gregtechmod.api.interfaces.ICoverable;
 import gregtechmod.api.util.GT_CoverBehavior;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class GT_Cover_Blastproof extends GT_CoverBehavior {
@@ -14,7 +15,7 @@ public class GT_Cover_Blastproof extends GT_CoverBehavior {
 	}
 	
 	@Override
-	public float getBlastProofLevel(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
+	public float getBlastProofLevel(byte aSide, Item aCoverID, int aCoverVariable, ICoverable aTileEntity) {
 		return mLevel;
 	}
 	

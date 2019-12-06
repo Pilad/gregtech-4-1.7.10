@@ -40,7 +40,7 @@ public class GT_SeedFlowerIterator implements Runnable {
 			tWorld.mRandom.mIterationStep = Integer.MAX_VALUE;
 			while (tWorld.mRandom.mIterationStep > 0) {
 				try {
-					ForgeHooks.plantGrass(tWorld, 24, 65, 24);
+					//ForgeHooks.plantGrass(tWorld, 24, 65, 24);
 					if (tWorld.mLastSetBlock != null) {
 						ItemStack tColor = GT_ModHandler.getRecipeOutput(new ItemStack[] {tWorld.mLastSetBlock});
 						if (GT_OreDictUnificator.isItemStackDye(tColor)) {

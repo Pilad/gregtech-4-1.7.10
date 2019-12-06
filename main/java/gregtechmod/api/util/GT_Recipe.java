@@ -1,13 +1,11 @@
 package gregtechmod.api.util;
 
-import gregtechmod.api.GregTech_API;
-import gregtechmod.api.enums.Materials;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
+import gregtechmod.api.GregTech_API;
+import gregtechmod.api.enums.Materials;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -55,33 +53,33 @@ public class GT_Recipe {
 	public static ArrayList<GT_Recipe> sPlasmaFuels			= new ArrayList<GT_Recipe>();
 	public static ArrayList<GT_Recipe> sMagicFuels			= new ArrayList<GT_Recipe>();
 	
-	public static Map<Long, Integer> pFusionRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pCentrifugeRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pElectrolyzerRecipes	= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pGrinderRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pBlastRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pImplosionRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pSawmillRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pVacuumRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pChemicalRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pDistillationRecipes	= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pWiremillRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pBenderRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pAlloySmelterRecipes	= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pAssemblerRecipes		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pCannerRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pCNCRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pLatheRecipes			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pCutterRecipes			= new HashMap<Long, Integer>();
+	public static Map<ItemStack, Integer> pFusionRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pCentrifugeRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pElectrolyzerRecipes	= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pGrinderRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pBlastRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pImplosionRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pSawmillRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pVacuumRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pChemicalRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pDistillationRecipes	= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pWiremillRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pBenderRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pAlloySmelterRecipes	= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pAssemblerRecipes		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pCannerRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pCNCRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pLatheRecipes			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pCutterRecipes			= new HashMap<ItemStack, Integer>();
 	
-	public static Map<Long, Integer> pDieselFuels			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pTurbineFuels			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pHotFuels				= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pDenseLiquidFuels		= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pPlasmaFuels			= new HashMap<Long, Integer>();
-	public static Map<Long, Integer> pMagicFuels			= new HashMap<Long, Integer>();
+	public static Map<ItemStack, Integer> pDieselFuels			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pTurbineFuels			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pHotFuels				= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pDenseLiquidFuels		= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pPlasmaFuels			= new HashMap<ItemStack, Integer>();
+	public static Map<ItemStack, Integer> pMagicFuels			= new HashMap<ItemStack, Integer>();
 	
-	public static HashMap<ArrayList<GT_Recipe>, Map<Long, Integer>> mRecipeMaps = new HashMap<ArrayList<GT_Recipe>, Map<Long, Integer>>();
+	public static HashMap<ArrayList<GT_Recipe>, Map<ItemStack, Integer>> mRecipeMaps = new HashMap<ArrayList<GT_Recipe>, Map<ItemStack, Integer>>();
 	
 	static {
     	mRecipeMaps.put(sFusionRecipes			, pFusionRecipes);
@@ -113,7 +111,7 @@ public class GT_Recipe {
 	
 	public static void reinit() {
         GT_Log.out.println("GT_Mod: Re-Initializing Item Hashcodes for quick Recipe access.");
-        for (Map.Entry<ArrayList<GT_Recipe>, Map<Long, Integer>> tEntry : mRecipeMaps.entrySet()) {
+        for (Map.Entry<ArrayList<GT_Recipe>, Map<ItemStack, Integer>> tEntry : mRecipeMaps.entrySet()) {
         	tEntry.getValue().clear();
         	for (int i = 0; i < tEntry.getKey().size(); i++) {
         		tEntry.getValue().put(GT_Utility.stacksToLong(tEntry.getKey().get(i).mInput1, tEntry.getKey().get(i).mInput2), i);
@@ -241,7 +239,7 @@ public class GT_Recipe {
 		this(aInput1, null, aOutput1, aOutput2, null, null, aDuration, aEUt, 0);
 		checkCellBalance();
 		if (mInput1 != null && mOutput1 != null && findEqualLatheRecipe(mInput1, mInput2) != null) {
-			pLatheRecipes.put(GT_Utility.stacksToLong(mInput1, mInput2), sLatheRecipes.size());
+			pLatheRecipes.put( GT_Utility.stacksToLong(mInput1, mInput2) , sLatheRecipes.size());
 			sLatheRecipes.add(this);
 		}
 	}
@@ -363,7 +361,7 @@ public class GT_Recipe {
 		}
 	}
 	
-	public static int findEqualRecipeIndex(ItemStack aInput1, ItemStack aInput2, boolean aShapeless, ArrayList<GT_Recipe> aList, Map<Long, Integer> aHash) {
+	public static int findEqualRecipeIndex(ItemStack aInput1, ItemStack aInput2, boolean aShapeless, ArrayList<GT_Recipe> aList, Map<ItemStack, Integer> aHash) {
 		int i = -1;
 		if (aShapeless && (i = findEqualRecipeIndex(aInput2, aInput1, false, aList, aHash)) >= 0) {
 			return i;
@@ -373,7 +371,8 @@ public class GT_Recipe {
 		aInput1 = GT_OreDictUnificator.get(false, aInput1);
 		aInput2 = GT_OreDictUnificator.get(false, aInput2);
 		
-		long k;
+		ItemStack k;
+		
 		if (aHash.containsKey(k = GT_Utility.stacksToLong(aInput1, aInput2)))
 			i = aHash.get(k);
 		else
@@ -415,7 +414,7 @@ public class GT_Recipe {
 		}
 	}
 	
-	public static GT_Recipe findEqualRecipe(ItemStack aInput1, ItemStack aInput2, boolean aShapeless, ArrayList<GT_Recipe> aList, Map<Long, Integer> aHash) {
+	public static GT_Recipe findEqualRecipe(ItemStack aInput1, ItemStack aInput2, boolean aShapeless, ArrayList<GT_Recipe> aList, Map<ItemStack, Integer> aHash) {
 		int tIndex = findEqualRecipeIndex(aInput1, aInput2, aShapeless, aList, aHash);
 		if (tIndex >= 0) return aList.get(tIndex);
 		return null;
